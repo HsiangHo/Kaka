@@ -9,48 +9,41 @@
 import Cocoa
 
 class HAFAnimationView: NSView {
-    private var animationSequence: HAFAnimationSequence?
-    private var frameIndex: Int
-    private var currentFrame: NSImage?
-    private var timer: DispatchSourceTimer?
+    private var _kakaObj: HAFKakaObject?
+    private var _timer: DispatchSourceTimer?
+    private var _currentFrame: NSImage?
     
     override init(frame frameRect: NSRect) {
-        animationSequence = nil
-        frameIndex = 0
-        currentFrame = nil
+        _kakaObj = nil
         super.init(frame: frameRect)
     }
 
     required init?(coder decoder: NSCoder) {
-        animationSequence = nil
-        frameIndex = 0
-        currentFrame = nil
+        _kakaObj = nil
         super.init(coder: decoder)
     }
     
-    public func setAnimationSequence(_ AnimSeq: HAFAnimationSequence){
-        frameIndex = 0
-        animationSequence = AnimSeq
+    public func setKakaObj(_ kakaObj: HAFKakaObject){
+        _kakaObj = kakaObj
     }
     
     public func startToPlay(){
-        timer = DispatchSource.makeTimerSource(queue: .main)
-        timer?.schedule(wallDeadline: .now(), repeating: .milliseconds(44), leeway: .milliseconds(1))
-        timer?.setEventHandler {
-            if nil != self.animationSequence{
-                self.frameIndex = self.frameIndex >= self.animationSequence!.frameCount() ? 0 : self.frameIndex;
-                self.currentFrame = self.animationSequence?.frameAtIndex(self.frameIndex)
+        _timer = DispatchSource.makeTimerSource(queue: .main)
+        _timer?.schedule(wallDeadline: .now(), repeating: .milliseconds(44), leeway: .milliseconds(1))
+        _timer?.setEventHandler {
+            if nil != self._kakaObj{
+                self._currentFrame = self._kakaObj!.currentAnimationFrame()
                 self.setNeedsDisplay(self.bounds)
-                self.frameIndex += 1
+                self._kakaObj!.moveToNextAnimationFrame()
             }
             
         }
-        timer?.resume()
+        _timer?.resume()
     }
     
     public func stopPlaying(){
-        timer?.cancel()
-        timer = nil
+        _timer?.cancel()
+        _timer = nil
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -58,8 +51,8 @@ class HAFAnimationView: NSView {
         // Drawing code here.
         NSColor.clear.set()
         self.frame.fill()
-        if nil != currentFrame {
-            currentFrame!.draw(at: NSZeroPoint, from: NSZeroRect, operation: NSCompositingOperation.sourceOver, fraction: 1.0)
+        if nil != _currentFrame {
+            _currentFrame!.draw(at: NSZeroPoint, from: NSZeroRect, operation: NSCompositingOperation.sourceOver, fraction: 1.0)
         }
     }
 }
