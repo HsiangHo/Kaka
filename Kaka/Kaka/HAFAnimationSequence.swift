@@ -11,11 +11,17 @@ import Cocoa
 class HAFAnimationSequence: NSObject {
     private var _animationFilePath : String
     private var _animationFrameArray : [NSImage?]?
+    private var _animationName: String
     
-    init(_ aFilePath : String) {
+    init(_ aFilePath : String, animationName: String) {
         _animationFilePath = aFilePath
+        _animationName = animationName
         super.init()
         loadResources()
+    }
+    
+    func name() -> String {
+        return _animationName
     }
     
     func frameCount() -> Int{
