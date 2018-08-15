@@ -60,18 +60,25 @@ class HAFAnimationManager: NSObject {
         hidden5 = HAFAnimationSequence.init(animationDir.appending("/Hidden5"), animationName: "Hidden5")
         knife1 = HAFAnimationSequence.init(animationDir.appending("/Knife1"), animationName: "Knife1")
         knife2 = HAFAnimationSequence.init(animationDir.appending("/Knife2"), animationName: "Knife2")
+        knife1.nextAnimationSequence = knife2
         knife3 = HAFAnimationSequence.init(animationDir.appending("/Knife3"), animationName: "Knife3")
+        knife2.nextAnimationSequence = knife3
         scan1 = HAFAnimationSequence.init(animationDir.appending("/Scan1"), animationName: "Scan1")
         scan2 = HAFAnimationSequence.init(animationDir.appending("/Scan2"), animationName: "Scan2")
+        scan1.nextAnimationSequence = scan2
         scan3 = HAFAnimationSequence.init(animationDir.appending("/Scan3"), animationName: "Scan3")
+        scan2.nextAnimationSequence = scan3
         scissor = HAFAnimationSequence.init(animationDir.appending("/Scissor"), animationName: "Scissor")
         scratchHead = HAFAnimationSequence.init(animationDir.appending("/ScratchHead"), animationName: "ScratchHead")
         showTip = HAFAnimationSequence.init(animationDir.appending("/ShowTip"), animationName: "ShowTip")
         sleep1 = HAFAnimationSequence.init(animationDir.appending("/Sleep1"), animationName: "Sleep1")
         sleep2 = HAFAnimationSequence.init(animationDir.appending("/Sleep2"), animationName: "Sleep2")
+        sleep1.nextAnimationSequence = sleep2
         sleep3 = HAFAnimationSequence.init(animationDir.appending("/Sleep3"), animationName: "Sleep3")
+        sleep2.nextAnimationSequence = sleep3
         smog1 = HAFAnimationSequence.init(animationDir.appending("/Smog1"), animationName: "Smog1")
         smog2 = HAFAnimationSequence.init(animationDir.appending("/Smog2"), animationName: "Smog2")
+        smog1.nextAnimationSequence = smog2
         stand = HAFAnimationSequence.init(animationDir.appending("/Stand"), animationName: "Stand")
         
         randomAnimationSequenceArray.append(arrogance)
@@ -82,7 +89,10 @@ class HAFAnimationManager: NSObject {
         randomAnimationSequenceArray.append(scissor)
         randomAnimationSequenceArray.append(scratchHead)
         randomAnimationSequenceArray.append(showTip)
-        randomAnimationSequenceArray.append(stand)
+        randomAnimationSequenceArray.append(knife1)
+        randomAnimationSequenceArray.append(scan1)
+        randomAnimationSequenceArray.append(sleep1)
+        randomAnimationSequenceArray.append(smog1)
         super.init()
     }
     

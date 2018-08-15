@@ -62,11 +62,15 @@ class HAFKakaObject: NSObject {
             return;
         }
         
-        if nil == _nextAnimationSequence{
-            _animationSequence = HAFAnimationManager.sharedManager.randomAnimationSequence()
+        if nil != _animationSequence!.nextAnimationSequence{
+            _animationSequence = _animationSequence!.nextAnimationSequence
         }else{
-            _animationSequence = _nextAnimationSequence
-            _nextAnimationSequence = nil;
+            if nil == _nextAnimationSequence{
+                _animationSequence = HAFAnimationManager.sharedManager.randomAnimationSequence()
+            }else{
+                _animationSequence = _nextAnimationSequence
+                _nextAnimationSequence = nil;
+            }
         }
         _nCurrentFrameCount = _animationSequence!.frameCount()
         _nCurrentFrameIndex = 0

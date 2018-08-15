@@ -12,10 +12,12 @@ class HAFAnimationSequence: NSObject {
     private var _animationFilePath : String
     private var _animationFrameArray : [NSImage?]?
     private var _animationName: String
+    var nextAnimationSequence: HAFAnimationSequence?
     
     init(_ aFilePath : String, animationName: String) {
         _animationFilePath = aFilePath
         _animationName = animationName
+        nextAnimationSequence = nil
         super.init()
         loadResources()
     }
