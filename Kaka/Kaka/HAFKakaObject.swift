@@ -29,14 +29,14 @@ class HAFKakaObject: NSObject {
     var _state: KakaStateType
     var _nextAction: UserActionType
     var _animationSequence: HAFAnimationSequence?
-    var _nextAnimationSequence: HAFAnimationSequence?
+    var _nextAnimationSequences: [HAFAnimationSequence]
     var _nCurrentFrameCount: Int
     var _nCurrentFrameIndex: Int
     
     override init() {
         _state = .eKakaStateNormal
         _nextAction = .eInvalidAction
-        _nextAnimationSequence = nil
+        _nextAnimationSequences = [HAFAnimationSequence]()
         _animationSequence = HAFAnimationManager.sharedManager.happy
         _nCurrentFrameCount = _animationSequence!.frameCount()
         _nCurrentFrameIndex = 0
@@ -65,11 +65,10 @@ class HAFKakaObject: NSObject {
         if nil != _animationSequence!.nextAnimationSequence{
             _animationSequence = _animationSequence!.nextAnimationSequence
         }else{
-            if nil == _nextAnimationSequence{
+            if 0 == _nextAnimationSequences.count {
                 _animationSequence = HAFAnimationManager.sharedManager.randomAnimationSequence()
             }else{
-                _animationSequence = _nextAnimationSequence
-                _nextAnimationSequence = nil;
+                _animationSequence = _nextAnimationSequences.remove(at: 0)
             }
         }
         _nCurrentFrameCount = _animationSequence!.frameCount()
