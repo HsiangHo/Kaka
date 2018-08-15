@@ -29,7 +29,7 @@ class HAFAnimationView: NSView {
     
     public func startToPlay(){
         _timer = DispatchSource.makeTimerSource(queue: .main)
-        _timer?.schedule(wallDeadline: .now(), repeating: .milliseconds(44), leeway: .milliseconds(1))
+        _timer?.schedule(wallDeadline: .now(), repeating: .milliseconds(58), leeway: .milliseconds(1))
         _timer?.setEventHandler {
             if nil != self._kakaObj{
                 self._currentFrame = self._kakaObj!.currentAnimationFrame()
