@@ -55,8 +55,10 @@ class HAFAnimationManager: NSObject {
         happy = HAFAnimationSequence.init(animationDir.appending("/Happy"), animationName: "Happy")
         hidden1 = HAFAnimationSequence.init(animationDir.appending("/Hidden1"), animationName: "Hidden1")
         hidden2 = HAFAnimationSequence.init(animationDir.appending("/Hidden2"), animationName: "Hidden2")
+        hidden1.nextAnimationSequence = hidden2
         hidden3 = HAFAnimationSequence.init(animationDir.appending("/Hidden3"), animationName: "Hidden3")
         hidden4 = HAFAnimationSequence.init(animationDir.appending("/Hidden4"), animationName: "Hidden4")
+        hidden3.nextAnimationSequence = hidden4
         hidden5 = HAFAnimationSequence.init(animationDir.appending("/Hidden5"), animationName: "Hidden5")
         knife1 = HAFAnimationSequence.init(animationDir.appending("/Knife1"), animationName: "Knife1")
         knife2 = HAFAnimationSequence.init(animationDir.appending("/Knife2"), animationName: "Knife2")

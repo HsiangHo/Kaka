@@ -9,12 +9,11 @@
 import Cocoa
 
 enum UserActionType: Int {
-    case eInvalidAction = 0
     case eLeftBtnClick
     case eRightBtnClick
     case eDoubleClick
     case eDragToRightMargin
-    case eDragFromRightMargion
+    case eDragFromRightMargin
     case eDragToTopMargin
     case eDragFromTopMargin
 }
@@ -27,7 +26,6 @@ enum KakaStateType {
 
 class HAFKakaObject: NSObject {
     var _state: KakaStateType
-    var _nextAction: UserActionType
     var _animationSequence: HAFAnimationSequence?
     var _nextAnimationSequences: [HAFAnimationSequence]
     var _nCurrentFrameCount: Int
@@ -35,7 +33,6 @@ class HAFKakaObject: NSObject {
     
     override init() {
         _state = .eKakaStateNormal
-        _nextAction = .eInvalidAction
         _nextAnimationSequences = [HAFAnimationSequence]()
         _animationSequence = HAFAnimationManager.sharedManager.happy
         _nCurrentFrameCount = _animationSequence!.frameCount()
@@ -44,8 +41,18 @@ class HAFKakaObject: NSObject {
     }
     
     func doAction(actionType: UserActionType) -> Void {
-        if .eInvalidAction == _nextAction{
-            _nextAction = actionType
+        switch _state {
+        case .eKakaStateNormal:
+            handleUserActionInNormalState(actionType)
+            break
+            
+        case .eKakaStateDragging:
+            handleUserActionInDraggingState(actionType)
+            break
+            
+        case .eKakaStateHidden:
+            handleUserActionInHiddenState(actionType)
+            break
         }
     }
     
@@ -66,12 +73,89 @@ class HAFKakaObject: NSObject {
             _animationSequence = _animationSequence!.nextAnimationSequence
         }else{
             if 0 == _nextAnimationSequences.count {
-                _animationSequence = HAFAnimationManager.sharedManager.randomAnimationSequence()
+                _animationSequence = randomAnimationSequence()
             }else{
                 _animationSequence = _nextAnimationSequences.remove(at: 0)
             }
         }
         _nCurrentFrameCount = _animationSequence!.frameCount()
         _nCurrentFrameIndex = 0
+    }
+    
+    func randomAnimationSequence() -> HAFAnimationSequence {
+        var rslt = HAFAnimationManager.sharedManager.randomAnimationSequence()
+        switch _state {
+        case .eKakaStateNormal:
+            break
+        case .eKakaStateDragging:
+            rslt = HAFAnimationManager.sharedManager.drag2
+            break
+        case .eKakaStateHidden:
+            rslt = HAFAnimationManager.sharedManager.hidden1
+            if 0 == arc4random_uniform(2){
+                rslt = HAFAnimationManager.sharedManager.hidden3
+            }
+            break
+        }
+        return rslt
+    }
+    
+    private func handleUserActionInNormalState(_ actionType: UserActionType) -> Void {
+        switch actionType {
+        case .eLeftBtnClick:
+            _nextAnimationSequences.append(randomAnimationSequence())
+            break
+        case .eRightBtnClick:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.eatWatermelon)
+            break
+        case .eDoubleClick:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.grimace)
+            break
+        case .eDragToRightMargin:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.hidden1)
+            _state = .eKakaStateHidden
+            break
+        case .eDragFromRightMargin:
+            break
+        case .eDragToTopMargin:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.drag1)
+            _state = .eKakaStateDragging
+            break
+        case .eDragFromTopMargin:
+            break
+        }
+    }
+    
+    private func handleUserActionInDraggingState(_ actionType: UserActionType) -> Void {
+        switch actionType {
+        case .eDragToRightMargin:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.hidden1)
+            _state = .eKakaStateHidden
+            break
+        case .eDragFromTopMargin:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.drag3)
+            _state = .eKakaStateNormal
+            break
+        default:
+            break
+        }
+    }
+    
+    private func handleUserActionInHiddenState(_ actionType: UserActionType) -> Void {
+        switch actionType {
+        case .eDoubleClick:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.hidden3)
+            break
+        case .eDragFromRightMargin:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.hidden5)
+            _state = .eKakaStateNormal
+            break
+        case .eDragToTopMargin:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.drag1)
+            _state = .eKakaStateDragging
+            break
+        default:
+            break
+        }
     }
 }
