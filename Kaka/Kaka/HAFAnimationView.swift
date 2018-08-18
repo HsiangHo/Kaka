@@ -47,7 +47,6 @@ class HAFAnimationView: NSView {
     }
     
     override func draw(_ dirtyRect: NSRect) {
-//        super.draw(dirtyRect)
         // Drawing code here.
         NSColor.clear.set()
         self.frame.fill()

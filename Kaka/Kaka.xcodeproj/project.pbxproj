@@ -13,6 +13,7 @@
 		9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A144211A626C00760570 /* HAFAnimationSequence.swift */; };
 		9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A146211A628C00760570 /* HAFAnimationView.swift */; };
 		987BAF882126E7A400EE828E /* Animations in Resources */ = {isa = PBXBuildFile; fileRef = 987BAF872126E7A400EE828E /* Animations */; };
+		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
 /* End PBXBuildFile section */
@@ -27,6 +28,8 @@
 		9862A144211A626C00760570 /* HAFAnimationSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationSequence.swift; sourceTree = "<group>"; };
 		9862A146211A628C00760570 /* HAFAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationView.swift; sourceTree = "<group>"; };
 		987BAF872126E7A400EE828E /* Animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Animations; sourceTree = "<group>"; };
+		987BAFC42127E56200EE828E /* HAFTransparentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAFTransparentView.h; sourceTree = "<group>"; };
+		987BAFC52127E56200EE828E /* HAFTransparentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HAFTransparentView.m; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +74,8 @@
 				9862A144211A626C00760570 /* HAFAnimationSequence.swift */,
 				989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */,
 				9862A146211A628C00760570 /* HAFAnimationView.swift */,
+				987BAFC42127E56200EE828E /* HAFTransparentView.h */,
+				987BAFC52127E56200EE828E /* HAFTransparentView.m */,
 			);
 			path = Kaka;
 			sourceTree = "<group>";
@@ -107,6 +112,7 @@
 				TargetAttributes = {
 					9862A1302119DC0000760570 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -157,6 +163,7 @@
 				9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */,
 				989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */,
 				9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */,
+				987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +291,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Kaka/Kaka.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -291,6 +299,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HyperartFlow.Kaka;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -299,6 +308,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Kaka/Kaka.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
