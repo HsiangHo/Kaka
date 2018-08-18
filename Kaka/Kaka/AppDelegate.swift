@@ -10,12 +10,22 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    var kaka: HAFKakaObject = HAFKakaObject.init()
+    
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var view: HAFAnimationView!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        window.isOpaque = false
+        window.alphaValue = 1.0
+        window.isMovableByWindowBackground = true
+        view.setKakaObj(kaka)
+        view.startToPlay()
+        kaka.doAction(actionType: .eDragToRightMargin)
+//        kaka.doAction(actionType: .eDragFromRightMargin)
+//        kaka.doAction(actionType: .eInvalidAction)
+//        kaka.doAction(actionType: .eInvalidAction)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
