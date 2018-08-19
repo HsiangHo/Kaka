@@ -14,6 +14,7 @@
 		9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A146211A628C00760570 /* HAFAnimationView.swift */; };
 		987BAF882126E7A400EE828E /* Animations in Resources */ = {isa = PBXBuildFile; fileRef = 987BAF872126E7A400EE828E /* Animations */; };
 		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
+		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		987BAF872126E7A400EE828E /* Animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Animations; sourceTree = "<group>"; };
 		987BAFC42127E56200EE828E /* HAFTransparentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAFTransparentView.h; sourceTree = "<group>"; };
 		987BAFC52127E56200EE828E /* HAFTransparentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HAFTransparentView.m; sourceTree = "<group>"; };
+		987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationWindow.swift; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,6 +78,7 @@
 				9862A146211A628C00760570 /* HAFAnimationView.swift */,
 				987BAFC42127E56200EE828E /* HAFTransparentView.h */,
 				987BAFC52127E56200EE828E /* HAFTransparentView.m */,
+				987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */,
 			);
 			path = Kaka;
 			sourceTree = "<group>";
@@ -158,6 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */,
 				989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */,
 				9862A1352119DC0000760570 /* AppDelegate.swift in Sources */,
 				9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */,
