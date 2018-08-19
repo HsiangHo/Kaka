@@ -12,6 +12,7 @@ class HAFAnimationView: NSView {
     private var _kakaObj: HAFKakaObject?
     private var _timer: DispatchSourceTimer?
     private var _currentFrame: NSImage?
+    private var _doubleClickTimer: Timer?
     
     override init(frame frameRect: NSRect) {
         _kakaObj = nil
@@ -44,6 +45,29 @@ class HAFAnimationView: NSView {
     public func stopPlaying(){
         _timer?.cancel()
         _timer = nil
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        if event.clickCount > 1 {
+            _doubleClickTimer?.invalidate()
+            onDoubleClick(with: event)
+        } else if event.clickCount == 1 {
+            _doubleClickTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { (_doubleClickTimer) in
+                self.onClickTimeout(timer: _doubleClickTimer)
+            })
+        }
+    }
+    
+    func onClickTimeout(timer: Timer) {
+        _kakaObj!.doAction(actionType: .eLeftBtnClick, clearFlag: true)
+    }
+    
+    override func rightMouseUp(with event: NSEvent) {
+        _kakaObj!.doAction(actionType: .eRightBtnClick, clearFlag: true)
+    }
+    
+    func onDoubleClick(with event: NSEvent) -> Void {
+        _kakaObj!.doAction(actionType: .eDoubleClick, clearFlag: true)
     }
     
     override func draw(_ dirtyRect: NSRect) {
