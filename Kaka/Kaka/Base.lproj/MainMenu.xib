@@ -14,7 +14,6 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Kaka" customModuleProvider="target">
             <connections>
-                <outlet property="view" destination="j1a-Cj-X1x" id="OI3-8M-fEb"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -680,22 +679,15 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="Kaka" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="HAFAnimationWindow" customModule="Kaka" customModuleProvider="target">
-            <windowStyleMask key="styleMask" closable="YES"/>
+        <window title="Kaka" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hasShadow="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="215" height="170"/>
+            <rect key="contentRect" x="335" y="390" width="15" height="0.0"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1366" height="745"/>
-            <view key="contentView" id="EiT-Mj-1SZ" customClass="HAFTransparentView">
-                <rect key="frame" x="0.0" y="0.0" width="215" height="170"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="15" height="0.0"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1a-Cj-X1x" customClass="HAFAnimationView" customModule="Kaka" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="215" height="170"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </customView>
-                </subviews>
             </view>
-            <point key="canvasLocation" x="64.5" y="178"/>
+            <point key="canvasLocation" x="-35.5" y="93"/>
         </window>
     </objects>
 </document>

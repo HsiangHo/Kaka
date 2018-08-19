@@ -10,25 +10,18 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    @IBOutlet weak var window: NSWindow!
     var kaka: HAFKakaObject = HAFKakaObject.init()
-    
-    @IBOutlet weak var window: HAFAnimationWindow!
-    @IBOutlet weak var view: HAFAnimationView!
+    var kakaWindowController: HAFKakaWindowController = HAFKakaWindowController.init()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        view.setKakaObj(kaka)
-        view.startToPlay()
-//        kaka.doAction(actionType: .eDragToRightMargin)
-//        kaka.doAction(actionType: .eDragFromRightMargin)
-//        kaka.doAction(actionType: .eInvalidAction)
-//        kaka.doAction(actionType: .eInvalidAction)
+        kakaWindowController.setKakaObject(kakaObj: kaka)
+        kakaWindowController.showWindow(nil)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-
-
 }
 
