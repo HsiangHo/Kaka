@@ -71,7 +71,8 @@ class HAFKakaWindowController: NSWindowController {
             
         case .eKakaStateHidden:
             if NSMaxX(rctFrame) < NSMaxX(rctArea!){
-                _kakaObj!.doAction(actionType: .eDragFromRightMargin, clearFlag: false)
+                _kakaObj!.doAction(actionType: .eDragFromRightMargin, clearFlag: true)
+                _kakaObj!.skipCurrentAnimationSequenceChain()
             }else if NSMaxY(rctFrame) - NSMaxY(rctArea!) >= 33{
                 _kakaObj!.doAction(actionType: .eDragToTopMargin, clearFlag: false)
             }
