@@ -30,6 +30,7 @@ class HAFKakaObject: NSObject {
     var _nextAnimationSequences: [HAFAnimationSequence]
     var _nCurrentFrameCount: Int
     var _nCurrentFrameIndex: Int
+    var _view: HAFAnimationView?
     
     override init() {
         _state = .eKakaStateNormal
@@ -37,10 +38,32 @@ class HAFKakaObject: NSObject {
         _animationSequence = HAFAnimationManager.sharedManager.happy
         _nCurrentFrameCount = _animationSequence!.frameCount()
         _nCurrentFrameIndex = 0
+        _view = nil
         super.init()
     }
     
-    func doAction(actionType: UserActionType) -> Void {
+    func setAnimationView(_ view: HAFAnimationView) -> Void {
+        _view = view
+        _view?.setKakaObj(self)
+        _view?.stopPlaying()
+        _view?.startToPlay()
+    }
+    
+    func skipCurrentAnimationSequenceChain() -> Void {
+        _view?.isHidden = true
+        if 0 == _nextAnimationSequences.count {
+            _animationSequence = randomAnimationSequence()
+        }else{
+            _animationSequence = _nextAnimationSequences.remove(at: 0)
+        }
+        _nCurrentFrameCount = _animationSequence!.frameCount()
+        _nCurrentFrameIndex = 0
+    }
+    
+    func doAction(actionType: UserActionType, clearFlag: Bool) -> Void {
+        if clearFlag {
+            _nextAnimationSequences.removeAll()
+        }
         switch _state {
         case .eKakaStateNormal:
             handleUserActionInNormalState(actionType)
@@ -64,6 +87,9 @@ class HAFKakaObject: NSObject {
     }
     
     func moveToNextAnimationFrame() -> Void {
+        if 0 == _nCurrentFrameIndex{
+            _view?.isHidden = false
+        }
         _nCurrentFrameIndex += 1;
         if _nCurrentFrameIndex < _nCurrentFrameCount {
             return;

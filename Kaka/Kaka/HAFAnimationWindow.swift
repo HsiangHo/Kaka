@@ -10,7 +10,13 @@ import Cocoa
 
 class HAFAnimationWindow: NSWindow {
     var ptOldLocation: NSPoint = NSZeroPoint
-    
+    var draggingAreaFunc: (() -> NSRect?)?
+    var draggingCompletedFunc: ((NSRect) -> Void)?
+
+    func setDraggingCallback(areaFunc: @escaping () -> NSRect?, completedFunc: @escaping (NSRect) -> Void) -> Void {
+        draggingAreaFunc = areaFunc
+        draggingCompletedFunc = completedFunc
+    }
     
     override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
         super.init(contentRect: contentRect, styleMask: .borderless, backing: .buffered, defer: false)
@@ -28,8 +34,11 @@ class HAFAnimationWindow: NSWindow {
     }
     
     override func mouseDragged(with event: NSEvent) {
-        let rctScreenVisibleFrame = NSScreen.main?.frame
-        if nil == rctScreenVisibleFrame {
+        if nil == draggingAreaFunc{
+            return
+        }
+        let rctScreenFrame = draggingAreaFunc!()
+        if nil == rctScreenFrame {
             return;
         }
         let rctWindowFrame = self.frame
@@ -40,14 +49,18 @@ class HAFAnimationWindow: NSWindow {
         ptNewOrigin.x += (ptCurrentLocation.x - ptOldLocation.x);
         ptNewOrigin.y += (ptCurrentLocation.y - ptOldLocation.y);
         
-        if (ptNewOrigin.y + rctWindowFrame.size.height) > (rctScreenVisibleFrame!.origin.y + rctScreenVisibleFrame!.size.height + 33){
-            ptNewOrigin.y = rctScreenVisibleFrame!.origin.y + (rctScreenVisibleFrame!.size.height - rctWindowFrame.size.height + 33);
+        if (ptNewOrigin.y + rctWindowFrame.size.height) > (rctScreenFrame!.origin.y + rctScreenFrame!.size.height) {
+            ptNewOrigin.y = rctScreenFrame!.origin.y + (rctScreenFrame!.size.height - rctWindowFrame.size.height);
         }
         
-        if (ptNewOrigin.x + rctWindowFrame.size.width) > (rctScreenVisibleFrame!.origin.x + rctScreenVisibleFrame!.size.width) {
-            ptNewOrigin.x = rctScreenVisibleFrame!.origin.x + (rctScreenVisibleFrame!.size.width - rctWindowFrame.size.width);
+        if (ptNewOrigin.x + rctWindowFrame.size.width) > (rctScreenFrame!.origin.x + rctScreenFrame!.size.width) {
+            ptNewOrigin.x = rctScreenFrame!.origin.x + (rctScreenFrame!.size.width - rctWindowFrame.size.width);
         }
         
         self.setFrameOrigin(ptNewOrigin)
+        if nil != draggingCompletedFunc{
+            let rctRslt = NSMakeRect(ptNewOrigin.x, ptNewOrigin.y, rctWindowFrame.size.width, rctWindowFrame.size.height)
+            draggingCompletedFunc!(rctRslt)
+        }
     }
 }
