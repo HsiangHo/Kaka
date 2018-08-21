@@ -52,13 +52,11 @@ class HAFAnimationView: NSView {
             _doubleClickTimer?.invalidate()
             onDoubleClick(with: event)
         } else if event.clickCount == 1 {
-            _doubleClickTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { (_doubleClickTimer) in
-                self.onClickTimeout(timer: _doubleClickTimer)
-            })
+            _doubleClickTimer = Timer.scheduledTimer(timeInterval: 0.3, target:self, selector: #selector(onClickTimeout(_:)), userInfo: nil, repeats: false)
         }
     }
     
-    func onClickTimeout(timer: Timer) {
+    @objc func onClickTimeout(_ timer: Timer) {
         _kakaObj!.doAction(actionType: .eLeftBtnClick, clearFlag: true)
     }
     
