@@ -58,6 +58,13 @@ class HAFAnimationView: NSView {
     
     @objc func onClickTimeout(_ timer: Timer) {
         _kakaObj!.doAction(actionType: .eLeftBtnClick, clearFlag: true)
+        //Desktop cover
+        if SSDesktopManager.shared().desktopCoverWindow().isVisible{
+            SSDesktopManager.shared().uncoverDesktop()
+        }else{
+            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.path2image(SSDesktopManager.shared().desktopBackgroundImagePath())
+            SSDesktopManager.shared().coverDesktop()
+        }
     }
     
     override func rightMouseUp(with event: NSEvent) {
@@ -66,6 +73,7 @@ class HAFAnimationView: NSView {
     
     func onDoubleClick(with event: NSEvent) -> Void {
         _kakaObj!.doAction(actionType: .eDoubleClick, clearFlag: true)
+        //Show desktop
         SSDesktopManager.shared().showDesktop(false)
     }
     
