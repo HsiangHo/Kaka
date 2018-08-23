@@ -66,6 +66,7 @@ class HAFAnimationView: NSView {
     
     func onDoubleClick(with event: NSEvent) -> Void {
         _kakaObj!.doAction(actionType: .eDoubleClick, clearFlag: true)
+        SSDesktopManager.shared().showDesktop(false)
     }
     
     override func draw(_ dirtyRect: NSRect) {
