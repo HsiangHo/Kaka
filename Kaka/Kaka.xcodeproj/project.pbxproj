@@ -18,7 +18,18 @@
 		987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC92129337700EE828E /* HAFKakaWindowController.swift */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
+		98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		98F8F8B1212EF05E00DE612A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98804684205813D100E9E768;
+			remoteInfo = ShadowstarKit;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9862A1312119DC0000760570 /* Kaka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaka.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,6 +48,7 @@
 		987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kaka-Bridging-Header.h"; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
+		98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowstarKit.xcodeproj; path = ../ShadowstarKit/ShadowstarKit/ShadowstarKit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,8 +66,10 @@
 		9862A1282119DC0000760570 = {
 			isa = PBXGroup;
 			children = (
+				98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */,
 				9862A1332119DC0000760570 /* Kaka */,
 				9862A1322119DC0000760570 /* Products */,
+				98F8F8B3212EF0D500DE612A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,6 +101,21 @@
 				987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */,
 			);
 			path = Kaka;
+			sourceTree = "<group>";
+		};
+		98F8F8AE212EF05E00DE612A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98F8F8B3212EF0D500DE612A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,12 +171,28 @@
 			mainGroup = 9862A1282119DC0000760570;
 			productRefGroup = 9862A1322119DC0000760570 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 98F8F8AE212EF05E00DE612A /* Products */;
+					ProjectRef = 98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9862A1302119DC0000760570 /* Kaka */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShadowstarKit.framework;
+			remoteRef = 98F8F8B1212EF05E00DE612A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9862A12F2119DC0000760570 /* Resources */ = {
@@ -305,6 +351,7 @@
 				CODE_SIGN_ENTITLEMENTS = Kaka/Kaka.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/Output";
 				INFOPLIST_FILE = Kaka/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -313,6 +360,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Kaka/Kaka-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Build/Products/Output";
 			};
 			name = Debug;
 		};
@@ -324,6 +372,7 @@
 				CODE_SIGN_ENTITLEMENTS = Kaka/Kaka.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/Output";
 				INFOPLIST_FILE = Kaka/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -331,6 +380,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Kaka/Kaka-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Build/Products/Output";
 			};
 			name = Release;
 		};
