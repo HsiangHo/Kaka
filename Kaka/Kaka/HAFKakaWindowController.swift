@@ -11,6 +11,12 @@ import Cocoa
 class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var _view: HAFAnimationView!
     var _kakaObj: HAFKakaObject? = nil
+    var actionMenu: NSMenu!
+    var menuItemAbout: NSMenuItem!
+    var menuItemPreferences: NSMenuItem!
+    var menuItemShowDesktop: NSMenuItem!
+    var menuItemShowDesktopIcon: NSMenuItem!
+    var menuItemQuit: NSMenuItem!
     
     init() {
         let frame = NSMakeRect(0, 0, 215, 170)
@@ -18,14 +24,28 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         wnd.contentView = HAFTransparentView.init(frame: frame)
         _view = HAFAnimationView.init(frame: frame)
         wnd.contentView?.addSubview(_view)
+        actionMenu = NSMenu.init(title: "actionMenu")
+        menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
+        menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
+        menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Show Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
+        menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Show/Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
+        menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "")
         super.init(window: wnd)
-        _view.delegate = self as! HAFAnimationViewDelegate
+        actionMenu.insertItem(menuItemAbout, at: 0)
+        actionMenu.insertItem(menuItemPreferences, at: 1)
+        actionMenu.insertItem(menuItemShowDesktop, at: 2)
+        actionMenu.insertItem(menuItemShowDesktopIcon, at: 3)
+        actionMenu.insertItem(menuItemQuit, at: 4)
+        _view.delegate = self
+        _view.actionMenu = actionMenu
         wnd.setDraggingCallback(areaFunc: draggingArea, completedFunc: draggingCompleted)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    //MARK: kakaObject
     
     func setKakaObject(kakaObj: HAFKakaObject) -> Void {
         _kakaObj = kakaObj
@@ -90,7 +110,44 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
+    //MARK: HAFAnimationViewDelegate callback
+    
     func leftButtonClick() -> Void{
+        __showDesktopIcons()
+    }
+    
+    func doubleClick() -> Void{
+        __showDesktop()
+    }
+    
+    //MARK: IBActions
+    
+    @IBAction func aboutMenuItem_click(sender: AnyObject?){
+        
+    }
+    
+    @IBAction func preferencesMenuItem_click(sender: AnyObject?){
+        
+    }
+    
+    @IBAction func showDesktopMenuItem_click(sender: AnyObject?){
+        __showDesktop()
+    }
+    
+    @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
+        __showDesktopIcons()
+    }
+    
+    @IBAction func quit_click(sender: AnyObject?){
+        NSApplication.shared.terminate(nil)
+    }
+    
+    //MARK: Private functions
+    func __showDesktop() -> Void {
+        SSDesktopManager.shared().showDesktop(false)
+    }
+    
+    func __showDesktopIcons() -> Void {
         //Desktop cover
         if SSDesktopManager.shared().desktopCoverWindow().isVisible{
             SSDesktopManager.shared().uncoverDesktop()
@@ -98,9 +155,5 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.path2image(SSDesktopManager.shared().desktopBackgroundImagePath())
             SSDesktopManager.shared().coverDesktop()
         }
-    }
-    
-    func doubleClick() -> Void{
-        SSDesktopManager.shared().showDesktop(false)
     }
 }
