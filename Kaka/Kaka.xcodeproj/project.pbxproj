@@ -84,20 +84,17 @@
 		9862A1332119DC0000760570 /* Kaka */ = {
 			isa = PBXGroup;
 			children = (
+				98F8F8BA212F6CF500DE612A /* Controller */,
+				98F8F8B6212F6C5C00DE612A /* Model */,
 				987BAF872126E7A400EE828E /* Animations */,
 				9862A1342119DC0000760570 /* AppDelegate.swift */,
-				987BAFC92129337700EE828E /* HAFKakaWindowController.swift */,
-				989CA766211FDD1400E7A004 /* HAFKakaObject.swift */,
+				987BAFC42127E56200EE828E /* HAFTransparentView.h */,
+				987BAFC52127E56200EE828E /* HAFTransparentView.m */,
+				987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */,
 				9862A1362119DC0000760570 /* Assets.xcassets */,
 				9862A1382119DC0000760570 /* MainMenu.xib */,
 				9862A13B2119DC0000760570 /* Info.plist */,
 				9862A13C2119DC0000760570 /* Kaka.entitlements */,
-				9862A144211A626C00760570 /* HAFAnimationSequence.swift */,
-				989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */,
-				9862A146211A628C00760570 /* HAFAnimationView.swift */,
-				987BAFC42127E56200EE828E /* HAFTransparentView.h */,
-				987BAFC52127E56200EE828E /* HAFTransparentView.m */,
-				987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */,
 				987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */,
 			);
 			path = Kaka;
@@ -116,6 +113,25 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		98F8F8B6212F6C5C00DE612A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				989CA766211FDD1400E7A004 /* HAFKakaObject.swift */,
+				9862A144211A626C00760570 /* HAFAnimationSequence.swift */,
+				989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */,
+				9862A146211A628C00760570 /* HAFAnimationView.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		98F8F8BA212F6CF500DE612A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				987BAFC92129337700EE828E /* HAFKakaWindowController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
