@@ -8,14 +8,24 @@
 
 import Cocoa
 
+@objc protocol HAFAnimationViewDelegate {
+    @objc optional func leftButtonClick()
+    @objc optional func rightButtonClick() -> Void
+    @objc optional func doubleClick() -> Void
+}
+
 class HAFAnimationView: NSView {
     private var _kakaObj: HAFKakaObject?
     private var _timer: DispatchSourceTimer?
     private var _currentFrame: NSImage?
     private var _doubleClickTimer: Timer?
+    var actionMenu: NSMenu?
+    weak var delegate: HAFAnimationViewDelegate?
     
     override init(frame frameRect: NSRect) {
         _kakaObj = nil
+        actionMenu = nil
+        delegate = nil
         super.init(frame: frameRect)
     }
 
@@ -58,23 +68,28 @@ class HAFAnimationView: NSView {
     
     @objc func onClickTimeout(_ timer: Timer) {
         _kakaObj!.doAction(actionType: .eLeftBtnClick, clearFlag: true)
-        //Desktop cover
-        if SSDesktopManager.shared().desktopCoverWindow().isVisible{
-            SSDesktopManager.shared().uncoverDesktop()
-        }else{
-            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.path2image(SSDesktopManager.shared().desktopBackgroundImagePath())
-            SSDesktopManager.shared().coverDesktop()
+        if nil != delegate?.leftButtonClick {
+            delegate?.leftButtonClick!()
         }
     }
     
     override func rightMouseUp(with event: NSEvent) {
         _kakaObj!.doAction(actionType: .eRightBtnClick, clearFlag: true)
+        if nil != delegate?.rightButtonClick {
+            delegate?.rightButtonClick!()
+        }
     }
     
     func onDoubleClick(with event: NSEvent) -> Void {
         _kakaObj!.doAction(actionType: .eDoubleClick, clearFlag: true)
         //Show desktop
-        SSDesktopManager.shared().showDesktop(false)
+        if nil != delegate?.doubleClick {
+            delegate?.doubleClick!()
+        }
+    }
+    
+    override func menu(for event: NSEvent) -> NSMenu? {
+        return actionMenu
     }
     
     override func draw(_ dirtyRect: NSRect) {
