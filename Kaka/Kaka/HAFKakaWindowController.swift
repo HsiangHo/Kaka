@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class HAFKakaWindowController: NSWindowController {
+class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var _view: HAFAnimationView!
     var _kakaObj: HAFKakaObject? = nil
     
@@ -19,6 +19,7 @@ class HAFKakaWindowController: NSWindowController {
         _view = HAFAnimationView.init(frame: frame)
         wnd.contentView?.addSubview(_view)
         super.init(window: wnd)
+        _view.delegate = self as! HAFAnimationViewDelegate
         wnd.setDraggingCallback(areaFunc: draggingArea, completedFunc: draggingCompleted)
     }
     
@@ -87,5 +88,19 @@ class HAFKakaWindowController: NSWindowController {
             }
             break
         }
+    }
+    
+    func leftButtonClick() -> Void{
+        //Desktop cover
+        if SSDesktopManager.shared().desktopCoverWindow().isVisible{
+            SSDesktopManager.shared().uncoverDesktop()
+        }else{
+            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.path2image(SSDesktopManager.shared().desktopBackgroundImagePath())
+            SSDesktopManager.shared().coverDesktop()
+        }
+    }
+    
+    func doubleClick() -> Void{
+        SSDesktopManager.shared().showDesktop(false)
     }
 }
