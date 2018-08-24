@@ -123,11 +123,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     //MARK: IBActions
     
     @IBAction func aboutMenuItem_click(sender: AnyObject?){
-        
+        let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
+        aboutWindowController?.showWindow(nil)
     }
     
     @IBAction func preferencesMenuItem_click(sender: AnyObject?){
-        
+        let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
+        preferencesWindowController?.showWindow(nil)
     }
     
     @IBAction func showDesktopMenuItem_click(sender: AnyObject?){
