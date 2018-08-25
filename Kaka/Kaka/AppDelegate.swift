@@ -27,6 +27,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
+    @IBAction func help_click(sender: AnyObject?){
+        NSWorkspace.shared.open(URL.init(string: "https://hsiangho.github.io/2018/06/13/SupportPage/")!)
+    }
+    
     @IBAction func aboutMenuItem_click(sender: AnyObject?){
         kakaWindowController.aboutWindowController?.showWindow(nil)
         NSApp.activate(ignoringOtherApps: true)

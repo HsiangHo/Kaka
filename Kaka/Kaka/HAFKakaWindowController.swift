@@ -16,6 +16,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPreferences: NSMenuItem!
     var menuItemShowDesktop: NSMenuItem!
     var menuItemShowDesktopIcon: NSMenuItem!
+    var menuItemHelp: NSMenuItem!
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
@@ -36,13 +37,15 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Show Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Show/Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
+        menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "")
         super.init(window: wnd)
         actionMenu.insertItem(menuItemAbout, at: 0)
         actionMenu.insertItem(menuItemPreferences, at: 1)
         actionMenu.insertItem(menuItemShowDesktop, at: 2)
         actionMenu.insertItem(menuItemShowDesktopIcon, at: 3)
-        actionMenu.insertItem(menuItemQuit, at: 4)
+        actionMenu.insertItem(menuItemHelp, at: 4)
+        actionMenu.insertItem(menuItemQuit, at: 5)
         _view.delegate = self
         _view.actionMenu = actionMenu
         wnd.setDraggingCallback(areaFunc: draggingArea, completedFunc: draggingCompleted)
@@ -151,13 +154,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         __showDesktopIcons()
     }
     
+    @IBAction func help_click(sender: AnyObject?){
+        NSWorkspace.shared.open(URL.init(string: "https://hsiangho.github.io/2018/06/13/SupportPage/")!)
+    }
+    
     @IBAction func quit_click(sender: AnyObject?){
         _kakaObj!.doAction(actionType: .eExit, clearFlag: true)
         _kakaObj!.skipCurrentAnimationSequenceChain()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             NSApplication.shared.terminate(nil)
         }
-        
     }
     
     //MARK: Private functions

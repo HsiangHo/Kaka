@@ -52,7 +52,7 @@
                         <items>
                             <menuItem title="Kaka Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                 <connections>
-                                    <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
+                                    <action selector="help_clickWithSender:" target="Voe-Tx-rLC" id="VND-4i-jVX"/>
                                 </connections>
                             </menuItem>
                         </items>
