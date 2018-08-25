@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  Kaka
+
+  Created by Jovi on 8/25/18.
+  Copyright © 2018 Jovi. All rights reserved.
+*/
+
+"About" = "關於";
+"Preferences" = "偏好設置";
+"Show Desktop" = "顯示桌面";
+"Show/Hide Desktop Icons" = "顯示/隱藏桌面圖標";
+"Help" = "幫助";
+"Quit" = "退出";
+"Launch at login" = "開機時啟動";
+"Hide the mouse cursor automatically" = "自動隱藏滑鼠指針";
+"One-click 'Kaka' to show/hide desktop icons" = "單擊 'Kaka' 顯示/隱藏桌面圖標";
+"Double-click 'Kaka' to show desktop" = "雙擊 'Kaka' 顯示桌面";

@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  Kaka
+
+  Created by Jovi on 8/25/18.
+  Copyright © 2018 Jovi. All rights reserved.
+*/
+
+"About" = "About";
+"Preferences" = "Preferences";
+"Show Desktop" = "Show Desktop";
+"Show/Hide Desktop Icons" = "Show/Hide Desktop Icons";
+"Help" = "Help";
+"Quit" = "Quit";
+"Launch at login" = "Launch at login";
+"Hide the mouse cursor automatically" = "Hide the mouse cursor automatically";
+"One-click 'Kaka' to show/hide desktop icons" = "One-click 'Kaka' to show/hide desktop icons";
+"Double-click 'Kaka' to show desktop" = "Double-click 'Kaka' to show desktop";
