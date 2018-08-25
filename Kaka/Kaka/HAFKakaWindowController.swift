@@ -23,7 +23,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     init() {
         var offsetX: CGFloat = 0
         if nil != NSScreen.main {
-            offsetX = NSScreen.main!.frame.width - 120
+            offsetX = NSScreen.main!.frame.width - 150
         }
         let windowFrame = NSMakeRect(offsetX, 0, 215, 170)
         let frame = NSMakeRect(0, 0, NSWidth(windowFrame), NSHeight(windowFrame))
