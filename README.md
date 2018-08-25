@@ -26,6 +26,7 @@ Kaka is available on the Mac App Store.
 ## Screenshot
 
 <img src="img/Screen_Shot1.png" width="480px">
+<img src="img/Screen_Shot2.png" width="480px">
 
 ## Open Source Libraries
 
