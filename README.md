@@ -5,13 +5,13 @@
 [![Jenkins](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/HsiangHo/Kaka/blob/master/LICENSE)
 [![Travis](https://img.shields.io/badge/platform-macOS-yellow.svg)]()
 
-去掉了瑞星无用的杀毒和防火墙功能，只保留小狮子。此版本由Windows移植至macOS,可当桌面宠物饲养，并增加实用功能。
+去掉了瑞星无用的杀毒和防火墙功能,只保留小狮子。此版本由Windows移植至macOS,可当桌面宠物饲养,并增加实用功能。
 
 ## Features
 
-1. 一键显示/隐藏桌面图标。（保护隐私）
+1. 一键显示/隐藏桌面图标。
 2. 一键显示桌面。
-3. 自动隐藏鼠标光标。（3秒）
+3. 自动(3秒)隐藏鼠标光标。
 
 ## Installation
 
