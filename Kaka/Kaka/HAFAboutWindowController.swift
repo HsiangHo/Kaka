@@ -36,8 +36,20 @@ class HAFAboutWindowController: NSWindowController {
         _btnAppIcon.action = #selector(appIcon_click)
         wnd.contentView?.addSubview(_btnAppIcon)
         
+        var appInfo = Bundle.main.infoDictionary
+        var appName: String = ""
+        var appVersion: String = ""
+        var appCopyRight: String = ""
+        
+        if nil != appInfo{
+            appName = appInfo!["CFBundleName"] as? String ?? ""
+            appVersion = String(format:"Version. %@ (%@)", arguments:[appInfo!["CFBundleShortVersionString"] as? String ?? "" , appInfo!["CFBundleVersion"] as? String ?? ""])
+            appCopyRight = appInfo!["NSHumanReadableCopyright"] as? String ?? ""
+        }
+        
+        
         _lbAppName = NSTextField.init(frame: NSMakeRect(0, NSMinY(_btnAppIcon.frame) - 60, NSWidth(frame), 42))
-        _lbAppName.stringValue = "Kaka"
+        _lbAppName.stringValue = appName
         _lbAppName.alignment = .center
         _lbAppName.isEditable = false
         _lbAppName.isSelectable = false
@@ -47,7 +59,7 @@ class HAFAboutWindowController: NSWindowController {
         wnd.contentView?.addSubview(_lbAppName)
         
         _lbAppVersion = NSTextField.init(frame: NSMakeRect(0, NSMinY(_lbAppName.frame) - 43, NSWidth(frame), 23))
-        _lbAppVersion.stringValue = "Version: 1.0.0"
+        _lbAppVersion.stringValue = appVersion
         _lbAppVersion.alignment = .center
         _lbAppVersion.isEditable = false
         _lbAppVersion.isSelectable = false
@@ -57,7 +69,7 @@ class HAFAboutWindowController: NSWindowController {
         wnd.contentView?.addSubview(_lbAppVersion)
         
         _lbCopyright = NSTextField.init(frame: NSMakeRect(0, NSMinY(_lbAppVersion.frame) - 20, NSWidth(frame), 22))
-        _lbCopyright.stringValue = "Copyright (C) 2018 HyperartFlow. All Rights Reserved."
+        _lbCopyright.stringValue = appCopyRight
         _lbCopyright.alignment = .center
         _lbCopyright.isEditable = false
         _lbCopyright.isSelectable = false
@@ -75,6 +87,6 @@ class HAFAboutWindowController: NSWindowController {
     }
     
     @IBAction func appIcon_click(sender: AnyObject?){
-        NSWorkspace.shared.open(URL.init(string: "https://github.com/HsiangHo/Kaka")!)
+        NSWorkspace.shared.open(URL.init(string: "https://hsiangho.github.io/2018/06/13/SupportPage/")!)
     }
 }
