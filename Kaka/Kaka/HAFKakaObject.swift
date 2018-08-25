@@ -16,6 +16,7 @@ enum UserActionType: Int {
     case eDragFromRightMargin
     case eDragToTopMargin
     case eDragFromTopMargin
+    case eExit
 }
 
 enum KakaStateType {
@@ -149,6 +150,9 @@ class HAFKakaObject: NSObject {
             break
         case .eDragFromTopMargin:
             break
+        case .eExit:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.bye)
+            break
         }
     }
     
@@ -161,6 +165,9 @@ class HAFKakaObject: NSObject {
         case .eDragFromTopMargin:
             _nextAnimationSequences.append(HAFAnimationManager.sharedManager.drag3)
             _state = .eKakaStateNormal
+            break
+        case .eExit:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.bye)
             break
         default:
             break
@@ -179,6 +186,9 @@ class HAFKakaObject: NSObject {
         case .eDragToTopMargin:
             _nextAnimationSequences.append(HAFAnimationManager.sharedManager.drag1)
             _state = .eKakaStateDragging
+            break
+        case .eExit:
+            _nextAnimationSequences.append(HAFAnimationManager.sharedManager.bye)
             break
         default:
             break
