@@ -115,11 +115,15 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     //MARK: HAFAnimationViewDelegate callback
     
     func leftButtonClick() -> Void{
-        __showDesktopIcons()
+        if HAFConfigureManager.sharedManager.isOneClickToHideDesktopIcons() {
+            __showDesktopIcons()
+        }
     }
     
     func doubleClick() -> Void{
-        __showDesktop()
+        if HAFConfigureManager.sharedManager.isDoubleClickToShowDesktop() {
+            __showDesktop()
+        }
     }
     
     //MARK: IBActions
