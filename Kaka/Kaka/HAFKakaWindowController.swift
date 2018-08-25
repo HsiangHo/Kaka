@@ -17,6 +17,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemShowDesktop: NSMenuItem!
     var menuItemShowDesktopIcon: NSMenuItem!
     var menuItemQuit: NSMenuItem!
+    let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
+    let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
     
     init() {
         let frame = NSMakeRect(0, 0, 215, 170)
@@ -123,12 +125,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     //MARK: IBActions
     
     @IBAction func aboutMenuItem_click(sender: AnyObject?){
-        let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
         aboutWindowController?.showWindow(nil)
     }
     
     @IBAction func preferencesMenuItem_click(sender: AnyObject?){
-        let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
         preferencesWindowController?.showWindow(nil)
     }
     
