@@ -1,4 +1,4 @@
 
 [submodule "ShadowstarKit"]
-	path = ShadowstarKit
+	path = Kaka/ShadowstarKit
 	url = https://github.com/HsiangHo/ShadowstarKit.git
