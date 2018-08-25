@@ -18,6 +18,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to initialize your application
         kakaWindowController.setKakaObject(kakaObj: kaka)
         kakaWindowController.showWindow(nil)
+        if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
+            SSCursorManager.shared().setAutoHideTimeout(5)
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

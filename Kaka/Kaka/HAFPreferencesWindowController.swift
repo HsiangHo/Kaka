@@ -72,6 +72,11 @@ class HAFPreferencesWindowController: NSWindowController {
     
     @IBAction func autoHideMouseCursor_click(sender: AnyObject?){
         HAFConfigureManager.sharedManager.setAutoHideMouseCursor(bFlag: _btnAutoHideMouseCursor.state == .on)
+        if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
+            SSCursorManager.shared().setAutoHideTimeout(5)
+        }else{
+            SSCursorManager.shared().setAutoHideTimeout(0)
+        }
     }
     
     @IBAction func oneClickToHideDesktopIcons_click(sender: AnyObject?){
