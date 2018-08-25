@@ -23,6 +23,9 @@ class HAFAboutWindowController: NSWindowController {
         wnd.standardWindowButton(.miniaturizeButton)?.isHidden = true
         super.init(window: wnd)
         
+        let visualEffectView: NSVisualEffectView = NSVisualEffectView.init(frame: frame)
+        wnd.contentView = visualEffectView
+        
         _btnAppIcon = NSButton.init(frame: NSMakeRect((NSWidth(frame) - 150) * 0.5, NSHeight(frame) - 210, 150, 150))
         _btnAppIcon.image = NSImage.init(imageLiteralResourceName: "AppIcon")
         _btnAppIcon.title = ""
@@ -39,6 +42,7 @@ class HAFAboutWindowController: NSWindowController {
         _lbAppName.isEditable = false
         _lbAppName.isSelectable = false
         _lbAppName.isBordered = false
+        _lbAppName.backgroundColor = NSColor.clear
         _lbAppName.font = NSFont.init(name: "Helvetica Neue Light", size: 42)
         wnd.contentView?.addSubview(_lbAppName)
         
@@ -48,6 +52,7 @@ class HAFAboutWindowController: NSWindowController {
         _lbAppVersion.isEditable = false
         _lbAppVersion.isSelectable = false
         _lbAppVersion.isBordered = false
+        _lbAppVersion.backgroundColor = NSColor.clear
         _lbAppVersion.font = NSFont.init(name: "Helvetica Neue Light", size: 15)
         wnd.contentView?.addSubview(_lbAppVersion)
         
@@ -59,6 +64,7 @@ class HAFAboutWindowController: NSWindowController {
         _lbCopyright.isBordered = false
         _lbCopyright.font = NSFont.init(name: "Helvetica Neue Light", size: 14)
         _lbCopyright.textColor = NSColor.gray
+        _lbCopyright.backgroundColor = NSColor.clear
         wnd.contentView?.addSubview(_lbCopyright)
         
         wnd.center()
