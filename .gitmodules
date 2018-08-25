@@ -1,1 +1,4 @@
 
+[submodule "ShadowstarKit"]
+	path = ShadowstarKit
+	url = https://github.com/HsiangHo/ShadowstarKit.git
