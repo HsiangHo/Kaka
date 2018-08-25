@@ -35,7 +35,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         actionMenu = NSMenu.init(title: "actionMenu")
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
-        menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Show Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
+        menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Show/Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "")
