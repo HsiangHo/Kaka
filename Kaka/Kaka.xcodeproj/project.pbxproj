@@ -19,6 +19,9 @@
 		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
 		987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC92129337700EE828E /* HAFKakaWindowController.swift */; };
 		988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A177C2131225F00A89C25 /* HAFConfigureManager.swift */; };
+		988A17862131508D00A89C25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A17852131508D00A89C25 /* AppDelegate.swift */; };
+		988A17882131508D00A89C25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 988A17872131508D00A89C25 /* Assets.xcassets */; };
+		988A178B2131508E00A89C25 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 988A17892131508E00A89C25 /* MainMenu.xib */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
 		98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
@@ -52,6 +55,12 @@
 		987BAFC92129337700EE828E /* HAFKakaWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaWindowController.swift; sourceTree = "<group>"; };
 		987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kaka-Bridging-Header.h"; sourceTree = "<group>"; };
 		988A177C2131225F00A89C25 /* HAFConfigureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFConfigureManager.swift; sourceTree = "<group>"; };
+		988A17832131508D00A89C25 /* LaunchAtLoginHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchAtLoginHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		988A17852131508D00A89C25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		988A17872131508D00A89C25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		988A178A2131508E00A89C25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		988A178C2131508E00A89C25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		988A178D2131508E00A89C25 /* LaunchAtLoginHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LaunchAtLoginHelper.entitlements; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
 		98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowstarKit.xcodeproj; path = ../ShadowstarKit/ShadowstarKit/ShadowstarKit.xcodeproj; sourceTree = "<group>"; };
@@ -66,6 +75,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		988A17802131508D00A89C25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -74,6 +90,7 @@
 			children = (
 				98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */,
 				9862A1332119DC0000760570 /* Kaka */,
+				988A17842131508D00A89C25 /* LaunchAtLoginHelper */,
 				9862A1322119DC0000760570 /* Products */,
 				98F8F8B3212EF0D500DE612A /* Frameworks */,
 			);
@@ -83,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				9862A1312119DC0000760570 /* Kaka.app */,
+				988A17832131508D00A89C25 /* LaunchAtLoginHelper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -104,6 +122,18 @@
 				987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */,
 			);
 			path = Kaka;
+			sourceTree = "<group>";
+		};
+		988A17842131508D00A89C25 /* LaunchAtLoginHelper */ = {
+			isa = PBXGroup;
+			children = (
+				988A17852131508D00A89C25 /* AppDelegate.swift */,
+				988A17872131508D00A89C25 /* Assets.xcassets */,
+				988A17892131508E00A89C25 /* MainMenu.xib */,
+				988A178C2131508E00A89C25 /* Info.plist */,
+				988A178D2131508E00A89C25 /* LaunchAtLoginHelper.entitlements */,
+			);
+			path = LaunchAtLoginHelper;
 			sourceTree = "<group>";
 		};
 		98F8F8AE212EF05E00DE612A /* Products */ = {
@@ -163,6 +193,23 @@
 			productReference = 9862A1312119DC0000760570 /* Kaka.app */;
 			productType = "com.apple.product-type.application";
 		};
+		988A17822131508D00A89C25 /* LaunchAtLoginHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 988A178E2131508E00A89C25 /* Build configuration list for PBXNativeTarget "LaunchAtLoginHelper" */;
+			buildPhases = (
+				988A177F2131508D00A89C25 /* Sources */,
+				988A17802131508D00A89C25 /* Frameworks */,
+				988A17812131508D00A89C25 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LaunchAtLoginHelper;
+			productName = LaunchAtLoginHelper;
+			productReference = 988A17832131508D00A89C25 /* LaunchAtLoginHelper.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -182,6 +229,10 @@
 								enabled = 1;
 							};
 						};
+					};
+					988A17822131508D00A89C25 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -205,6 +256,7 @@
 			projectRoot = "";
 			targets = (
 				9862A1302119DC0000760570 /* Kaka */,
+				988A17822131508D00A89C25 /* LaunchAtLoginHelper */,
 			);
 		};
 /* End PBXProject section */
@@ -230,6 +282,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		988A17812131508D00A89C25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				988A17882131508D00A89C25 /* Assets.xcassets in Resources */,
+				988A178B2131508E00A89C25 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -251,6 +312,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		988A177F2131508D00A89C25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				988A17862131508D00A89C25 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -258,6 +327,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				9862A1392119DC0000760570 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		988A17892131508E00A89C25 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				988A178A2131508E00A89C25 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -412,6 +489,42 @@
 			};
 			name = Release;
 		};
+		988A178F2131508E00A89C25 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LaunchAtLoginHelper/LaunchAtLoginHelper.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9P895LY647;
+				INFOPLIST_FILE = LaunchAtLoginHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HyperartFlow.Kaka.launchAtLoginHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		988A17902131508E00A89C25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LaunchAtLoginHelper/LaunchAtLoginHelper.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 9P895LY647;
+				INFOPLIST_FILE = LaunchAtLoginHelper/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HyperartFlow.Kaka.launchAtLoginHelper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -429,6 +542,15 @@
 			buildConfigurations = (
 				9862A1402119DC0000760570 /* Debug */,
 				9862A1412119DC0000760570 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		988A178E2131508E00A89C25 /* Build configuration list for PBXNativeTarget "LaunchAtLoginHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				988A178F2131508E00A89C25 /* Debug */,
+				988A17902131508E00A89C25 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
