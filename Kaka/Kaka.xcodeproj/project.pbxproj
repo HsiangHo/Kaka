@@ -18,6 +18,7 @@
 		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
 		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
 		987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC92129337700EE828E /* HAFKakaWindowController.swift */; };
+		988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A177C2131225F00A89C25 /* HAFConfigureManager.swift */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
 		98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
@@ -50,6 +51,7 @@
 		987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationWindow.swift; sourceTree = "<group>"; };
 		987BAFC92129337700EE828E /* HAFKakaWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaWindowController.swift; sourceTree = "<group>"; };
 		987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kaka-Bridging-Header.h"; sourceTree = "<group>"; };
+		988A177C2131225F00A89C25 /* HAFConfigureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFConfigureManager.swift; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
 		98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowstarKit.xcodeproj; path = ../ShadowstarKit/ShadowstarKit/ShadowstarKit.xcodeproj; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				9862A144211A626C00760570 /* HAFAnimationSequence.swift */,
 				989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */,
 				9862A146211A628C00760570 /* HAFAnimationView.swift */,
+				988A177C2131225F00A89C25 /* HAFConfigureManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */,
 				9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */,
 				987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */,
+				988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */,
 				9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */,
 				987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */,
 			);
