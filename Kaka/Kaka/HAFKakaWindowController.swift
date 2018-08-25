@@ -126,10 +126,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     @IBAction func aboutMenuItem_click(sender: AnyObject?){
         aboutWindowController?.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     @IBAction func preferencesMenuItem_click(sender: AnyObject?){
         preferencesWindowController?.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     @IBAction func showDesktopMenuItem_click(sender: AnyObject?){
