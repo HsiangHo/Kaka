@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */; };
+		9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */; };
 		9862A1352119DC0000760570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A1342119DC0000760570 /* AppDelegate.swift */; };
 		9862A1372119DC0000760570 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9862A1362119DC0000760570 /* Assets.xcassets */; };
 		9862A13A2119DC0000760570 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9862A1382119DC0000760570 /* MainMenu.xib */; };
@@ -32,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAboutWindowController.swift; sourceTree = "<group>"; };
+		9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFPreferencesWindowController.swift; sourceTree = "<group>"; };
 		9862A1312119DC0000760570 /* Kaka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9862A1342119DC0000760570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9862A1362119DC0000760570 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				987BAFC92129337700EE828E /* HAFKakaWindowController.swift */,
+				9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */,
+				9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -234,7 +240,9 @@
 				9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */,
 				989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */,
 				9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */,
+				9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */,
 				987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */,
+				9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */,
 				987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
