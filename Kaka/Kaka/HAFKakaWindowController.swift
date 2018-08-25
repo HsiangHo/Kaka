@@ -152,7 +152,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func quit_click(sender: AnyObject?){
-        NSApplication.shared.terminate(nil)
+        _kakaObj!.doAction(actionType: .eExit, clearFlag: true)
+        _kakaObj!.skipCurrentAnimationSequenceChain()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            NSApplication.shared.terminate(nil)
+        }
+        
     }
     
     //MARK: Private functions
