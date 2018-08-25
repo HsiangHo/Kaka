@@ -15,7 +15,7 @@ class HAFPreferencesWindowController: NSWindowController {
     var _btnDoubleClickToShowDesktop: NSButton!
 
     init() {
-        let frame = NSMakeRect(0, 0, 550, 180)
+        let frame = NSMakeRect(0, 0, 500, 180)
         let wnd = NSWindow.init(contentRect: frame, styleMask: [.titled, .closable, .fullSizeContentView], backing: .buffered, defer: false)
         wnd.backgroundColor = NSColor.white
         wnd.titlebarAppearsTransparent = true
@@ -52,7 +52,7 @@ class HAFPreferencesWindowController: NSWindowController {
         wnd.contentView?.addSubview(_btnOneClickToHideDesktopIcon)
         
         _btnDoubleClickToShowDesktop = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnOneClickToHideDesktopIcon.frame) - 30, NSWidth(frame), 23))
-        _btnDoubleClickToShowDesktop.title = NSLocalizedString("Double-click 'kaka' to show desktop", comment: "")
+        _btnDoubleClickToShowDesktop.title = NSLocalizedString("Double-click 'Kaka' to show desktop", comment: "")
         _btnDoubleClickToShowDesktop.setButtonType(.switch)
         _btnDoubleClickToShowDesktop.target = self
         _btnDoubleClickToShowDesktop.action = #selector(doubleClickToShowDesktop)
@@ -73,7 +73,7 @@ class HAFPreferencesWindowController: NSWindowController {
     @IBAction func autoHideMouseCursor_click(sender: AnyObject?){
         HAFConfigureManager.sharedManager.setAutoHideMouseCursor(bFlag: _btnAutoHideMouseCursor.state == .on)
         if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
-            SSCursorManager.shared().setAutoHideTimeout(5)
+            SSCursorManager.shared().setAutoHideTimeout(3)
         }else{
             SSCursorManager.shared().setAutoHideTimeout(0)
         }

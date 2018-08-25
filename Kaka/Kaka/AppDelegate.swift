@@ -19,12 +19,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         kakaWindowController.setKakaObject(kakaObj: kaka)
         kakaWindowController.showWindow(nil)
         if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
-            SSCursorManager.shared().setAutoHideTimeout(5)
+            SSCursorManager.shared().setAutoHideTimeout(3)
         }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+    }
+    
+    @IBAction func aboutMenuItem_click(sender: AnyObject?){
+        kakaWindowController.aboutWindowController?.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
+    @IBAction func preferencesMenuItem_click(sender: AnyObject?){
+        kakaWindowController.preferencesWindowController?.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
 }
 
