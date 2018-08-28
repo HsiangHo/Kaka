@@ -253,7 +253,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         if SSDesktopManager.shared().desktopCoverWindow().isVisible{
             SSDesktopManager.shared().uncoverDesktop()
         }else{
-            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.path2image(SSDesktopManager.shared().desktopBackgroundImagePath())
+            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
             SSDesktopManager.shared().coverDesktop()
         }
     }
