@@ -11,6 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
+    var statusItem: NSStatusItem?
     var kaka: HAFKakaObject = HAFKakaObject.init()
     var kakaWindowController: HAFKakaWindowController = HAFKakaWindowController.init()
 
@@ -18,9 +19,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to initialize your application
         kakaWindowController.setKakaObject(kakaObj: kaka)
         kakaWindowController.showWindow(nil)
-        if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
-            SSCursorManager.shared().setAutoHideTimeout(3)
-        }
+        
+        statusItem = NSStatusBar.system.statusItem(withLength: -1)
+        let statusImage = NSImage(named: NSImage.Name(rawValue: "status_icon"))
+        statusImage!.isTemplate = true
+        statusImage!.size = NSMakeSize(16, 16)
+        statusItem!.image = statusImage
+        statusItem!.menu = kakaWindowController.actionMenu
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
