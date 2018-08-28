@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         statusItem = NSStatusBar.system.statusItem(withLength: -1)
         let statusImage = NSImage(named: NSImage.Name(rawValue: "status_icon"))
-        statusImage!.isTemplate = true
+//        statusImage!.isTemplate = true
         statusImage!.size = NSMakeSize(16, 16)
         statusItem!.image = statusImage
         statusItem!.menu = kakaWindowController.actionMenu
