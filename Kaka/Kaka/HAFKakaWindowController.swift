@@ -12,6 +12,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var _view: HAFAnimationView!
     var _kakaObj: HAFKakaObject? = nil
     var actionMenu: NSMenu!
+    var menuItemPreventSystemSleep: NSMenuItem!
+    var menuItemAutoHideMouseCursor: NSMenuItem!
+    var menuItemDisplayKaka: NSMenuItem!
     var menuItemAbout: NSMenuItem!
     var menuItemPreferences: NSMenuItem!
     var menuItemShowDesktop: NSMenuItem!
@@ -36,19 +39,53 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
-        menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Show/Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
+        menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Auto Hide Mouse Cursor", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
+        menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(PreventSystemSleepMenuItem_click), keyEquivalent: "")
+        menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "")
+        
         super.init(window: wnd)
-        actionMenu.insertItem(menuItemAbout, at: 0)
-        actionMenu.insertItem(menuItemPreferences, at: 1)
-        actionMenu.insertItem(menuItemShowDesktop, at: 2)
-        actionMenu.insertItem(menuItemShowDesktopIcon, at: 3)
-        actionMenu.insertItem(menuItemHelp, at: 4)
-        actionMenu.insertItem(menuItemQuit, at: 5)
+        
+        menuItemAbout.target = self
+        menuItemPreferences.target = self
+        menuItemPreventSystemSleep.target = self
+        menuItemShowDesktop.target = self
+        menuItemShowDesktopIcon.target = self
+        menuItemPreventSystemSleep.target = self
+        menuItemAutoHideMouseCursor.target = self
+        menuItemDisplayKaka.target = self
+        menuItemHelp.target = self
+        menuItemQuit.target = self
+        
+        actionMenu.insertItem(menuItemShowDesktop, at: 0)
+        actionMenu.insertItem(menuItemShowDesktopIcon, at: 1)
+        actionMenu.insertItem(menuItemPreventSystemSleep, at: 2)
+        actionMenu.insertItem(menuItemAutoHideMouseCursor, at: 3)
+        actionMenu.insertItem(NSMenuItem.separator(), at: 4)
+        actionMenu.insertItem(menuItemDisplayKaka, at: 5)
+        actionMenu.insertItem(NSMenuItem.separator(), at: 6)
+        actionMenu.insertItem(menuItemAbout, at: 7)
+        actionMenu.insertItem(menuItemPreferences, at: 8)
+        actionMenu.insertItem(menuItemHelp, at: 9)
+        actionMenu.insertItem(NSMenuItem.separator(), at: 10)
+        actionMenu.insertItem(menuItemQuit, at: 11)
         _view.delegate = self
         _view.actionMenu = actionMenu
         wnd.setDraggingCallback(areaFunc: draggingArea, completedFunc: draggingCompleted)
+        
+        if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
+            menuItemAutoHideMouseCursor.state = .on
+            SSCursorManager.shared().setAutoHideTimeout(3)
+        }
+        
+        if HAFConfigureManager.sharedManager.isPreventSystemFromFallingAsleep() {
+            menuItemPreventSystemSleep.state = .on
+            SSCursorManager.shared().preventSleep(true)
+        }
+        
+        menuItemDisplayKaka.state = .on
     }
     
     required init?(coder: NSCoder) {
@@ -152,6 +189,36 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
         __showDesktopIcons()
+    }
+    
+    @IBAction func PreventSystemSleepMenuItem_click(sender: AnyObject?){
+        if menuItemPreventSystemSleep.state == .off {
+            menuItemPreventSystemSleep.state = .on
+            SSCursorManager.shared().preventSleep(true)
+        }else{
+            menuItemPreventSystemSleep.state = .off
+            SSCursorManager.shared().preventSleep(false)
+        }
+    }
+    
+    @IBAction func autoHideMouseCursorMenuItem_click(sender: AnyObject?){
+        if menuItemAutoHideMouseCursor.state == .off {
+            menuItemAutoHideMouseCursor.state = .on
+            SSCursorManager.shared().setAutoHideTimeout(3)
+        }else{
+            menuItemAutoHideMouseCursor.state = .off
+            SSCursorManager.shared().setAutoHideTimeout(0)
+        }
+    }
+    
+    @IBAction func displayKakaMenuItem_click(sender: AnyObject?){
+        if menuItemDisplayKaka.state == .off {
+            menuItemDisplayKaka.state = .on
+            self.window?.makeKeyAndOrderFront(nil)
+        }else{
+            menuItemDisplayKaka.state = .off
+            self.window?.orderOut(nil)
+        }
     }
     
     @IBAction func help_click(sender: AnyObject?){
