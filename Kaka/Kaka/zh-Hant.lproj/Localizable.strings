@@ -9,10 +9,11 @@
 "About" = "關於";
 "Preferences" = "偏好設置";
 "Display Desktop" = "顯示桌面";
-"Show/Hide Desktop Icons" = "顯示/隱藏桌面圖標";
+"Hide Desktop Icons" = "隱藏桌面圖標";
 "Help" = "幫助";
 "Quit" = "退出";
+"Prevent System From Falling Asleep" = "防止系統自動休眠";
 "Launch at login" = "開機時啟動";
-"Hide the mouse cursor automatically" = "自動隱藏滑鼠指針";
+"Hide The Mouse Cursor Automatically" = "自動隱藏滑鼠指針";
 "One-click 'Kaka' to show/hide desktop icons" = "單擊 'Kaka' 顯示/隱藏桌面圖標";
 "Double-click 'Kaka' to show desktop" = "雙擊 'Kaka' 顯示桌面";

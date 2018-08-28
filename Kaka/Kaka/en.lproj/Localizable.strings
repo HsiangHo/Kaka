@@ -9,10 +9,11 @@
 "About" = "About";
 "Preferences" = "Preferences";
 "Display Desktop" = "Display Desktop";
-"Show/Hide Desktop Icons" = "Show/Hide Desktop Icons";
+"Hide Desktop Icons" = "Hide Desktop Icons";
 "Help" = "Help";
 "Quit" = "Quit";
+"Prevent System From Falling Asleep" =  "Prevent System From Falling Asleep";
 "Launch at login" = "Launch at login";
-"Hide the mouse cursor automatically" = "Hide the mouse cursor automatically";
+"Hide The Mouse Cursor Automatically" = "Hide The Mouse Cursor Automatically";
 "One-click 'Kaka' to show/hide desktop icons" = "One-click 'Kaka' to show/hide desktop icons";
 "Double-click 'Kaka' to show desktop" = "Double-click 'Kaka' to show desktop";

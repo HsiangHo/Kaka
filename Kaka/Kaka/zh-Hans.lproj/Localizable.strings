@@ -9,10 +9,11 @@
 "About" = "关于";
 "Preferences" = "偏好设置";
 "Display Desktop" = "显示桌面";
-"Show/Hide Desktop Icons" = "显示/隐藏桌面图标";
+"Hide Desktop Icons" = "隐藏桌面图标";
 "Help" = "帮助";
 "Quit" = "退出";
+"Prevent System From Falling Asleep" = "防止系统自动休眠";
 "Launch at login" = "开机时启动";
-"Hide the mouse cursor automatically" = "自动隐藏鼠标指针";
+"Hide The Mouse Cursor Automatically" = "自动隐藏鼠标指针";
 "One-click 'Kaka' to show/hide desktop icons" = "单击 '卡卡' 显示/隐藏桌面图标";
 "Double-click 'Kaka' to show desktop" = "双击 '卡卡' 显示桌面";
