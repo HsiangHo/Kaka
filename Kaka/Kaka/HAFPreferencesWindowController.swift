@@ -10,12 +10,11 @@ import Cocoa
 
 class HAFPreferencesWindowController: NSWindowController {
     var _btnLaunchAtLogin: NSButton!
-    var _btnAutoHideMouseCursor: NSButton!
     var _btnOneClickToHideDesktopIcon: NSButton!
     var _btnDoubleClickToShowDesktop: NSButton!
 
     init() {
-        let frame = NSMakeRect(0, 0, 500, 180)
+        let frame = NSMakeRect(0, 0, 500, 150)
         let wnd = NSWindow.init(contentRect: frame, styleMask: [.titled, .closable, .fullSizeContentView], backing: .buffered, defer: false)
         wnd.backgroundColor = NSColor.white
         wnd.titlebarAppearsTransparent = true
@@ -35,15 +34,7 @@ class HAFPreferencesWindowController: NSWindowController {
         _btnLaunchAtLogin.state = HAFConfigureManager.sharedManager.isLaunchAtLogin() ? .on : .off
         wnd.contentView?.addSubview(_btnLaunchAtLogin)
         
-        _btnAutoHideMouseCursor = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnLaunchAtLogin.frame) - 30, NSWidth(frame), 23))
-        _btnAutoHideMouseCursor.title = NSLocalizedString("Hide the mouse cursor automatically", comment: "")
-        _btnAutoHideMouseCursor.setButtonType(.switch)
-        _btnAutoHideMouseCursor.target = self
-        _btnAutoHideMouseCursor.action = #selector(autoHideMouseCursor_click)
-        _btnAutoHideMouseCursor.state = HAFConfigureManager.sharedManager.isAutoHideMouseCursor() ? .on : .off
-        wnd.contentView?.addSubview(_btnAutoHideMouseCursor)
-        
-        _btnOneClickToHideDesktopIcon = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnAutoHideMouseCursor.frame) - 30, NSWidth(frame), 23))
+        _btnOneClickToHideDesktopIcon = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnLaunchAtLogin.frame) - 30, NSWidth(frame), 23))
         _btnOneClickToHideDesktopIcon.title = NSLocalizedString("One-click 'Kaka' to show/hide desktop icons", comment: "")
         _btnOneClickToHideDesktopIcon.setButtonType(.switch)
         _btnOneClickToHideDesktopIcon.target = self
@@ -68,15 +59,6 @@ class HAFPreferencesWindowController: NSWindowController {
     
     @IBAction func launchAtLogin_click(sender: AnyObject?){
         HAFConfigureManager.sharedManager.setLaunchAtLogin(bFlag: _btnLaunchAtLogin.state == .on)
-    }
-    
-    @IBAction func autoHideMouseCursor_click(sender: AnyObject?){
-        HAFConfigureManager.sharedManager.setAutoHideMouseCursor(bFlag: _btnAutoHideMouseCursor.state == .on)
-        if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
-            SSCursorManager.shared().setAutoHideTimeout(3)
-        }else{
-            SSCursorManager.shared().setAutoHideTimeout(0)
-        }
     }
     
     @IBAction func oneClickToHideDesktopIcons_click(sender: AnyObject?){
