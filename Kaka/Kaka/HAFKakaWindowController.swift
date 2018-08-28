@@ -161,6 +161,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     func leftButtonClick() -> Void{
         if HAFConfigureManager.sharedManager.isOneClickToHideDesktopIcons() {
+            if menuItemShowDesktopIcon.state == .off {
+                menuItemShowDesktopIcon.state = .on
+            }else{
+                menuItemShowDesktopIcon.state = .off
+            }
             __showDesktopIcons()
         }
     }
@@ -188,6 +193,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
+        if menuItemShowDesktopIcon.state == .off {
+            menuItemShowDesktopIcon.state = .on
+        }else{
+            menuItemShowDesktopIcon.state = .off
+        }
         __showDesktopIcons()
     }
     
