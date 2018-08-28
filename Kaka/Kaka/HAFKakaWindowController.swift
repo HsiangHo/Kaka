@@ -82,7 +82,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         if HAFConfigureManager.sharedManager.isPreventSystemFromFallingAsleep() {
             menuItemPreventSystemSleep.state = .on
-            SSCursorManager.shared().preventSleep(true)
+            SSDesktopManager.shared().preventSleep(true)
         }
         
         menuItemDisplayKaka.state = .on
@@ -194,10 +194,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func PreventSystemSleepMenuItem_click(sender: AnyObject?){
         if menuItemPreventSystemSleep.state == .off {
             menuItemPreventSystemSleep.state = .on
-            SSCursorManager.shared().preventSleep(true)
+            SSDesktopManager.shared().preventSleep(true)
         }else{
             menuItemPreventSystemSleep.state = .off
-            SSCursorManager.shared().preventSleep(false)
+            SSDesktopManager.shared().preventSleep(false)
         }
     }
     
