@@ -17,6 +17,8 @@ class HAFConfigureManager: NSObject {
     let kOneClickToHideDesktopIcons = "kOneClickToHideDesktopIcons"
     let kDoubleClickToShowDesktop = "kDoubleClickToShowDesktop"
     let kPreventSystemFromFallingAsleep = "kPreventSystemFromFallingAsleep"
+    let kDoubleClickDesktopToShowIcons = "kDoubleClickDesktopToShowIcons"
+    let kAutoHideDesktopIcons = "kAutoHideDesktopIcons"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -60,5 +62,21 @@ class HAFConfigureManager: NSObject {
     
     func isPreventSystemFromFallingAsleep() -> Bool{
         return !UserDefaults.standard.bool(forKey: kPreventSystemFromFallingAsleep)
+    }
+    
+    func setDoubleClickDesktopToShowIcons(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kDoubleClickDesktopToShowIcons)
+    }
+    
+    func isDoubleClickDesktopToShowIcons() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kDoubleClickDesktopToShowIcons)
+    }
+    
+    func setAutoHideDesktopIcons(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kAutoHideDesktopIcons)
+    }
+    
+    func isAutoHideDesktopIcons() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kAutoHideDesktopIcons)
     }
 }
