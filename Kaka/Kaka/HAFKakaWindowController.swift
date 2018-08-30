@@ -85,6 +85,17 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSDesktopManager.shared().preventSleep(true)
         }
         
+        SSDesktopManager.shared().setMouseActionCallback({ (windowType, eventType, event,context)  in
+            if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DM_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
+                SSDesktopManager.shared().uncoverDesktop()
+            }
+        }, withContext: nil)
+        
+        if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
+            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
+            SSDesktopManager.shared().setAutoCoverDesktopTimeout(10)
+        }
+        
         menuItemDisplayKaka.state = .on
     }
     
