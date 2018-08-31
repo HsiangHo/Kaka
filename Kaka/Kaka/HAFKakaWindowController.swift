@@ -80,7 +80,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         actionMenu.insertItem(NSMenuItem.separator(), at: 12)
         actionMenu.insertItem(menuItemQuit, at: 13)
         _view.delegate = self
-        _view.actionMenu = actionMenu
+        
         wnd.setDraggingCallback(areaFunc: draggingArea, completedFunc: draggingCompleted)
         
         if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
@@ -190,6 +190,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
+    func rightButtonClick() -> Void{
+        updateActionMenu()
+        NSMenu.popUpContextMenu(actionMenu, with: NSApp.currentEvent!, for: _view)
+    }
+    
     func doubleClick() -> Void{
         if HAFConfigureManager.sharedManager.isDoubleClickToShowDesktop() {
             __showDesktop()
@@ -277,6 +282,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             NSApplication.shared.terminate(nil)
         }
+    }
+    
+    //MARK: Public functions
+    func updateActionMenu() -> Void{
+        menuItemShowDesktopIcon.state = SSDesktopManager.shared().desktopCoverWindow().isVisible ? .on : .off
     }
     
     //MARK: Private functions

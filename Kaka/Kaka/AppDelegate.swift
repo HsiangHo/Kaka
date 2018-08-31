@@ -25,11 +25,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        statusImage!.isTemplate = true
         statusImage!.size = NSMakeSize(16, 16)
         statusItem!.image = statusImage
-        statusItem!.menu = kakaWindowController.actionMenu
+        statusItem!.action = #selector(statusItem_click)
+        statusItem!.target = self
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+    }
+    
+    @IBAction func statusItem_click(sender: AnyObject?){
+        kakaWindowController.updateActionMenu()
+        statusItem!.popUpMenu(kakaWindowController.actionMenu)
     }
     
     @IBAction func help_click(sender: AnyObject?){
