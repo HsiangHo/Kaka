@@ -95,7 +95,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         SSDesktopManager.shared().setMouseActionCallback({ (windowType, eventType, event,context)  in
             if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DM_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
-                SSDesktopManager.shared().uncoverDesktop()
+                DispatchQueue.main.async {
+                    SSDesktopManager.shared().uncoverDesktop()
+                }
             }
         }, withContext: nil)
         
