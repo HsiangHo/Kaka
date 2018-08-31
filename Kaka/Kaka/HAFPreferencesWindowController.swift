@@ -12,9 +12,10 @@ class HAFPreferencesWindowController: NSWindowController {
     var _btnLaunchAtLogin: NSButton!
     var _btnOneClickToHideDesktopIcon: NSButton!
     var _btnDoubleClickToShowDesktop: NSButton!
+    var _btnDoubleClickDesktopToShowIcons: NSButton!
 
     init() {
-        let frame = NSMakeRect(0, 0, 500, 150)
+        let frame = NSMakeRect(0, 0, 500, 170)
         let wnd = NSWindow.init(contentRect: frame, styleMask: [.titled, .closable, .fullSizeContentView], backing: .buffered, defer: false)
         wnd.backgroundColor = NSColor.white
         wnd.titlebarAppearsTransparent = true
@@ -50,6 +51,14 @@ class HAFPreferencesWindowController: NSWindowController {
         _btnDoubleClickToShowDesktop.state = HAFConfigureManager.sharedManager.isDoubleClickToShowDesktop() ? .on : .off
         wnd.contentView?.addSubview(_btnDoubleClickToShowDesktop)
         
+        _btnDoubleClickDesktopToShowIcons = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnDoubleClickToShowDesktop.frame) - 30, NSWidth(frame), 23))
+        _btnDoubleClickDesktopToShowIcons.title = NSLocalizedString("Double-click desktop to show icons", comment: "")
+        _btnDoubleClickDesktopToShowIcons.setButtonType(.switch)
+        _btnDoubleClickDesktopToShowIcons.target = self
+        _btnDoubleClickDesktopToShowIcons.action = #selector(doubleClickDesktopToShowIcons)
+        _btnDoubleClickDesktopToShowIcons.state = HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() ? .on : .off
+        wnd.contentView?.addSubview(_btnDoubleClickDesktopToShowIcons)
+        
         wnd.center()
     }
     
@@ -67,5 +76,9 @@ class HAFPreferencesWindowController: NSWindowController {
     
     @IBAction func doubleClickToShowDesktop(sender: AnyObject?){
         HAFConfigureManager.sharedManager.setDoubleClickToShowDesktop(bFlag: _btnDoubleClickToShowDesktop.state == .on)
+    }
+    
+    @IBAction func doubleClickDesktopToShowIcons(sender: AnyObject?){
+        HAFConfigureManager.sharedManager.setDoubleClickDesktopToShowIcons(bFlag: _btnDoubleClickDesktopToShowIcons.state == .on)
     }
 }
