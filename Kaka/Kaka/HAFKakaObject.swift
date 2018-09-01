@@ -53,7 +53,7 @@ class HAFKakaObject: NSObject {
     func skipCurrentAnimationSequenceChain() -> Void {
         _view?.isHidden = true
         if 0 == _nextAnimationSequences.count {
-            _animationSequence = randomAnimationSequence()
+            _animationSequence = tolerantAandomAnimationSequence()
         }else{
             _animationSequence = _nextAnimationSequences.remove(at: 0)
         }
@@ -110,7 +110,7 @@ class HAFKakaObject: NSObject {
             _animationSequence = _animationSequence!.nextAnimationSequence
         }else{
             if 0 == _nextAnimationSequences.count {
-                _animationSequence = randomAnimationSequence()
+                _animationSequence = tolerantAandomAnimationSequence()
             }else{
                 _animationSequence = _nextAnimationSequences.remove(at: 0)
             }
@@ -137,10 +137,18 @@ class HAFKakaObject: NSObject {
         return rslt
     }
     
+    func tolerantAandomAnimationSequence() -> HAFAnimationSequence {
+        var rslt: HAFAnimationSequence? = nil
+        repeat{
+            rslt = randomAnimationSequence()
+        }while _animationSequence == rslt
+        return rslt!
+    }
+    
     private func handleUserActionInNormalState(_ actionType: UserActionType) -> Void {
         switch actionType {
         case .eLeftBtnClick:
-            _nextAnimationSequences.append(randomAnimationSequence())
+            _nextAnimationSequences.append(tolerantAandomAnimationSequence())
             break
         case .eRightBtnClick:
             _nextAnimationSequences.append(HAFAnimationManager.sharedManager.eatWatermelon)
