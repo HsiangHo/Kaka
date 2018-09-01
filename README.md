@@ -1,7 +1,7 @@
 # Kaka
 
 [![Travis](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/HsiangHo/Kaka)
-[![Packagist](https://img.shields.io/badge/release-1.0.1-blue.svg)](https://itunes.apple.com/app/id1434172933)
+[![Packagist](https://img.shields.io/badge/release-1.0.3-blue.svg)](https://itunes.apple.com/app/id1434172933)
 [![Jenkins](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/HsiangHo/Kaka/blob/master/LICENSE)
 [![Travis](https://img.shields.io/badge/platform-macOS-yellow.svg)]()
 
@@ -13,6 +13,7 @@
 2. 一键返回桌面。
 3. 自动(3秒)隐藏鼠标光标。
 4. 防止系统自动休眠。
+5. 自动(10秒)隐藏桌面图标
 
 ## Installation
 
