@@ -19,6 +19,7 @@ class HAFConfigureManager: NSObject {
     let kPreventSystemFromFallingAsleep = "kPreventSystemFromFallingAsleep"
     let kDoubleClickDesktopToShowIcons = "kDoubleClickDesktopToShowIcons"
     let kAutoHideDesktopIcons = "kAutoHideDesktopIcons"
+    let kEnableAnimationAudio = "kEnableAnimationAudio"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -78,5 +79,13 @@ class HAFConfigureManager: NSObject {
     
     func isAutoHideDesktopIcons() -> Bool{
         return !UserDefaults.standard.bool(forKey: kAutoHideDesktopIcons)
+    }
+    
+    func setEnableAnimationAudio(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kEnableAnimationAudio)
+    }
+    
+    func isEnableAnimationAudio() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kEnableAnimationAudio)
     }
 }
