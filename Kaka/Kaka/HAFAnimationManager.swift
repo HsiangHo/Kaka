@@ -87,7 +87,6 @@ class HAFAnimationManager: NSObject {
         randomAnimationSequenceArray.append(bomb)
         randomAnimationSequenceArray.append(eatWatermelon)
         randomAnimationSequenceArray.append(grimace)
-        randomAnimationSequenceArray.append(happy)
         randomAnimationSequenceArray.append(scissor)
         randomAnimationSequenceArray.append(scratchHead)
         randomAnimationSequenceArray.append(showTip)
