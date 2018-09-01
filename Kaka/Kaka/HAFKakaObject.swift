@@ -87,6 +87,16 @@ class HAFKakaObject: NSObject {
         return nil
     }
     
+    func currentAnimationAudio() -> URL? {
+        if nil != _animationSequence {
+            let audio = _animationSequence!.audio()
+            if audio.1 == _nCurrentFrameIndex{
+                return audio.0
+            }
+        }
+        return nil
+    }
+    
     func moveToNextAnimationFrame() -> Void {
         if 0 == _nCurrentFrameIndex{
             _view?.isHidden = false
