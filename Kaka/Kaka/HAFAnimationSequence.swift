@@ -12,12 +12,16 @@ class HAFAnimationSequence: NSObject {
     private var _animationFilePath : String
     private var _animationFrameArray : [NSImage?]?
     private var _animationName: String
+    private var _audioPath: URL?
+    private var _audioFrameIndex: Int
     var nextAnimationSequence: HAFAnimationSequence?
     
     init(_ aFilePath : String, animationName: String) {
         _animationFilePath = aFilePath
         _animationName = animationName
         nextAnimationSequence = nil
+        _audioFrameIndex = 0
+        _audioPath = nil
         super.init()
         loadResources()
     }
@@ -40,20 +44,35 @@ class HAFAnimationSequence: NSObject {
         return _animationFrameArray![index]
     }
     
+    func audio() -> (URL?, Int) {
+        return (_audioPath, _audioFrameIndex)
+    }
+    
     private func loadResources() -> Void {
         let files = try? FileManager.default.contentsOfDirectory(atPath: _animationFilePath)
         if nil == files{
             return;
         }
         
+        let animationFormatType: String = "png"
+        let animationAudioType: String = "mp3"
+        
         var nCount: Int = 0
         for file in files!{
             let index = fileName2FrameIndex(path: file)
-            nCount = nCount < (index + 1) ? (index + 1) : nCount
+            if file.contains(animationFormatType){
+                nCount = nCount < (index + 1) ? (index + 1) : nCount
+            }else if file.contains(animationAudioType){
+                _audioFrameIndex = index
+                _audioPath = URL.init(fileURLWithPath: _animationFilePath.appendingFormat("/%@", file))
+            }
         }
         
         _animationFrameArray = [NSImage?](repeatElement(nil, count: nCount))
         for file in files!{
+            if !file.contains(animationFormatType){
+                continue
+            }
             let index = fileName2FrameIndex(path: file)
             if -1 != index{
                 _animationFrameArray![index] = NSImage.init(contentsOfFile: _animationFilePath.appendingFormat("/%@", file))
