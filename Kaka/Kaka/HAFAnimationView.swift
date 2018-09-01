@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import AVFoundation
 
 @objc protocol HAFAnimationViewDelegate {
     @objc optional func leftButtonClick()
@@ -21,11 +22,13 @@ class HAFAnimationView: NSView {
     private var _doubleClickTimer: Timer?
     var actionMenu: NSMenu?
     weak var delegate: HAFAnimationViewDelegate?
+    var audioPlayer: AVAudioPlayer?
     
     override init(frame frameRect: NSRect) {
         _kakaObj = nil
         actionMenu = nil
         delegate = nil
+        audioPlayer = nil
         super.init(frame: frameRect)
     }
 
@@ -44,6 +47,7 @@ class HAFAnimationView: NSView {
         _timer?.setEventHandler {
             if nil != self._kakaObj{
                 self._currentFrame = self._kakaObj!.currentAnimationFrame()
+                self.playAudio(audioUrl: self._kakaObj!.currentAnimationAudio())
                 self.setNeedsDisplay(self.bounds)
                 self._kakaObj!.moveToNextAnimationFrame()
             }
@@ -98,6 +102,21 @@ class HAFAnimationView: NSView {
         self.frame.fill()
         if nil != _currentFrame {
             _currentFrame!.draw(at: NSZeroPoint, from: NSZeroRect, operation: NSCompositingOperation.sourceOver, fraction: 1.0)
+        }
+    }
+    
+    //MARK: Private methods
+    
+    func playAudio(audioUrl: URL?) -> Void {
+        if nil == audioUrl {
+            return
+        }
+        do {
+            let sound = try AVAudioPlayer(contentsOf: audioUrl!)
+            audioPlayer = sound
+            audioPlayer?.play()
+        } catch {
+            //
         }
     }
 }
