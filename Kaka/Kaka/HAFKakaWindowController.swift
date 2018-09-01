@@ -268,9 +268,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         if menuItemDisplayKaka.state == .off {
             menuItemDisplayKaka.state = .on
             self.window?.makeKeyAndOrderFront(nil)
+            _view.isVisible = true
         }else{
             menuItemDisplayKaka.state = .off
             self.window?.orderOut(nil)
+            _view.isVisible = false
         }
     }
     

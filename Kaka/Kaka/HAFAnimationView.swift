@@ -23,17 +23,20 @@ class HAFAnimationView: NSView {
     var actionMenu: NSMenu?
     weak var delegate: HAFAnimationViewDelegate?
     var audioPlayer: AVAudioPlayer?
+    var isVisible: Bool
     
     override init(frame frameRect: NSRect) {
         _kakaObj = nil
         actionMenu = nil
         delegate = nil
         audioPlayer = nil
+        isVisible = true
         super.init(frame: frameRect)
     }
 
     required init?(coder decoder: NSCoder) {
         _kakaObj = nil
+        isVisible = true
         super.init(coder: decoder)
     }
     
@@ -45,13 +48,14 @@ class HAFAnimationView: NSView {
         _timer = DispatchSource.makeTimerSource(queue: .main)
         _timer?.schedule(wallDeadline: .now(), repeating: .milliseconds(58), leeway: .milliseconds(1))
         _timer?.setEventHandler {
-            if nil != self._kakaObj{
+            if nil != self._kakaObj && self.isVisible{
                 self._currentFrame = self._kakaObj!.currentAnimationFrame()
-                self.playAudio(audioUrl: self._kakaObj!.currentAnimationAudio())
+                if HAFConfigureManager.sharedManager.isEnableAnimationAudio(){
+                    self.playAudio(audioUrl: self._kakaObj!.currentAnimationAudio())
+                }
                 self.setNeedsDisplay(self.bounds)
                 self._kakaObj!.moveToNextAnimationFrame()
             }
-            
         }
         _timer?.resume()
     }
