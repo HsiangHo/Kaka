@@ -23,6 +23,7 @@ class HAFAnimationWindow: NSWindow {
         self.alphaValue = 1.0
         self.isOpaque = false
         self.level = NSWindow.Level(Int(CGWindowLevelForKey(.statusWindow) + 1))
+        self.backgroundColor = NSColor.clear
     }
     
     override var canBecomeKey: Bool{
