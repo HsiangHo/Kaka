@@ -21,6 +21,7 @@ class HAFConfigureManager: NSObject {
     let kAutoHideDesktopIcons = "kAutoHideDesktopIcons"
     let kEnableAnimationAudio = "kEnableAnimationAudio"
     let kAutoToggleDarkModeBaseOnDisplayBrightness = "kAutoToggleDarkModeBaseOnDisplayBrightness"
+    let kAutoToggleDarkModeBaseOnDisplayBrightnessValue = "kAutoToggleDarkModeBaseOnDisplayBrightnessValue"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -96,5 +97,13 @@ class HAFConfigureManager: NSObject {
     
     func isAutoToggleDarkModeBaseOnDisplayBrightness() -> Bool{
         return UserDefaults.standard.bool(forKey: kAutoToggleDarkModeBaseOnDisplayBrightness)
+    }
+    
+    func setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: Float) -> Void{
+        UserDefaults.standard.set(value, forKey: kAutoToggleDarkModeBaseOnDisplayBrightnessValue)
+    }
+    
+    func isAutoToggleDarkModeBaseOnDisplayBrightnessValue() -> Float{
+        return UserDefaults.standard.float(forKey: kAutoToggleDarkModeBaseOnDisplayBrightnessValue)
     }
 }
