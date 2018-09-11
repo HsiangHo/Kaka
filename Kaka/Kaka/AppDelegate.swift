@@ -25,6 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        statusImage!.isTemplate = true
         statusImage!.size = NSMakeSize(16, 16)
         statusItem!.image = statusImage
+        statusItem!.sendAction(on: [.leftMouseUp, .rightMouseUp])
         statusItem!.action = #selector(statusItem_click)
         statusItem!.target = self
     }
@@ -34,8 +35,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func statusItem_click(sender: AnyObject?){
-        kakaWindowController.updateActionMenu()
-        statusItem!.popUpMenu(kakaWindowController.actionMenu)
+        if NSApp.currentEvent?.type == .rightMouseUp{
+            preferencesMenuItem_click(sender: sender)
+        }else{
+            kakaWindowController.updateActionMenu()
+            statusItem!.popUpMenu(kakaWindowController.actionMenu)
+        }
     }
     
     @IBAction func help_click(sender: AnyObject?){
