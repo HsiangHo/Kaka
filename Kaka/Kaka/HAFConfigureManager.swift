@@ -103,7 +103,10 @@ class HAFConfigureManager: NSObject {
         UserDefaults.standard.set(value, forKey: kAutoToggleDarkModeBaseOnDisplayBrightnessValue)
     }
     
-    func isAutoToggleDarkModeBaseOnDisplayBrightnessValue() -> Float{
+    func autoToggleDarkModeBaseOnDisplayBrightnessValue() -> Float{
+        if nil == UserDefaults.standard.value(forKey: kAutoToggleDarkModeBaseOnDisplayBrightnessValue) {
+            return 0.2
+        }
         return UserDefaults.standard.float(forKey: kAutoToggleDarkModeBaseOnDisplayBrightnessValue)
     }
 }
