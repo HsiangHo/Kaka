@@ -40,7 +40,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
-        var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Turn On Dark Mode Base On Display Brightness", comment: "")
+        var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
         menuItemTurnOnDarkMode = NSMenuItem.init(title: "Turn On Dark Mode", action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
@@ -339,6 +339,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().desktopCoverWindow().isVisible ? .on : .off
         menuItemTurnOnDarkMode.state = SSAppearanceManager.shared().isDarkMode() ? .on : .off
+        var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
+        turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
+        menuItemTurnOnDarkModeBaseOnDisplayBrightness.title = turnOnDarkModeBaseOnDisplayBrightness
     }
     
     //MARK: Private functions
