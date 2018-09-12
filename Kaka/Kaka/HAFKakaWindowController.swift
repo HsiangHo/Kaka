@@ -15,6 +15,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPreventSystemSleep: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
+    var menuItemTurnOnDarkMode: NSMenuItem!
+    var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
     var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemDisplayKaka: NSMenuItem!
     var menuItemAbout: NSMenuItem!
@@ -38,14 +40,18 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
+        var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Turn On Dark Mode Base On Display Brightness", comment: "")
+        turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
+        menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
+        menuItemTurnOnDarkMode = NSMenuItem.init(title: "Turn On Dark Mode", action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
        menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
-        menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(PreventSystemSleepMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(preventSystemSleepMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
-        menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "")
+        menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
         super.init(window: wnd)
         
@@ -55,6 +61,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemShowDesktop.target = self
         menuItemShowDesktopIcon.target = self
         menuItemPreventSystemSleep.target = self
+        menuItemTurnOnDarkModeBaseOnDisplayBrightness.target = self
+        menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
         menuItemAutoHideDesktopIcons.target = self
         menuItemRateOnMacAppStore.target = self
@@ -62,20 +70,23 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemHelp.target = self
         menuItemQuit.target = self
         
-        actionMenu.insertItem(menuItemShowDesktop, at: 0)
-        actionMenu.insertItem(menuItemShowDesktopIcon, at: 1)
-        actionMenu.insertItem(menuItemPreventSystemSleep, at: 2)
-        actionMenu.insertItem(menuItemAutoHideMouseCursor, at: 3)
-        actionMenu.insertItem(menuItemAutoHideDesktopIcons, at: 4)
-        actionMenu.insertItem(NSMenuItem.separator(), at: 5)
-        actionMenu.insertItem(menuItemDisplayKaka, at: 6)
-        actionMenu.insertItem(NSMenuItem.separator(), at: 7)
-        actionMenu.insertItem(menuItemAbout, at: 8)
-        actionMenu.insertItem(menuItemPreferences, at: 9)
-        actionMenu.insertItem(menuItemRateOnMacAppStore, at: 10)
-        actionMenu.insertItem(menuItemHelp, at: 11)
-        actionMenu.insertItem(NSMenuItem.separator(), at: 12)
-        actionMenu.insertItem(menuItemQuit, at: 13)
+        actionMenu.addItem(menuItemShowDesktop)
+        actionMenu.addItem(menuItemShowDesktopIcon)
+        actionMenu.addItem(menuItemTurnOnDarkMode)
+        actionMenu.addItem(NSMenuItem.separator())
+        actionMenu.addItem(menuItemAutoHideMouseCursor)
+        actionMenu.addItem(menuItemAutoHideDesktopIcons)
+        actionMenu.addItem(menuItemPreventSystemSleep)
+        actionMenu.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
+        actionMenu.addItem(NSMenuItem.separator())
+        actionMenu.addItem(menuItemDisplayKaka)
+        actionMenu.addItem(NSMenuItem.separator())
+        actionMenu.addItem(menuItemAbout)
+        actionMenu.addItem(menuItemPreferences)
+        actionMenu.addItem(menuItemRateOnMacAppStore)
+        actionMenu.addItem(menuItemHelp)
+        actionMenu.addItem(NSMenuItem.separator())
+        actionMenu.addItem(menuItemQuit)
         _view.delegate = self
         
         wnd.setDraggingCallback(areaFunc: draggingArea, completedFunc: draggingCompleted)
@@ -104,6 +115,26 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSDesktopManager.shared().setAutoCoverDesktopTimeout(10)
         }
         
+        if HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() {
+            if SSBrightnessManager.shared().brightnessValue(eSSBrightness_Display) > HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue() {
+                SSAppearanceManager.shared().disableDarkMode()
+            }else{
+                SSAppearanceManager.shared().enableDarkMode()
+            }
+        }
+        
+        SSBrightnessManager.shared().setBrightnessValueChangedBlock { (value, type) in
+            if !HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness(){
+                return;
+            }
+            if eSSBrightness_Display == type{
+                if value > HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue() {
+                    SSAppearanceManager.shared().disableDarkMode()
+                }else{
+                    SSAppearanceManager.shared().enableDarkMode()
+                }
+            }
+        }
         menuItemDisplayKaka.state = .on
     }
     
@@ -225,7 +256,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         __showDesktopIcons()
     }
     
-    @IBAction func PreventSystemSleepMenuItem_click(sender: AnyObject?){
+    @IBAction func preventSystemSleepMenuItem_click(sender: AnyObject?){
         if menuItemPreventSystemSleep.state == .off {
             menuItemPreventSystemSleep.state = .on
             SSDesktopManager.shared().preventSleep(true)
@@ -243,6 +274,25 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             menuItemAutoHideMouseCursor.state = .off
             SSCursorManager.shared().setAutoHideTimeout(0)
         }
+    }
+    
+    @IBAction func turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click(sender: AnyObject?){
+        if menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
+            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+        }else{
+            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+        }
+    }
+    
+    @IBAction func turnOnDarkModeMenuItem_click(sender: AnyObject?){
+        if menuItemTurnOnDarkMode.state == .off {
+            menuItemTurnOnDarkMode.state = .on
+        }else{
+            menuItemTurnOnDarkMode.state = .off
+        }
+        SSAppearanceManager.shared().toggle()
     }
     
     @IBAction func autoHideDesktopIcons_click(sender: AnyObject?){
@@ -288,6 +338,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().desktopCoverWindow().isVisible ? .on : .off
+        menuItemTurnOnDarkMode.state = SSAppearanceManager.shared().isDarkMode() ? .on : .off
     }
     
     //MARK: Private functions
