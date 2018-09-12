@@ -22,3 +22,9 @@
 "Double-click 'Kaka' to show desktop" = "双击 '卡卡' 显示桌面";
 "Double-click desktop to show icons" = "双击桌面显示图标";
 "Enable animation audios" = "启用动画音效";
+"Turn On Dark Mode" = "启用黑暗模式";
+"Toggle Dark Mode Base On Display Brightness" = "根据屏幕亮度切换黑暗模式";
+"Genernal" = "一般";
+"Display & Brightness" = "屏幕和亮度";
+"Actions" = "动作";
+"Toggle dark mode base on display brightness threshold" = "根据屏幕亮度切换黑暗模式的临界值";
