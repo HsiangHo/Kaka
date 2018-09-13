@@ -359,3 +359,64 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
 }
+
+    //MARK: Touch Bar
+
+@available(OSX 10.12.2, *)
+fileprivate extension NSTouchBar.CustomizationIdentifier {
+    static let touchBar = NSTouchBar.CustomizationIdentifier("com.HyperartFlow.Kaka.Touchbar.KakaWnd")
+}
+
+@available(OSX 10.12.2, *)
+fileprivate extension NSTouchBarItem.Identifier {
+    static let displayDesktop = NSTouchBarItem.Identifier("com.HyperartFlow.Kaka.TouchbarItem.displayDesktop")
+    static let hideDesktopIcon = NSTouchBarItem.Identifier("com.HyperartFlow.Kaka.TouchbarItem.hideDesktopIcon")
+    static let turnOnDarkMode = NSTouchBarItem.Identifier("com.HyperartFlow.Kaka.TouchbarItem.turnOnDarkMode")
+}
+
+extension HAFKakaWindowController: NSTouchBarDelegate {
+    @available(OSX 10.12.2, *)
+    override func makeTouchBar() -> NSTouchBar? {
+        let touchBar = NSTouchBar()
+        touchBar.delegate = self
+        touchBar.customizationIdentifier = .touchBar
+        touchBar.defaultItemIdentifiers = [.displayDesktop,.hideDesktopIcon,.turnOnDarkMode]
+        touchBar.customizationAllowedItemIdentifiers = [.displayDesktop,.hideDesktopIcon,.turnOnDarkMode]
+        return touchBar
+    }
+    
+    @available(OSX 10.12.2, *)
+    func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+        let custom = NSCustomTouchBarItem(identifier: identifier)
+        
+        switch identifier {
+        case NSTouchBarItem.Identifier.displayDesktop:
+            custom.customizationLabel = "Display Desktop"
+            var title: String = "👀 "
+            title = title.appending(NSLocalizedString("Display Desktop", comment: ""))
+            let button = NSButton(title: title, target: self, action: #selector(showDesktopMenuItem_click))
+            custom.view = button
+            return custom
+            
+        case NSTouchBarItem.Identifier.hideDesktopIcon:
+            custom.customizationLabel = "Hide Desktop Icons"
+            var title: String = "🙈 "
+            title = title.appending(NSLocalizedString("Hide Desktop Icons", comment: ""))
+            let button = NSButton(title: title, target: self, action: #selector(showDesktopIconMenuItem_click))
+            custom.view = button
+            return custom
+            
+        case NSTouchBarItem.Identifier.turnOnDarkMode:
+            custom.customizationLabel = "Turn On Dark Mode"
+            var title: String = "🌙 "
+            title = title.appending(NSLocalizedString("Turn On Dark Mode", comment: ""))
+            let button = NSButton(title: title, target: self, action: #selector(turnOnDarkModeMenuItem_click))
+            custom.view = button
+            return custom
+            
+        default:
+            return custom
+        }
+    }
+}
+
