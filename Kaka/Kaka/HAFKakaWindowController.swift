@@ -117,9 +117,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         if HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() {
             if SSBrightnessManager.shared().brightnessValue(eSSBrightness_Display) > HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue() {
-                SSAppearanceManager.shared().disableDarkMode()
+                SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                    SSAppearanceManager.shared().disableDarkMode()
+                }
             }else{
-                SSAppearanceManager.shared().enableDarkMode()
+                SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                    SSAppearanceManager.shared().enableDarkMode()
+                }
             }
         }
         
@@ -129,9 +133,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             }
             if eSSBrightness_Display == type{
                 if value > HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue() {
-                    SSAppearanceManager.shared().disableDarkMode()
+                    SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                        SSAppearanceManager.shared().disableDarkMode()
+                    }
                 }else{
-                    SSAppearanceManager.shared().enableDarkMode()
+                    SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                        SSAppearanceManager.shared().enableDarkMode()
+                    }
                 }
             }
         }
@@ -287,12 +295,15 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func turnOnDarkModeMenuItem_click(sender: AnyObject?){
-        if menuItemTurnOnDarkMode.state == .off {
-            menuItemTurnOnDarkMode.state = .on
-        }else{
-            menuItemTurnOnDarkMode.state = .off
+        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+            if self.menuItemTurnOnDarkMode.state == .off {
+                self.menuItemTurnOnDarkMode.state = .on
+            }else{
+                self.menuItemTurnOnDarkMode.state = .off
+            }
+            SSAppearanceManager.shared().toggle()
         }
-        SSAppearanceManager.shared().toggle()
+        
     }
     
     @IBAction func autoHideDesktopIcons_click(sender: AnyObject?){
