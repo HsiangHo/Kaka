@@ -15,6 +15,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPreventSystemSleep: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
+    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
     var menuItemTurnOnDarkMode: NSMenuItem!
     var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
     var menuItemRateOnMacAppStore: NSMenuItem!
@@ -42,6 +43,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
         var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
+        menuItemShowHiddenFilesAndFolders = NSMenuItem.init(title: NSLocalizedString("Show Hidden Files & Folders",comment: ""), action: #selector(showHiddenFilesAndFolders_click), keyEquivalent: "")
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
@@ -61,6 +63,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemShowDesktop.target = self
         menuItemShowDesktopIcon.target = self
         menuItemPreventSystemSleep.target = self
+        menuItemShowHiddenFilesAndFolders.target = self
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.target = self
         menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
@@ -73,6 +76,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         actionMenu.addItem(menuItemShowDesktop)
         actionMenu.addItem(menuItemShowDesktopIcon)
         actionMenu.addItem(menuItemTurnOnDarkMode)
+        actionMenu.addItem(menuItemShowHiddenFilesAndFolders)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemAutoHideMouseCursor)
         actionMenu.addItem(menuItemAutoHideDesktopIcons)
@@ -115,7 +119,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSDesktopManager.shared().setAutoCoverDesktopTimeout(10)
         }
         
-        if HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() {
+        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() {
             if SSBrightnessManager.shared().brightnessValue(eSSBrightness_Display) > HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue() {
                 SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
                     SSAppearanceManager.shared().disableDarkMode()
@@ -124,6 +128,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
                 SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
                     SSAppearanceManager.shared().enableDarkMode()
                 }
+            }
+        }
+        
+        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
             }
         }
         
@@ -255,6 +265,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         __showDesktop()
     }
     
+    @IBAction func showHiddenFilesAndFolders_click(sender: AnyObject?){
+        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+            SSAppearanceManager.shared().setShowAllFiles(!SSAppearanceManager.shared().isShowAllFiles())
+        }
+    }
+    
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
         if menuItemShowDesktopIcon.state == .off {
             menuItemShowDesktopIcon.state = .on
@@ -303,7 +319,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             }
             SSAppearanceManager.shared().toggle()
         }
-        
     }
     
     @IBAction func autoHideDesktopIcons_click(sender: AnyObject?){
@@ -353,6 +368,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.title = turnOnDarkModeBaseOnDisplayBrightness
+        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
+            }
+        }
     }
     
     //MARK: Private functions
