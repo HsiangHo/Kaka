@@ -78,7 +78,26 @@
 }
 
 -(IBAction)openTerminalInFolder_click:(id)sender{
-    
+    NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
+    NSString *scptString = [NSString stringWithFormat: @"tell application \"Terminal\"\n\
+                            do script \"cd %@\"\n\
+                            activate\n\
+                            end tell", [target path]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+            [SSUtility execAppleScript:scptString withCompletionHandler:^(NSAppleEventDescriptor * _Nonnull returnDescriptor, NSDictionary * _Nullable error) {
+                if(nil == error){ return;}
+                static dispatch_once_t onceToken;
+                dispatch_once(&onceToken, ^{
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        NSAlert *alert = [NSAlert alertWithMessageText:@"Open terminal in folder failed." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please enable app's \"Automation\" function in \"SystemPreferences... -> Security & Privacy -> Privacy panel\".",nil];
+                        [alert runModal];
+                        [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:@"/System/Library/PreferencePanes/Security.prefPane"]];
+                    });
+                });
+            }];
+        }];
+    });
 }
 
 -(IBAction)newFile_click:(id)sender{
