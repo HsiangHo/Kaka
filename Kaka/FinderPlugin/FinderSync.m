@@ -9,6 +9,8 @@
 #import "FinderSync.h"
 #import <ShadowstarKit/ShadowstarKit.h>
 
+#define TEMPLATE_PATH           [NSHomeDirectory() stringByAppendingPathComponent:@"Templates"]
+
 @interface FinderSync ()
 
 @end
@@ -56,8 +58,26 @@
     [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
     NSMenuItem *newFileItem = [menu addItemWithTitle:NSLocalizedString(@"New File", nil) action:@selector(newFile_click:) keyEquivalent:@""];
     NSMenu *menuNewFiles = [[NSMenu alloc] initWithTitle:@""];
-    [menuNewFiles addItemWithTitle:@"Word" action:@selector(newFile_click:) keyEquivalent:@""];
-    [menuNewFiles addItemWithTitle:@"Txt" action:@selector(newFile_click:) keyEquivalent:@""];
+    
+    NSURL *directoryURL = [NSURL fileURLWithPath:TEMPLATE_PATH];
+    NSArray *keys = [NSArray arrayWithObjects:NSURLIsDirectoryKey,nil];
+    
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtURL:directoryURL includingPropertiesForKeys:keys options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsPackageDescendants|NSDirectoryEnumerationSkipsHiddenFiles errorHandler:^(NSURL *url, NSError *error) {
+        return YES;
+    }];
+    
+    NSError *error = nil;
+    for (NSURL *url in enumerator) {
+        NSString *fileName = nil;
+        [url getResourceValue:&fileName forKey:NSURLNameKey error:&error];
+        if (nil != fileName) {
+            [menuNewFiles addItemWithTitle:fileName action:@selector(newFile_click:) keyEquivalent:@""];
+        }
+    }
+    
+    if (0 == [[menuNewFiles itemArray] count]) {
+        [menuNewFiles addItemWithTitle:NSLocalizedString(@"Add New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
+    }
     [menu setSubmenu:menuNewFiles forItem:newFileItem];
     [menu addItemWithTitle:NSLocalizedString(@"Custom New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
     return menu;
@@ -101,11 +121,24 @@
 }
 
 -(IBAction)newFile_click:(id)sender{
-    
+    if ([sender isKindOfClass:[NSMenuItem class]]) {
+        NSMenuItem *item = (NSMenuItem *)sender;
+        NSString *fileName = [item title];
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@", TEMPLATE_PATH, fileName];
+        
+        NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
+        NSString *destFilePath = [NSString stringWithFormat:@"%@/%@", [target path], fileName];
+        if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil]){
+            destFilePath = [NSString stringWithFormat:@"%@/(NewFile%ld) %@", [target path],time(NULL), fileName];
+            [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil];
+        }
+    }
 }
 
 -(IBAction)customNewFileTemplates_click:(id)sender{
-    
+    NSString *path = TEMPLATE_PATH;
+    [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
 }
 
 -(IBAction)toggleFileVisibility_click:(id)sender{
