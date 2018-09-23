@@ -52,23 +52,22 @@
 
 -(NSMenu *)toolbarMenu{
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:@"Toggle Hidden File Visibility" action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
-    [menu addItemWithTitle:@"Open Terminal In This Folder" action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
-    NSMenuItem *newFileItem = [menu addItemWithTitle:@"New File" action:@selector(newFile_click:) keyEquivalent:@""];
+    [menu addItemWithTitle:NSLocalizedString(@"Toggle Hidden File Visibility", nil) action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
+    [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
+    NSMenuItem *newFileItem = [menu addItemWithTitle:NSLocalizedString(@"New File", nil) action:@selector(newFile_click:) keyEquivalent:@""];
     NSMenu *menuNewFiles = [[NSMenu alloc] initWithTitle:@""];
     [menuNewFiles addItemWithTitle:@"Word" action:@selector(newFile_click:) keyEquivalent:@""];
     [menuNewFiles addItemWithTitle:@"Txt" action:@selector(newFile_click:) keyEquivalent:@""];
     [menu setSubmenu:menuNewFiles forItem:newFileItem];
-    [menu addItemWithTitle:@"Custom New File Templates" action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
+    [menu addItemWithTitle:NSLocalizedString(@"Custom New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
     return menu;
 }
 
 -(NSMenu *)itemMenu{
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:@"Toggle File Visibility" action:@selector(toggleFileVisibility_click:) keyEquivalent:@""];
+    [menu addItemWithTitle:NSLocalizedString(@"Toggle File Visibility", nil) action:@selector(toggleFileVisibility_click:) keyEquivalent:@""];
     return menu;
 }
-
 
 -(IBAction)toggleHiddenFileVisibility_click:(id)sender{
     dispatch_async(dispatch_get_main_queue(), ^{
