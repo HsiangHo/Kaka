@@ -144,7 +144,18 @@
 }
 
 -(IBAction)toggleFileVisibility_click:(id)sender{
-    
+    [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+        NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
+        for (NSURL *fileUrl in items) {
+            NSNumber *isHidden = nil;
+            NSError *error = nil;
+            [fileUrl getResourceValue:&isHidden forKey:NSURLIsHiddenKey error:&error];
+            if (nil == error) {
+                isHidden = [NSNumber numberWithBool:![isHidden boolValue]];
+                [fileUrl setResourceValue:isHidden forKey:NSURLIsHiddenKey error: nil];
+            }
+        }
+    }];
 }
 
 @end
