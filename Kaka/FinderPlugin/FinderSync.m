@@ -122,16 +122,18 @@
 
 -(IBAction)newFile_click:(id)sender{
     if ([sender isKindOfClass:[NSMenuItem class]]) {
-        NSMenuItem *item = (NSMenuItem *)sender;
-        NSString *fileName = [item title];
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@", TEMPLATE_PATH, fileName];
-        
-        NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
-        NSString *destFilePath = [NSString stringWithFormat:@"%@/%@", [target path], fileName];
-        if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil]){
-            destFilePath = [NSString stringWithFormat:@"%@/(NewFile%ld) %@", [target path],time(NULL), fileName];
-            [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil];
-        }
+        [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+            NSMenuItem *item = (NSMenuItem *)sender;
+            NSString *fileName = [item title];
+            NSString *filePath = [NSString stringWithFormat:@"%@/%@", TEMPLATE_PATH, fileName];
+            
+            NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
+            NSString *destFilePath = [NSString stringWithFormat:@"%@/%@", [target path], fileName];
+            if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil]){
+                destFilePath = [NSString stringWithFormat:@"%@/(NewFile%ld) %@", [target path],time(NULL), fileName];
+                [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil];
+            }
+        }];
     }
 }
 
