@@ -22,6 +22,7 @@ class HAFConfigureManager: NSObject {
     let kEnableAnimationAudio = "kEnableAnimationAudio"
     let kAutoToggleDarkModeBaseOnDisplayBrightness = "kAutoToggleDarkModeBaseOnDisplayBrightness"
     let kAutoToggleDarkModeBaseOnDisplayBrightnessValue = "kAutoToggleDarkModeBaseOnDisplayBrightnessValue"
+    let kEnableFinderExtension = "kEnableFinderExtension"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -108,5 +109,13 @@ class HAFConfigureManager: NSObject {
             return 0.2
         }
         return UserDefaults.standard.float(forKey: kAutoToggleDarkModeBaseOnDisplayBrightnessValue)
+    }
+    
+    func setEnableFinderExtension(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(bFlag, forKey: kEnableFinderExtension)
+    }
+    
+    func isEnableFinderExtension() -> Bool{
+        return UserDefaults.standard.bool(forKey: kEnableFinderExtension)
     }
 }
