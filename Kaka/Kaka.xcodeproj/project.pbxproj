@@ -26,23 +26,10 @@
 		988A179B2131567500A89C25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 988A179D2131567500A89C25 /* Localizable.strings */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
-		98C393F0215777610048D33D /* FinderSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C393EF215777610048D33D /* FinderSync.m */; };
-		98C393F5215777610048D33D /* FinderPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 98C393EC215777600048D33D /* FinderPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		98C393FB215795770048D33D /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
-		98C393FE2157DE560048D33D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C394002157DE560048D33D /* Localizable.strings */; };
-		98C394052158B3A10048D33D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98C394042158B3A10048D33D /* Assets.xcassets */; };
-		98C394092158C7600048D33D /* FinderPlugin.appex in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98C393EC215777600048D33D /* FinderPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		98C393F3215777610048D33D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9862A1292119DC0000760570 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 98C393EB215777600048D33D;
-			remoteInfo = FinderPlugin;
-		};
 		98F8F8B1212EF05E00DE612A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */;
@@ -60,27 +47,6 @@
 			dstSubfolderSpec = 1;
 			files = (
 				988A1792213152CE00A89C25 /* LaunchAtLoginHelper.app in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98C393FA215777610048D33D /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				98C393F5215777610048D33D /* FinderPlugin.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98C394072158C7550048D33D /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				98C394092158C7600048D33D /* FinderPlugin.appex in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,15 +81,6 @@
 		988A179F2131575F00A89C25 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
-		98C393EC215777600048D33D /* FinderPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FinderPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		98C393EE215777610048D33D /* FinderSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FinderSync.h; sourceTree = "<group>"; };
-		98C393EF215777610048D33D /* FinderSync.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinderSync.m; sourceTree = "<group>"; };
-		98C393F1215777610048D33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		98C393F2215777610048D33D /* FinderPlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinderPlugin.entitlements; sourceTree = "<group>"; };
-		98C393FF2157DE560048D33D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		98C394012157DEF20048D33D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		98C394022157DEF70048D33D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		98C394042158B3A10048D33D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowstarKit.xcodeproj; path = ../ShadowstarKit/ShadowstarKit/ShadowstarKit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,14 +100,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		98C393E9215777600048D33D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98C393FB215795770048D33D /* ShadowstarKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -160,7 +109,6 @@
 				98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */,
 				9862A1332119DC0000760570 /* Kaka */,
 				988A17842131508D00A89C25 /* LaunchAtLoginHelper */,
-				98C393ED215777610048D33D /* FinderPlugin */,
 				9862A1322119DC0000760570 /* Products */,
 				98F8F8B3212EF0D500DE612A /* Frameworks */,
 			);
@@ -171,7 +119,6 @@
 			children = (
 				9862A1312119DC0000760570 /* Kaka.app */,
 				988A17832131508D00A89C25 /* LaunchAtLoginHelper.app */,
-				98C393EC215777600048D33D /* FinderPlugin.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,19 +153,6 @@
 				988A178D2131508E00A89C25 /* LaunchAtLoginHelper.entitlements */,
 			);
 			path = LaunchAtLoginHelper;
-			sourceTree = "<group>";
-		};
-		98C393ED215777610048D33D /* FinderPlugin */ = {
-			isa = PBXGroup;
-			children = (
-				98C393EE215777610048D33D /* FinderSync.h */,
-				98C393EF215777610048D33D /* FinderSync.m */,
-				98C393F1215777610048D33D /* Info.plist */,
-				98C393F2215777610048D33D /* FinderPlugin.entitlements */,
-				98C394002157DE560048D33D /* Localizable.strings */,
-				98C394042158B3A10048D33D /* Assets.xcassets */,
-			);
-			path = FinderPlugin;
 			sourceTree = "<group>";
 		};
 		98F8F8AE212EF05E00DE612A /* Products */ = {
@@ -269,13 +203,10 @@
 				9862A12E2119DC0000760570 /* Frameworks */,
 				9862A12F2119DC0000760570 /* Resources */,
 				988A1791213152C500A89C25 /* CopyFiles */,
-				98C393FA215777610048D33D /* Embed App Extensions */,
-				98C394072158C7550048D33D /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				98C393F4215777610048D33D /* PBXTargetDependency */,
 			);
 			name = Kaka;
 			productName = Kaka;
@@ -299,23 +230,6 @@
 			productReference = 988A17832131508D00A89C25 /* LaunchAtLoginHelper.app */;
 			productType = "com.apple.product-type.application";
 		};
-		98C393EB215777600048D33D /* FinderPlugin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 98C393F9215777610048D33D /* Build configuration list for PBXNativeTarget "FinderPlugin" */;
-			buildPhases = (
-				98C393E8215777600048D33D /* Sources */,
-				98C393E9215777600048D33D /* Frameworks */,
-				98C393EA215777600048D33D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = FinderPlugin;
-			productName = FinderPlugin;
-			productReference = 98C393EC215777600048D33D /* FinderPlugin.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -337,10 +251,6 @@
 						};
 					};
 					988A17822131508D00A89C25 = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
-					};
-					98C393EB215777600048D33D = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -369,7 +279,6 @@
 			targets = (
 				9862A1302119DC0000760570 /* Kaka */,
 				988A17822131508D00A89C25 /* LaunchAtLoginHelper */,
-				98C393EB215777600048D33D /* FinderPlugin */,
 			);
 		};
 /* End PBXProject section */
@@ -405,15 +314,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		98C393EA215777600048D33D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98C394052158B3A10048D33D /* Assets.xcassets in Resources */,
-				98C393FE2157DE560048D33D /* Localizable.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -443,23 +343,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		98C393E8215777600048D33D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				98C393F0215777610048D33D /* FinderSync.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		98C393F4215777610048D33D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 98C393EB215777600048D33D /* FinderPlugin */;
-			targetProxy = 98C393F3215777610048D33D /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9862A1382119DC0000760570 /* MainMenu.xib */ = {
@@ -484,16 +368,6 @@
 				988A179C2131567500A89C25 /* en */,
 				988A179E2131568300A89C25 /* zh-Hans */,
 				988A179F2131575F00A89C25 /* zh-Hant */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		98C394002157DE560048D33D /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98C393FF2157DE560048D33D /* en */,
-				98C394012157DEF20048D33D /* zh-Hans */,
-				98C394022157DEF70048D33D /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -700,44 +574,6 @@
 			};
 			name = Release;
 		};
-		98C393F6215777610048D33D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = FinderPlugin/FinderPlugin.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/Output";
-				DEVELOPMENT_TEAM = 9P895LY647;
-				INFOPLIST_FILE = FinderPlugin/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.HyperartFlow.Kaka.FinderPlugin;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		98C393F7215777610048D33D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = FinderPlugin/FinderPlugin.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/Output";
-				DEVELOPMENT_TEAM = 9P895LY647;
-				INFOPLIST_FILE = FinderPlugin/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.HyperartFlow.Kaka.FinderPlugin;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -764,15 +600,6 @@
 			buildConfigurations = (
 				988A178F2131508E00A89C25 /* Debug */,
 				988A17902131508E00A89C25 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		98C393F9215777610048D33D /* Build configuration list for PBXNativeTarget "FinderPlugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				98C393F6215777610048D33D /* Debug */,
-				98C393F7215777610048D33D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -16,7 +16,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
     var menuItemShowHiddenFilesAndFolders: NSMenuItem!
-    var menuItemEnableFinderExtension: NSMenuItem!
     var menuItemTurnOnDarkMode: NSMenuItem!
     var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
     var menuItemRateOnMacAppStore: NSMenuItem!
@@ -53,7 +52,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(preventSystemSleepMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
-        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
@@ -72,7 +70,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemAutoHideDesktopIcons.target = self
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
-        menuItemEnableFinderExtension.target = self
         menuItemHelp.target = self
         menuItemQuit.target = self
         
@@ -85,7 +82,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         actionMenu.addItem(menuItemAutoHideDesktopIcons)
         actionMenu.addItem(menuItemPreventSystemSleep)
         actionMenu.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
-        actionMenu.addItem(menuItemEnableFinderExtension)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemDisplayKaka)
         actionMenu.addItem(NSMenuItem.separator())
@@ -158,11 +154,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             }
         }
         menuItemDisplayKaka.state = .on
-        
-        if HAFConfigureManager.sharedManager.isEnableFinderExtension(){
-            menuItemEnableFinderExtension.state = .on
-            __loadFinderPlugin()
-        }
     }
     
     required init?(coder: NSCoder) {
@@ -342,17 +333,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         HAFConfigureManager.sharedManager.setAutoHideDesktopIcons(bFlag: menuItemAutoHideDesktopIcons.state == .on)
     }
     
-    @IBAction func enableFinderExtension_click(sender: AnyObject?){
-        if menuItemEnableFinderExtension.state == .off {
-            menuItemEnableFinderExtension.state = .on
-            __loadFinderPlugin()
-        }else{
-            menuItemEnableFinderExtension.state = .off
-            __unloadFinderPlugin()
-        }
-        HAFConfigureManager.sharedManager.setEnableFinderExtension(bFlag: menuItemEnableFinderExtension.state == .on)
-    }
-    
     @IBAction func rateOnMacAppStore_click(sender: AnyObject?){
         NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id1434172933")!)
     }
@@ -409,23 +389,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSDesktopManager.shared().coverDesktop()
         }
     }
-    
-    func __loadFinderPlugin() -> Void {
-        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript("do shell script \"/usr/bin/pluginkit -e use -i com.HyperartFlow.Kaka.FinderPlugin\"", withCompletionHandler: { (_, _) in
-                
-            });
-        }
-    }
-    
-    func __unloadFinderPlugin() -> Void {
-        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript("do shell script \"/usr/bin/pluginkit -e ignore -i com.HyperartFlow.Kaka.FinderPlugin\"", withCompletionHandler: { (_, _) in
-                
-            });
-        }
-    }
-    
 }
 
     //MARK: Touch Bar
