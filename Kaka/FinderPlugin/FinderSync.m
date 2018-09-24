@@ -38,7 +38,7 @@
 }
 
 - (NSImage *)toolbarItemImage {
-    return [NSImage imageNamed:NSImageNameCaution];
+    return [NSImage imageNamed:@"toolbar_icon"];
 }
 
 - (NSMenu *)menuForMenuKind:(FIMenuKind)whichMenu {
@@ -71,7 +71,8 @@
         NSString *fileName = nil;
         [url getResourceValue:&fileName forKey:NSURLNameKey error:&error];
         if (nil != fileName) {
-            [menuNewFiles addItemWithTitle:fileName action:@selector(newFile_click:) keyEquivalent:@""];
+            NSMenuItem *subItem = [menuNewFiles addItemWithTitle:fileName action:@selector(newFile_click:) keyEquivalent:@""];
+            [subItem setImage:[[NSWorkspace sharedWorkspace] iconForFile:[url path]]];
         }
     }
     
