@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  Kaka
+
+  Created by Jovi on 9/23/18.
+  Copyright © 2018 Jovi. All rights reserved.
+*/
+
+
+"Toggle Hidden File Visibility" = "切换隐藏文件可见性";
+"Open Terminal In This Folder" = "在当前文件夹打开终端";
+"New File" = "新建文件";
+"Custom New File Templates" = "自定义新建文件模板";
+"Toggle File Visibility" = "切换文件可见性";
+"Add New File Templates" = "增加新建文件模板";
