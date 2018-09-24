@@ -31,6 +31,7 @@
 		98C393FB215795770048D33D /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 		98C393FE2157DE560048D33D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C394002157DE560048D33D /* Localizable.strings */; };
 		98C394052158B3A10048D33D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98C394042158B3A10048D33D /* Assets.xcassets */; };
+		98C394092158C7600048D33D /* FinderPlugin.appex in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98C393EC215777600048D33D /* FinderPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,16 @@
 				98C393F5215777610048D33D /* FinderPlugin.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98C394072158C7550048D33D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				98C394092158C7600048D33D /* FinderPlugin.appex in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -259,6 +270,7 @@
 				9862A12F2119DC0000760570 /* Resources */,
 				988A1791213152C500A89C25 /* CopyFiles */,
 				98C393FA215777610048D33D /* Embed App Extensions */,
+				98C394072158C7550048D33D /* CopyFiles */,
 			);
 			buildRules = (
 			);
