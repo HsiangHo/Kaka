@@ -54,9 +54,12 @@
 
 -(NSMenu *)toolbarMenu{
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:NSLocalizedString(@"Toggle Hidden File Visibility", nil) action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
-    [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
+    NSMenuItem *Item = [menu addItemWithTitle:NSLocalizedString(@"Toggle Hidden File Visibility", nil) action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"terminal_icon"]];
     NSMenuItem *newFileItem = [menu addItemWithTitle:NSLocalizedString(@"New File", nil) action:@selector(newFile_click:) keyEquivalent:@""];
+    [newFileItem setImage:[NSImage imageNamed:@"newFile_icon"]];
     NSMenu *menuNewFiles = [[NSMenu alloc] initWithTitle:@""];
     
     NSURL *directoryURL = [NSURL fileURLWithPath:TEMPLATE_PATH];
@@ -80,13 +83,15 @@
         [menuNewFiles addItemWithTitle:NSLocalizedString(@"Add New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
     }
     [menu setSubmenu:menuNewFiles forItem:newFileItem];
-    [menu addItemWithTitle:NSLocalizedString(@"Custom New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Custom New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"newFileTemplate_icon"]];
     return menu;
 }
 
 -(NSMenu *)itemMenu{
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:NSLocalizedString(@"Toggle File Visibility", nil) action:@selector(toggleFileVisibility_click:) keyEquivalent:@""];
+    NSMenuItem *Item = [menu addItemWithTitle:NSLocalizedString(@"Toggle File Visibility", nil) action:@selector(toggleFileVisibility_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
     return menu;
 }
 
