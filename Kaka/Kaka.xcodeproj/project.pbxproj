@@ -26,6 +26,7 @@
 		988A179B2131567500A89C25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 988A179D2131567500A89C25 /* Localizable.strings */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
+		98BEFFE0215B9B7B007B10FF /* Tamplates in Resources */ = {isa = PBXBuildFile; fileRef = 98BEFFDF215B9B7B007B10FF /* Tamplates */; };
 		98C393F0215777610048D33D /* FinderSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C393EF215777610048D33D /* FinderSync.m */; };
 		98C393F5215777610048D33D /* FinderPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 98C393EC215777600048D33D /* FinderPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		98C393FB215795770048D33D /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
@@ -115,6 +116,7 @@
 		988A179F2131575F00A89C25 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
+		98BEFFDF215B9B7B007B10FF /* Tamplates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tamplates; sourceTree = "<group>"; };
 		98C393EC215777600048D33D /* FinderPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FinderPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C393EE215777610048D33D /* FinderSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FinderSync.h; sourceTree = "<group>"; };
 		98C393EF215777610048D33D /* FinderSync.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinderSync.m; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 		98C393ED215777610048D33D /* FinderPlugin */ = {
 			isa = PBXGroup;
 			children = (
+				98BEFFDF215B9B7B007B10FF /* Tamplates */,
 				98C393EE215777610048D33D /* FinderSync.h */,
 				98C393EF215777610048D33D /* FinderSync.m */,
 				98C393F1215777610048D33D /* Info.plist */,
@@ -409,6 +412,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98BEFFE0215B9B7B007B10FF /* Tamplates in Resources */,
 				98C394052158B3A10048D33D /* Assets.xcassets in Resources */,
 				98C393FE2157DE560048D33D /* Localizable.strings in Resources */,
 			);
