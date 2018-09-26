@@ -13,3 +13,6 @@
 "Custom New File Templates" = "自定义新建文件模板";
 "Toggle File Visibility" = "切换文件可见性";
 "Add New File Templates" = "增加新建文件模板";
+"How to custom New File Templates" = "如何自定义新建文件模板";
+"Open The Template Folder" = "打开模板文件夹";
+"You can customize the \"New File\" menu by adding, deleting, and modifying template files in the template folder." = "您可以通过在模板文件夹中添加，删除和修改模板文件来自定义菜单.";

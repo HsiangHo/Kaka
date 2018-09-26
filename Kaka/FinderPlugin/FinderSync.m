@@ -128,40 +128,48 @@
 
 -(IBAction)newFile_click:(id)sender{
     if ([sender isKindOfClass:[NSMenuItem class]]) {
-        [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
-            NSMenuItem *item = (NSMenuItem *)sender;
-            NSString *fileName = [item title];
-            NSString *filePath = [NSString stringWithFormat:@"%@/%@", TEMPLATE_PATH, fileName];
-            
-            NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
-            NSString *destFilePath = [NSString stringWithFormat:@"%@/%@", [target path], fileName];
-            if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil]){
-                destFilePath = [NSString stringWithFormat:@"%@/(NewFile%ld) %@", [target path],time(NULL), fileName];
-                [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil];
-            }
-        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+                NSMenuItem *item = (NSMenuItem *)sender;
+                NSString *fileName = [item title];
+                NSString *filePath = [NSString stringWithFormat:@"%@/%@", TEMPLATE_PATH, fileName];
+                
+                NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
+                NSString *destFilePath = [NSString stringWithFormat:@"%@/%@", [target path], fileName];
+                if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil]){
+                    destFilePath = [NSString stringWithFormat:@"%@/(NewFile%ld) %@", [target path],time(NULL), fileName];
+                    [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil];
+                }
+            }];
+        });
     }
 }
 
 -(IBAction)customNewFileTemplates_click:(id)sender{
-    NSString *path = TEMPLATE_PATH;
-    [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSAlert *alert = [NSAlert alertWithMessageText: NSLocalizedString(@"How to custom New File Templates",nil) defaultButton:NSLocalizedString(@"Open The Template Folder", nil) alternateButton:nil otherButton:nil informativeTextWithFormat: NSLocalizedString(@"You can customize the \"New File\" menu by adding, deleting, and modifying template files in the template folder.", nil),nil];
+        [alert runModal];
+        NSString *path = TEMPLATE_PATH;
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+    });
 }
 
 -(IBAction)toggleFileVisibility_click:(id)sender{
-    [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
-        NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
-        for (NSURL *fileUrl in items) {
-            NSNumber *isHidden = nil;
-            NSError *error = nil;
-            [fileUrl getResourceValue:&isHidden forKey:NSURLIsHiddenKey error:&error];
-            if (nil == error) {
-                isHidden = [NSNumber numberWithBool:![isHidden boolValue]];
-                [fileUrl setResourceValue:isHidden forKey:NSURLIsHiddenKey error: nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+            NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
+            for (NSURL *fileUrl in items) {
+                NSNumber *isHidden = nil;
+                NSError *error = nil;
+                [fileUrl getResourceValue:&isHidden forKey:NSURLIsHiddenKey error:&error];
+                if (nil == error) {
+                    isHidden = [NSNumber numberWithBool:![isHidden boolValue]];
+                    [fileUrl setResourceValue:isHidden forKey:NSURLIsHiddenKey error: nil];
+                }
             }
-        }
-    }];
+        }];
+    });
 }
 
 @end
