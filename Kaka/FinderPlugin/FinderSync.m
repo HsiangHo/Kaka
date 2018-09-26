@@ -61,6 +61,10 @@
     [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
     Item = [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
     [Item setImage:[NSImage imageNamed:@"terminal_icon"]];
+    
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Copy Path", nil) action:@selector(copyPath_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"copyPath_icon"]];
+    
     NSMenuItem *newFileItem = [menu addItemWithTitle:NSLocalizedString(@"New File", nil) action:@selector(newFile_click:) keyEquivalent:@""];
     [newFileItem setImage:[NSImage imageNamed:@"newFile_icon"]];
     NSMenu *menuNewFiles = [[NSMenu alloc] initWithTitle:@""];
@@ -88,6 +92,7 @@
     [menu setSubmenu:menuNewFiles forItem:newFileItem];
     Item = [menu addItemWithTitle:NSLocalizedString(@"Custom New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
     [Item setImage:[NSImage imageNamed:@"newFileTemplate_icon"]];
+    
     return menu;
 }
 
@@ -95,6 +100,9 @@
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
     NSMenuItem *Item = [menu addItemWithTitle:NSLocalizedString(@"Toggle File Visibility", nil) action:@selector(toggleFileVisibility_click:) keyEquivalent:@""];
     [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
+    
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Copy Path", nil) action:@selector(copyItemPath_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"copyPath_icon"]];
     return menu;
 }
 
@@ -173,6 +181,24 @@
             }
         }];
     });
+}
+
+-(IBAction)copyPath_click:(id)sender{
+    NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObjects:NSStringPboardType, nil] owner:nil];
+    [pasteBoard setString: [target path] forType:NSStringPboardType];
+}
+
+-(IBAction)copyItemPath_click:(id)sender{
+    NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
+    NSString *path = @"";
+    for (NSURL *fileUrl in items) {
+        path = [path stringByAppendingString:[NSString stringWithFormat:@"%@ ",[fileUrl path]]];
+    }
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObjects:NSStringPboardType, nil] owner:nil];
+    [pasteBoard setString: path forType:NSStringPboardType];
 }
 
 -(void)__installDefaultTemplates{
