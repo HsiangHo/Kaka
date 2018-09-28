@@ -157,11 +157,20 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
                 }
             }
         }
-        menuItemDisplayKaka.state = .on
         
         if HAFConfigureManager.sharedManager.isEnableFinderExtension(){
             menuItemEnableFinderExtension.state = .on
             __loadFinderPlugin()
+        }
+        
+        if HAFConfigureManager.sharedManager.isEnableKaka(){
+            menuItemDisplayKaka.state = .on
+            self.window?.makeKeyAndOrderFront(nil)
+            _view.isVisible = true
+        }else{
+            menuItemDisplayKaka.state = .off
+            wnd.orderOut(nil)
+            _view.isVisible = false
         }
     }
     
@@ -367,6 +376,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             self.window?.orderOut(nil)
             _view.isVisible = false
         }
+        HAFConfigureManager.sharedManager.setEnableKaka(bFlag: menuItemDisplayKaka.state == .on)
     }
     
     @IBAction func help_click(sender: AnyObject?){
