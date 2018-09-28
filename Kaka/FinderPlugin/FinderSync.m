@@ -19,10 +19,40 @@
 
 - (instancetype)init {
     self = [super init];
-    
+
     // Set up the directory we are syncing.
-    NSURL *folderURL = [NSURL fileURLWithPath:@"/"];
-    [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:folderURL];
+
+    static NSMutableSet *_folderSet = nil;
+    if(nil == _folderSet){
+        _folderSet = [[NSMutableSet alloc] init];
+        NSArray* urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:nil options:NSVolumeEnumerationSkipHiddenVolumes];
+        [_folderSet addObjectsFromArray:urls];
+        [FIFinderSyncController defaultController].directoryURLs = _folderSet;
+    }
+    [[SSDiskManager sharedManager] setDiskChangedBlock:^(DADiskRef disk, SSDiskNotification_Type type) {
+        NSString *bsdName = [SSDiskManager bsdnameForDiskRef:disk];
+        if(nil == bsdName){
+            return;
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            DASessionRef session = DASessionCreate(kCFAllocatorDefault);
+            DADiskRef disk = DADiskCreateFromBSDName(kCFAllocatorDefault, session, [bsdName UTF8String]);
+            if(NULL == disk){
+                CFRelease(session);
+                return;
+            }
+            NSURL *folderURL = [SSDiskManager mountPathForDiskRef:disk];
+            if(nil != folderURL){
+                if (eSSDiskNotification_DiskAppeared == type || eSSDiskNotification_DiskMount == type) {
+                    [_folderSet addObject:folderURL];
+                }else{
+                    [_folderSet removeObject:folderURL];
+                }
+                [FIFinderSyncController defaultController].directoryURLs = _folderSet;
+            }
+            CFRelease(session);
+        });
+    }];
     
     return self;
 }
