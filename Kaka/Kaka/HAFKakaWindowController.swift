@@ -29,6 +29,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
+    var _updateDesktopCoverTimer: DispatchSourceTimer?
     
     init() {
         let offsetX: CGFloat = NSScreen.screens[0].frame.width - 150
@@ -172,6 +173,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             wnd.orderOut(nil)
             _view.isVisible = false
         }
+        
+        __startToUpdateDesktopCover()
     }
     
     required init?(coder: NSCoder) {
@@ -436,6 +439,21 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
+    func __startToUpdateDesktopCover(){
+        _updateDesktopCoverTimer = DispatchSource.makeTimerSource(queue: .main)
+        _updateDesktopCoverTimer?.schedule(wallDeadline: .now(), repeating: .seconds(60), leeway: .milliseconds(1))
+        _updateDesktopCoverTimer?.setEventHandler {
+            if SSDesktopManager.shared().desktopCoverWindow().isVisible{
+                SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
+            }
+        }
+        _updateDesktopCoverTimer?.resume()
+    }
+    
+    public func __stopToUpdateDesktopCover(){
+        _updateDesktopCoverTimer?.cancel()
+        _updateDesktopCoverTimer = nil
+    }
 }
 
     //MARK: Touch Bar
