@@ -19,10 +19,40 @@
 
 - (instancetype)init {
     self = [super init];
-    
+
     // Set up the directory we are syncing.
-    NSURL *folderURL = [NSURL fileURLWithPath:@"/"];
-    [FIFinderSyncController defaultController].directoryURLs = [NSSet setWithObject:folderURL];
+
+    static NSMutableSet *_folderSet = nil;
+    if(nil == _folderSet){
+        _folderSet = [[NSMutableSet alloc] init];
+        NSArray* urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:nil options:NSVolumeEnumerationSkipHiddenVolumes];
+        [_folderSet addObjectsFromArray:urls];
+        [FIFinderSyncController defaultController].directoryURLs = _folderSet;
+    }
+    [[SSDiskManager sharedManager] setDiskChangedBlock:^(DADiskRef disk, SSDiskNotification_Type type) {
+        NSString *bsdName = [SSDiskManager bsdnameForDiskRef:disk];
+        if(nil == bsdName){
+            return;
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            DASessionRef session = DASessionCreate(kCFAllocatorDefault);
+            DADiskRef disk = DADiskCreateFromBSDName(kCFAllocatorDefault, session, [bsdName UTF8String]);
+            if(NULL == disk){
+                CFRelease(session);
+                return;
+            }
+            NSURL *folderURL = [SSDiskManager mountPathForDiskRef:disk];
+            if(nil != folderURL){
+                if (eSSDiskNotification_DiskAppeared == type || eSSDiskNotification_DiskMount == type) {
+                    [_folderSet addObject:folderURL];
+                }else{
+                    [_folderSet removeObject:folderURL];
+                }
+                [FIFinderSyncController defaultController].directoryURLs = _folderSet;
+            }
+            CFRelease(session);
+        });
+    }];
     
     return self;
 }
@@ -49,14 +79,24 @@
     }else if (FIMenuKindContextualMenuForContainer == whichMenu || FIMenuKindToolbarItemMenu == whichMenu) {
         menu = [self toolbarMenu];
     }
+    
+    [self __installDefaultTemplates];
+    
     return menu;
 }
 
 -(NSMenu *)toolbarMenu{
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:NSLocalizedString(@"Toggle Hidden File Visibility", nil) action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
-    [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
+    NSMenuItem *Item = [menu addItemWithTitle:NSLocalizedString(@"Toggle Hidden File Visibility", nil) action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"terminal_icon"]];
+    
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Copy Path", nil) action:@selector(copyPath_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"copyPath_icon"]];
+    
     NSMenuItem *newFileItem = [menu addItemWithTitle:NSLocalizedString(@"New File", nil) action:@selector(newFile_click:) keyEquivalent:@""];
+    [newFileItem setImage:[NSImage imageNamed:@"newFile_icon"]];
     NSMenu *menuNewFiles = [[NSMenu alloc] initWithTitle:@""];
     
     NSURL *directoryURL = [NSURL fileURLWithPath:TEMPLATE_PATH];
@@ -80,13 +120,19 @@
         [menuNewFiles addItemWithTitle:NSLocalizedString(@"Add New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
     }
     [menu setSubmenu:menuNewFiles forItem:newFileItem];
-    [menu addItemWithTitle:NSLocalizedString(@"Custom New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Custom New File Templates", nil) action:@selector(customNewFileTemplates_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"newFileTemplate_icon"]];
+    
     return menu;
 }
 
 -(NSMenu *)itemMenu{
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:NSLocalizedString(@"Toggle File Visibility", nil) action:@selector(toggleFileVisibility_click:) keyEquivalent:@""];
+    NSMenuItem *Item = [menu addItemWithTitle:NSLocalizedString(@"Toggle File Visibility", nil) action:@selector(toggleFileVisibility_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
+    
+    Item = [menu addItemWithTitle:NSLocalizedString(@"Copy Path", nil) action:@selector(copyItemPath_click:) keyEquivalent:@""];
+    [Item setImage:[NSImage imageNamed:@"copyPath_icon"]];
     return menu;
 }
 
@@ -123,40 +169,78 @@
 
 -(IBAction)newFile_click:(id)sender{
     if ([sender isKindOfClass:[NSMenuItem class]]) {
-        [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
-            NSMenuItem *item = (NSMenuItem *)sender;
-            NSString *fileName = [item title];
-            NSString *filePath = [NSString stringWithFormat:@"%@/%@", TEMPLATE_PATH, fileName];
-            
-            NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
-            NSString *destFilePath = [NSString stringWithFormat:@"%@/%@", [target path], fileName];
-            if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil]){
-                destFilePath = [NSString stringWithFormat:@"%@/(NewFile%ld) %@", [target path],time(NULL), fileName];
-                [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil];
-            }
-        }];
+        NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+                NSMenuItem *item = (NSMenuItem *)sender;
+                NSString *fileName = [item title];
+                NSString *filePath = [NSString stringWithFormat:@"%@/%@", TEMPLATE_PATH, fileName];
+                
+                NSString *destFilePath = [NSString stringWithFormat:@"%@/%@", [target path], fileName];
+                if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil]){
+                    destFilePath = [NSString stringWithFormat:@"%@/(NewFile%ld) %@", [target path],time(NULL), fileName];
+                    [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:destFilePath error:nil];
+                }
+            }];
+        });
     }
 }
 
 -(IBAction)customNewFileTemplates_click:(id)sender{
-    NSString *path = TEMPLATE_PATH;
-    [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSAlert *alert = [NSAlert alertWithMessageText: NSLocalizedString(@"How to custom New File Templates",nil) defaultButton:NSLocalizedString(@"Open The Template Folder", nil) alternateButton:nil otherButton:nil informativeTextWithFormat: NSLocalizedString(@"You can customize the \"New File\" menu by adding, deleting, and modifying template files in the template folder.", nil),nil];
+        [alert runModal];
+        NSString *path = TEMPLATE_PATH;
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+    });
 }
 
 -(IBAction)toggleFileVisibility_click:(id)sender{
-    [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
-        NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
-        for (NSURL *fileUrl in items) {
-            NSNumber *isHidden = nil;
-            NSError *error = nil;
-            [fileUrl getResourceValue:&isHidden forKey:NSURLIsHiddenKey error:&error];
-            if (nil == error) {
-                isHidden = [NSNumber numberWithBool:![isHidden boolValue]];
-                [fileUrl setResourceValue:isHidden forKey:NSURLIsHiddenKey error: nil];
+    NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+            for (NSURL *fileUrl in items) {
+                NSNumber *isHidden = nil;
+                NSError *error = nil;
+                [fileUrl getResourceValue:&isHidden forKey:NSURLIsHiddenKey error:&error];
+                if (nil == error) {
+                    isHidden = [NSNumber numberWithBool:![isHidden boolValue]];
+                    [fileUrl setResourceValue:isHidden forKey:NSURLIsHiddenKey error: nil];
+                }
             }
-        }
-    }];
+        }];
+    });
+}
+
+-(IBAction)copyPath_click:(id)sender{
+    NSURL* target = [[FIFinderSyncController defaultController] targetedURL];
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObjects:NSStringPboardType, nil] owner:nil];
+    [pasteBoard setString: [target path] forType:NSStringPboardType];
+}
+
+-(IBAction)copyItemPath_click:(id)sender{
+    NSArray* items = [[FIFinderSyncController defaultController] selectedItemURLs];
+    NSString *path = @"";
+    for (NSURL *fileUrl in items) {
+        path = [path stringByAppendingString:[NSString stringWithFormat:@"%@ ",[fileUrl path]]];
+    }
+    NSPasteboard *pasteBoard = [NSPasteboard generalPasteboard];
+    [pasteBoard declareTypes:[NSArray arrayWithObjects:NSStringPboardType, nil] owner:nil];
+    [pasteBoard setString: path forType:NSStringPboardType];
+}
+
+-(void)__installDefaultTemplates{
+    BOOL bDir = NO;
+    if (!([[NSFileManager defaultManager] fileExistsAtPath:TEMPLATE_PATH isDirectory:&bDir] && bDir)) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SSUtility accessFilePath:[NSURL fileURLWithPath:@"/"] persistPermission:YES withParentWindow:nil withActionBlock:^{
+                NSString *templateDir = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Resources/Tamplates"];
+                [[NSFileManager defaultManager] copyItemAtPath:templateDir toPath:TEMPLATE_PATH error:nil];
+            }];
+        });
+    }
 }
 
 @end

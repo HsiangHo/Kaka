@@ -13,16 +13,17 @@ class HAFConfigureManager: NSObject {
     static let sharedManager = HAFConfigureManager()
     let helperBundleIdentifier = "com.HyperartFlow.Kaka.launchAtLoginHelper"
     
-    let kAutoHideMouseCursor = "kAutoHideMouseCursor"
-    let kOneClickToHideDesktopIcons = "kOneClickToHideDesktopIcons"
-    let kDoubleClickToShowDesktop = "kDoubleClickToShowDesktop"
-    let kPreventSystemFromFallingAsleep = "kPreventSystemFromFallingAsleep"
-    let kDoubleClickDesktopToShowIcons = "kDoubleClickDesktopToShowIcons"
-    let kAutoHideDesktopIcons = "kAutoHideDesktopIcons"
-    let kEnableAnimationAudio = "kEnableAnimationAudio"
-    let kAutoToggleDarkModeBaseOnDisplayBrightness = "kAutoToggleDarkModeBaseOnDisplayBrightness"
-    let kAutoToggleDarkModeBaseOnDisplayBrightnessValue = "kAutoToggleDarkModeBaseOnDisplayBrightnessValue"
-    let kEnableFinderExtension = "kEnableFinderExtension"
+    let kAutoHideMouseCursor = "AutoHideMouseCursorKey"
+    let kOneClickToHideDesktopIcons = "OneClickToHideDesktopIconsKey"
+    let kDoubleClickToShowDesktop = "DoubleClickToShowDesktopKey"
+    let kPreventSystemFromFallingAsleep = "PreventSystemFromFallingAsleepKey"
+    let kDoubleClickDesktopToShowIcons = "DoubleClickDesktopToShowIconsKey"
+    let kAutoHideDesktopIcons = "AutoHideDesktopIconsKey"
+    let kEnableAnimationAudio = "EnableAnimationAudioKey"
+    let kAutoToggleDarkModeBaseOnDisplayBrightness = "AutoToggleDarkModeBaseOnDisplayBrightnessKey"
+    let kAutoToggleDarkModeBaseOnDisplayBrightnessValue = "AutoToggleDarkModeBaseOnDisplayBrightnessValueKey"
+    let kEnableFinderExtension = "EnableFinderExtensionKey"
+    let kEnableKaka = "EnableKakaKey"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -37,11 +38,11 @@ class HAFConfigureManager: NSObject {
     }
     
     func setAutoHideMouseCursor(bFlag: Bool) -> Void {
-        UserDefaults.standard.set(!bFlag, forKey: kAutoHideMouseCursor)
+        UserDefaults.standard.set(bFlag, forKey: kAutoHideMouseCursor)
     }
     
     func isAutoHideMouseCursor() -> Bool {
-        return !UserDefaults.standard.bool(forKey: kAutoHideMouseCursor)
+        return UserDefaults.standard.bool(forKey: kAutoHideMouseCursor)
     }
     
     func setOneClickToHideDesktopIcons(bFlag: Bool) -> Void{
@@ -61,11 +62,11 @@ class HAFConfigureManager: NSObject {
     }
     
     func setPreventSystemFromFallingAsleep(bFlag: Bool) -> Void{
-        UserDefaults.standard.set(!bFlag, forKey: kPreventSystemFromFallingAsleep)
+        UserDefaults.standard.set(bFlag, forKey: kPreventSystemFromFallingAsleep)
     }
     
     func isPreventSystemFromFallingAsleep() -> Bool{
-        return !UserDefaults.standard.bool(forKey: kPreventSystemFromFallingAsleep)
+        return UserDefaults.standard.bool(forKey: kPreventSystemFromFallingAsleep)
     }
     
     func setDoubleClickDesktopToShowIcons(bFlag: Bool) -> Void{
@@ -77,19 +78,19 @@ class HAFConfigureManager: NSObject {
     }
     
     func setAutoHideDesktopIcons(bFlag: Bool) -> Void{
-        UserDefaults.standard.set(!bFlag, forKey: kAutoHideDesktopIcons)
+        UserDefaults.standard.set(bFlag, forKey: kAutoHideDesktopIcons)
     }
     
     func isAutoHideDesktopIcons() -> Bool{
-        return !UserDefaults.standard.bool(forKey: kAutoHideDesktopIcons)
+        return UserDefaults.standard.bool(forKey: kAutoHideDesktopIcons)
     }
     
     func setEnableAnimationAudio(bFlag: Bool) -> Void{
-        UserDefaults.standard.set(!bFlag, forKey: kEnableAnimationAudio)
+        UserDefaults.standard.set(bFlag, forKey: kEnableAnimationAudio)
     }
     
     func isEnableAnimationAudio() -> Bool{
-        return !UserDefaults.standard.bool(forKey: kEnableAnimationAudio)
+        return UserDefaults.standard.bool(forKey: kEnableAnimationAudio)
     }
     
     func setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: Bool) -> Void{
@@ -117,5 +118,13 @@ class HAFConfigureManager: NSObject {
     
     func isEnableFinderExtension() -> Bool{
         return UserDefaults.standard.bool(forKey: kEnableFinderExtension)
+    }
+    
+    func setEnableKaka(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kEnableKaka)
+    }
+    
+    func isEnableKaka() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kEnableKaka)
     }
 }
