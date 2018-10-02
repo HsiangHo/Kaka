@@ -432,15 +432,19 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     func __loadFinderPlugin() -> Void {
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript("do shell script \"/usr/bin/pluginkit -e use -i com.HyperartFlow.Kaka.FinderPlugin\"", withCompletionHandler: { (_, _) in
+            let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+            let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -a '%@'\"", pluginPath)
+            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
                 
             });
         }
     }
     
     func __unloadFinderPlugin() -> Void {
+        let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+        let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -r '%@'\"", pluginPath)
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript("do shell script \"/usr/bin/pluginkit -e ignore -i com.HyperartFlow.Kaka.FinderPlugin\"", withCompletionHandler: { (_, _) in
+            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
                 
             });
         }

@@ -25,6 +25,7 @@
     static NSMutableSet *_folderSet = nil;
     if(nil == _folderSet){
         _folderSet = [[NSMutableSet alloc] init];
+        [_folderSet addObject: [NSURL fileURLWithPath:@"/"]];
         NSArray* urls = [[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:nil options:NSVolumeEnumerationSkipHiddenVolumes];
         [_folderSet addObjectsFromArray:urls];
         [FIFinderSyncController defaultController].directoryURLs = _folderSet;
