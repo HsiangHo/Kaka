@@ -8,6 +8,7 @@
 
 #import "FinderSync.h"
 #import <ShadowstarKit/ShadowstarKit.h>
+#import "HAFUserBehaviorManager.h"
 
 #define TEMPLATE_PATH           [NSHomeDirectory() stringByAppendingPathComponent:@"Templates"]
 
@@ -88,8 +89,11 @@
 
 -(NSMenu *)toolbarMenu{
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    NSMenuItem *Item = [menu addItemWithTitle:NSLocalizedString(@"Toggle Hidden File Visibility", nil) action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
-    [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
+    NSMenuItem *Item = nil;
+    if (IS_SUPER_MODE) {
+        Item = [menu addItemWithTitle:NSLocalizedString(@"Toggle Hidden File Visibility", nil) action:@selector(toggleHiddenFileVisibility_click:) keyEquivalent:@""];
+        [Item setImage:[NSImage imageNamed:@"hiddenFileVisibility_icon"]];
+    }
     Item = [menu addItemWithTitle:NSLocalizedString(@"Open Terminal In This Folder", nil) action:@selector(openTerminalInFolder_click:) keyEquivalent:@""];
     [Item setImage:[NSImage imageNamed:@"terminal_icon"]];
     
