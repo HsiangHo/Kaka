@@ -17,6 +17,7 @@
 6. 自动(根据屏幕亮度)切换黑暗模式
 7. 显示隐藏文件开关。
 8. 增加Finder Sync Extension(显示隐藏文件，快速打开终端，新建文件
+9. 增加部分功能全局快捷键
 
 ## Installation
 
@@ -36,3 +37,4 @@ Kaka is available on the Mac App Store.
 ## Open Source Libraries
 
 - [ShadowstarKit](https://github.com/HsiangHo/ShadowstarKit)
+- [ShortcutsKit](https://github.com/HsiangHo/ShortcutsKit)
