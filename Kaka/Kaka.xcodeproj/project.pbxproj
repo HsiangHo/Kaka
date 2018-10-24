@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		983CFD35217E104500A91B50 /* ShortcutsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983CFD32217E0F5200A91B50 /* ShortcutsKit.framework */; };
 		9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */; };
 		9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */; };
 		9862A1352119DC0000760570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A1342119DC0000760570 /* AppDelegate.swift */; };
@@ -14,6 +15,7 @@
 		9862A13A2119DC0000760570 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9862A1382119DC0000760570 /* MainMenu.xib */; };
 		9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A144211A626C00760570 /* HAFAnimationSequence.swift */; };
 		9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A146211A628C00760570 /* HAFAnimationView.swift */; };
+		98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */; };
 		987BAF882126E7A400EE828E /* Animations in Resources */ = {isa = PBXBuildFile; fileRef = 987BAF872126E7A400EE828E /* Animations */; };
 		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
 		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
@@ -26,17 +28,31 @@
 		988A179B2131567500A89C25 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 988A179D2131567500A89C25 /* Localizable.strings */; };
 		989CA765211E5D1900E7A004 /* HAFAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */; };
 		989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989CA766211FDD1400E7A004 /* HAFKakaObject.swift */; };
+		98B73F1C2164984D00D128A9 /* HAFUserBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B73F1B2164984D00D128A9 /* HAFUserBehaviorManager.m */; };
 		98BEFFE0215B9B7B007B10FF /* Tamplates in Resources */ = {isa = PBXBuildFile; fileRef = 98BEFFDF215B9B7B007B10FF /* Tamplates */; };
 		98C393F0215777610048D33D /* FinderSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C393EF215777610048D33D /* FinderSync.m */; };
 		98C393F5215777610048D33D /* FinderPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 98C393EC215777600048D33D /* FinderPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		98C393FB215795770048D33D /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 		98C393FE2157DE560048D33D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C394002157DE560048D33D /* Localizable.strings */; };
 		98C394052158B3A10048D33D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98C394042158B3A10048D33D /* Assets.xcassets */; };
-		98C394092158C7600048D33D /* FinderPlugin.appex in CopyFiles */ = {isa = PBXBuildFile; fileRef = 98C393EC215777600048D33D /* FinderPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		983CFD31217E0F5200A91B50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98B73F47216CDA8F00D128A9;
+			remoteInfo = ShortcutsKit;
+		};
+		983CFD33217E0F5200A91B50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98B73F56216CE08A00D128A9;
+			remoteInfo = ShortcutsDemo;
+		};
 		98C393F3215777610048D33D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9862A1292119DC0000760570 /* Project object */;
@@ -75,19 +91,10 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		98C394072158C7550048D33D /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				98C394092158C7600048D33D /* FinderPlugin.appex in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutsKit.xcodeproj; path = ../Shortcuts/ShortcutsKit/ShortcutsKit.xcodeproj; sourceTree = "<group>"; };
 		9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAboutWindowController.swift; sourceTree = "<group>"; };
 		9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFPreferencesWindowController.swift; sourceTree = "<group>"; };
 		9862A1312119DC0000760570 /* Kaka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaka.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +105,7 @@
 		9862A13C2119DC0000760570 /* Kaka.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaka.entitlements; sourceTree = "<group>"; };
 		9862A144211A626C00760570 /* HAFAnimationSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationSequence.swift; sourceTree = "<group>"; };
 		9862A146211A628C00760570 /* HAFAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationView.swift; sourceTree = "<group>"; };
+		98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFHotkeyManager.swift; sourceTree = "<group>"; };
 		987BAF872126E7A400EE828E /* Animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Animations; sourceTree = "<group>"; };
 		987BAFC42127E56200EE828E /* HAFTransparentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAFTransparentView.h; sourceTree = "<group>"; };
 		987BAFC52127E56200EE828E /* HAFTransparentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HAFTransparentView.m; sourceTree = "<group>"; };
@@ -116,6 +124,8 @@
 		988A179F2131575F00A89C25 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationManager.swift; sourceTree = "<group>"; };
 		989CA766211FDD1400E7A004 /* HAFKakaObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaObject.swift; sourceTree = "<group>"; };
+		98B73F1A2164984D00D128A9 /* HAFUserBehaviorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAFUserBehaviorManager.h; sourceTree = "<group>"; };
+		98B73F1B2164984D00D128A9 /* HAFUserBehaviorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HAFUserBehaviorManager.m; sourceTree = "<group>"; };
 		98BEFFDF215B9B7B007B10FF /* Tamplates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Tamplates; sourceTree = "<group>"; };
 		98C393EC215777600048D33D /* FinderPlugin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FinderPlugin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C393EE215777610048D33D /* FinderSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FinderSync.h; sourceTree = "<group>"; };
@@ -134,6 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				983CFD35217E104500A91B50 /* ShortcutsKit.framework in Frameworks */,
 				98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,9 +167,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		983CFD2C217E0F5200A91B50 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				983CFD32217E0F5200A91B50 /* ShortcutsKit.framework */,
+				983CFD34217E0F5200A91B50 /* ShortcutsDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9862A1282119DC0000760570 = {
 			isa = PBXGroup;
 			children = (
+				983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */,
 				98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */,
 				9862A1332119DC0000760570 /* Kaka */,
 				988A17842131508D00A89C25 /* LaunchAtLoginHelper */,
@@ -216,6 +237,8 @@
 				98BEFFDF215B9B7B007B10FF /* Tamplates */,
 				98C393EE215777610048D33D /* FinderSync.h */,
 				98C393EF215777610048D33D /* FinderSync.m */,
+				98B73F1A2164984D00D128A9 /* HAFUserBehaviorManager.h */,
+				98B73F1B2164984D00D128A9 /* HAFUserBehaviorManager.m */,
 				98C393F1215777610048D33D /* Info.plist */,
 				98C393F2215777610048D33D /* FinderPlugin.entitlements */,
 				98C394002157DE560048D33D /* Localizable.strings */,
@@ -247,6 +270,7 @@
 				989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */,
 				9862A146211A628C00760570 /* HAFAnimationView.swift */,
 				988A177C2131225F00A89C25 /* HAFConfigureManager.swift */,
+				98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -273,7 +297,6 @@
 				9862A12F2119DC0000760570 /* Resources */,
 				988A1791213152C500A89C25 /* CopyFiles */,
 				98C393FA215777610048D33D /* Embed App Extensions */,
-				98C394072158C7550048D33D /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -367,6 +390,10 @@
 					ProductGroup = 98F8F8AE212EF05E00DE612A /* Products */;
 					ProjectRef = 98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */;
 				},
+				{
+					ProductGroup = 983CFD2C217E0F5200A91B50 /* Products */;
+					ProjectRef = 983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -378,6 +405,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		983CFD32217E0F5200A91B50 /* ShortcutsKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShortcutsKit.framework;
+			remoteRef = 983CFD31217E0F5200A91B50 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		983CFD34217E0F5200A91B50 /* ShortcutsDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ShortcutsDemo.app;
+			remoteRef = 983CFD33217E0F5200A91B50 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -436,6 +477,7 @@
 				988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */,
 				9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */,
 				987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */,
+				98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,6 +493,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98B73F1C2164984D00D128A9 /* HAFUserBehaviorManager.m in Sources */,
 				98C393F0215777610048D33D /* FinderSync.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

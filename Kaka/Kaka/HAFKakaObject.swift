@@ -139,9 +139,11 @@ class HAFKakaObject: NSObject {
     
     func tolerantAandomAnimationSequence() -> HAFAnimationSequence {
         var rslt: HAFAnimationSequence? = nil
+        var nTry: Int = 0
         repeat{
             rslt = randomAnimationSequence()
-        }while _animationSequence == rslt
+            nTry += 1
+        }while _animationSequence == rslt && nTry <= 2
         return rslt!
     }
     
