@@ -8,6 +8,7 @@
 
 import Cocoa
 import ServiceManagement
+import ShortcutsKit
 
 class HAFConfigureManager: NSObject {
     static let sharedManager = HAFConfigureManager()
@@ -24,6 +25,10 @@ class HAFConfigureManager: NSObject {
     let kAutoToggleDarkModeBaseOnDisplayBrightnessValue = "AutoToggleDarkModeBaseOnDisplayBrightnessValueKey"
     let kEnableFinderExtension = "EnableFinderExtensionKey"
     let kEnableKaka = "EnableKakaKey"
+    let kDisplayDesktopKeyCombo = "DisplayDesktopKeyCombo"
+    let kHideDesktopIconsKeyCombo = "HideDesktopIconsKeyCombo"
+    let kTurnOffDisplayKeyCombo = "TurnOffDisplayKeyCombo"
+    let kTurnOnDarkModeKeyCombo = "TurnOnDarkModeKeyCombo"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -126,5 +131,49 @@ class HAFConfigureManager: NSObject {
     
     func isEnableKaka() -> Bool{
         return !UserDefaults.standard.bool(forKey: kEnableKaka)
+    }
+    
+    func setDisplayDesktopKeyCombo(keyCombo: SCKeyCombo?) -> Void{
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: keyCombo as Any), forKey: kDisplayDesktopKeyCombo)
+    }
+    
+    func displayDesktopKeyCombo() -> SCKeyCombo?{
+        guard let date = UserDefaults.standard.object(forKey: kDisplayDesktopKeyCombo) else {
+            return nil;
+        }
+        return NSKeyedUnarchiver.unarchiveObject(with: date as! Data) as? SCKeyCombo
+    }
+    
+    func setHideDesktopIconsKeyCombo(keyCombo: SCKeyCombo?) -> Void{
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: keyCombo as Any), forKey: kHideDesktopIconsKeyCombo)
+    }
+    
+    func hideDesktopIconsKeyCombo() -> SCKeyCombo?{
+        guard let date = UserDefaults.standard.object(forKey: kHideDesktopIconsKeyCombo) else {
+            return nil;
+        }
+        return NSKeyedUnarchiver.unarchiveObject(with: date as! Data) as? SCKeyCombo
+    }
+    
+    func setTurnOffDisplayKeyCombo(keyCombo: SCKeyCombo?) -> Void{
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: keyCombo as Any), forKey: kTurnOffDisplayKeyCombo)
+    }
+    
+    func turnOffDisplayKeyCombo() -> SCKeyCombo?{
+        guard let date = UserDefaults.standard.object(forKey: kTurnOffDisplayKeyCombo) else {
+            return nil;
+        }
+        return NSKeyedUnarchiver.unarchiveObject(with: date as! Data) as? SCKeyCombo
+    }
+    
+    func setTurnOnDarkModeKeyCombo(keyCombo: SCKeyCombo?) -> Void{
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: keyCombo as Any), forKey: kTurnOnDarkModeKeyCombo)
+    }
+    
+    func turnOnDarkModeKeyCombo() -> SCKeyCombo?{
+        guard let date = UserDefaults.standard.object(forKey: kTurnOnDarkModeKeyCombo) else {
+            return nil;
+        }
+        return NSKeyedUnarchiver.unarchiveObject(with: date as! Data) as? SCKeyCombo
     }
 }
