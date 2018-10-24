@@ -136,6 +136,8 @@ class HAFPreferencesWindowController: NSWindowController {
         
         _kcvDisplayDesktop = SCKeyComboView.standard()
         _kcvDisplayDesktop.setFrameOrigin(NSMakePoint(85, NSMinY(tabFrame) - 60))
+        _kcvDisplayDesktop.delegate = self as SCKeyComboViewDelegate
+        _kcvDisplayDesktop.keyCombo = HAFConfigureManager.sharedManager.displayDesktopKeyCombo()
         wnd.contentView?.addSubview(_kcvDisplayDesktop)
         
         _lbHideDesktopIcons = NSTextField.init(frame: NSMakeRect(245, NSMinY(tabFrame) - 30, NSWidth(frame), 23))
@@ -150,6 +152,8 @@ class HAFPreferencesWindowController: NSWindowController {
         
         _kcvHideDesktopIcons = SCKeyComboView.standard()
         _kcvHideDesktopIcons.setFrameOrigin(NSMakePoint(320, NSMinY(tabFrame) - 60))
+        _kcvHideDesktopIcons.delegate = self as SCKeyComboViewDelegate
+        _kcvHideDesktopIcons.keyCombo = HAFConfigureManager.sharedManager.hideDesktopIconsKeyCombo()
         wnd.contentView?.addSubview(_kcvHideDesktopIcons)
         
         _lbTurnOffDisplay = NSTextField.init(frame: NSMakeRect(20, NSMinY(tabFrame) - 85, NSWidth(frame), 23))
@@ -164,6 +168,8 @@ class HAFPreferencesWindowController: NSWindowController {
         
         _kcvTurnOffDisplay = SCKeyComboView.standard()
         _kcvTurnOffDisplay.setFrameOrigin(NSMakePoint(85, NSMinY(tabFrame) - 115))
+        _kcvTurnOffDisplay.delegate = self as SCKeyComboViewDelegate
+        _kcvTurnOffDisplay.keyCombo = HAFConfigureManager.sharedManager.turnOffDisplayKeyCombo()
         wnd.contentView?.addSubview(_kcvTurnOffDisplay)
         
         _lbTurnOnDarkMode = NSTextField.init(frame: NSMakeRect(245, NSMinY(tabFrame) - 85, NSWidth(frame), 23))
@@ -178,6 +184,8 @@ class HAFPreferencesWindowController: NSWindowController {
         
         _kcvTurnOnDarkMode = SCKeyComboView.standard()
         _kcvTurnOnDarkMode.setFrameOrigin(NSMakePoint(320, NSMinY(tabFrame) - 115))
+        _kcvTurnOnDarkMode.delegate = self as SCKeyComboViewDelegate
+        _kcvTurnOnDarkMode.keyCombo = HAFConfigureManager.sharedManager.turnOnDarkModeKeyCombo()
         wnd.contentView?.addSubview(_kcvTurnOnDarkMode)
         
         updateThresholdValue()
@@ -269,5 +277,41 @@ class HAFPreferencesWindowController: NSWindowController {
     
     @IBAction func tabs_click(sender: AnyObject?){
         updateTabs()
+    }
+}
+
+extension HAFPreferencesWindowController:SCKeyComboViewDelegate{
+    func keyComboWillChange(_ keyComboView: SCKeyComboView) -> Void {
+    }
+    
+    func keyComboDidChanged(_ keyComboView: SCKeyComboView) -> Void {
+        let kc = keyComboView.keyCombo
+        if nil != kc{
+            if 0 == kc!.keyModifiers{
+                keyComboView.keyCombo = nil
+                return;
+            }
+            
+            if (_kcvDisplayDesktop.keyCombo == kc && keyComboView != _kcvDisplayDesktop) || (_kcvHideDesktopIcons.keyCombo == kc && keyComboView != _kcvHideDesktopIcons) || (_kcvTurnOffDisplay.keyCombo == kc && keyComboView != _kcvTurnOffDisplay) || (_kcvTurnOnDarkMode.keyCombo == kc && keyComboView != _kcvTurnOnDarkMode){
+                keyComboView.keyCombo = nil
+                return;
+            }
+        }
+        
+        if keyComboView == _kcvDisplayDesktop {
+            HAFHotkeyManager.sharedManager.setDisplayDesktopHotkey(keyCombo: keyComboView.keyCombo)
+        }
+        
+        if keyComboView == _kcvHideDesktopIcons {
+            HAFHotkeyManager.sharedManager.setHideDesktopIconsHotkey(keyCombo: keyComboView.keyCombo)
+        }
+        
+        if keyComboView == _kcvTurnOffDisplay {
+            HAFHotkeyManager.sharedManager.setTurnOffDisplayHotkey(keyCombo: keyComboView.keyCombo)
+        }
+        
+        if keyComboView == _kcvTurnOnDarkMode {
+            HAFHotkeyManager.sharedManager.setTurnOnDarkModeHotkey(keyCombo: keyComboView.keyCombo)
+        }
     }
 }
