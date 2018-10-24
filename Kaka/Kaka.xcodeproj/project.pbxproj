@@ -15,6 +15,7 @@
 		9862A13A2119DC0000760570 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9862A1382119DC0000760570 /* MainMenu.xib */; };
 		9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A144211A626C00760570 /* HAFAnimationSequence.swift */; };
 		9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A146211A628C00760570 /* HAFAnimationView.swift */; };
+		98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */; };
 		987BAF882126E7A400EE828E /* Animations in Resources */ = {isa = PBXBuildFile; fileRef = 987BAF872126E7A400EE828E /* Animations */; };
 		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
 		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
@@ -104,6 +105,7 @@
 		9862A13C2119DC0000760570 /* Kaka.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kaka.entitlements; sourceTree = "<group>"; };
 		9862A144211A626C00760570 /* HAFAnimationSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationSequence.swift; sourceTree = "<group>"; };
 		9862A146211A628C00760570 /* HAFAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationView.swift; sourceTree = "<group>"; };
+		98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFHotkeyManager.swift; sourceTree = "<group>"; };
 		987BAF872126E7A400EE828E /* Animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Animations; sourceTree = "<group>"; };
 		987BAFC42127E56200EE828E /* HAFTransparentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAFTransparentView.h; sourceTree = "<group>"; };
 		987BAFC52127E56200EE828E /* HAFTransparentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HAFTransparentView.m; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				989CA764211E5D1900E7A004 /* HAFAnimationManager.swift */,
 				9862A146211A628C00760570 /* HAFAnimationView.swift */,
 				988A177C2131225F00A89C25 /* HAFConfigureManager.swift */,
+				98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */,
 				9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */,
 				987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */,
+				98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
