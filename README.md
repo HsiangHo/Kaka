@@ -37,3 +37,4 @@ Kaka is available on the Mac App Store.
 ## Open Source Libraries
 
 - [ShadowstarKit](https://github.com/HsiangHo/ShadowstarKit)
+- [ShortcutsKit](https://github.com/HsiangHo/ShortcutsKit)
