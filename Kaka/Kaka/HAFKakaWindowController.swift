@@ -15,7 +15,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPreventSystemSleep: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
-    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
+//    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
+    var menuItemTurnOffTheDisplay: NSMenuItem!
     var menuItemEnableFinderExtension: NSMenuItem!
     var menuItemTurnOnDarkMode: NSMenuItem!
     var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
@@ -45,7 +46,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
         var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
-        menuItemShowHiddenFilesAndFolders = NSMenuItem.init(title: NSLocalizedString("Show Hidden Files & Folders",comment: ""), action: #selector(showHiddenFilesAndFolders_click), keyEquivalent: "")
+//        menuItemShowHiddenFilesAndFolders = NSMenuItem.init(title: NSLocalizedString("Show Hidden Files & Folders",comment: ""), action: #selector(showHiddenFilesAndFolders_click), keyEquivalent: "")
+        menuItemTurnOffTheDisplay = NSMenuItem.init(title: NSLocalizedString("Turn Off The Display",comment: ""), action: #selector(turnOffTheDisplay_click), keyEquivalent: "")
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
@@ -66,7 +68,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemShowDesktop.target = self
         menuItemShowDesktopIcon.target = self
         menuItemPreventSystemSleep.target = self
-        menuItemShowHiddenFilesAndFolders.target = self
+//        menuItemShowHiddenFilesAndFolders.target = self
+        menuItemTurnOffTheDisplay.target = self
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.target = self
         menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
@@ -79,8 +82,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         actionMenu.addItem(menuItemShowDesktop)
         actionMenu.addItem(menuItemShowDesktopIcon)
+//        actionMenu.addItem(menuItemShowHiddenFilesAndFolders)
+        actionMenu.addItem(menuItemTurnOffTheDisplay)
         actionMenu.addItem(menuItemTurnOnDarkMode)
-        actionMenu.addItem(menuItemShowHiddenFilesAndFolders)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemAutoHideMouseCursor)
         actionMenu.addItem(menuItemAutoHideDesktopIcons)
@@ -136,11 +140,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             }
         }
         
-        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
-            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
-            }
-        }
+//        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+//            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+//                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
+//            }
+//        }
         
         SSBrightnessManager.shared().setBrightnessValueChangedBlock { (value, type) in
             if !HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness(){
@@ -175,6 +179,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         
         __startToUpdateDesktopCover()
+        
+        HAFHotkeyManager.sharedManager.registerAll()
     }
     
     required init?(coder: NSCoder) {
@@ -286,10 +292,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         __showDesktop()
     }
     
-    @IBAction func showHiddenFilesAndFolders_click(sender: AnyObject?){
-        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSAppearanceManager.shared().setShowAllFiles(!SSAppearanceManager.shared().isShowAllFiles())
-        }
+//    @IBAction func showHiddenFilesAndFolders_click(sender: AnyObject?){
+//        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+//            SSAppearanceManager.shared().setShowAllFiles(!SSAppearanceManager.shared().isShowAllFiles())
+//        }
+//    }
+    @IBAction func turnOffTheDisplay_click(sender: AnyObject?){
+        SSDesktopManager.shared().turnOffTheDisplay()
     }
     
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
@@ -401,11 +410,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.title = turnOnDarkModeBaseOnDisplayBrightness
-        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
-            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
-            }
-        }
+//        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+//            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+//                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
+//            }
+//        }
     }
     
     //MARK: Private functions
@@ -425,15 +434,19 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     func __loadFinderPlugin() -> Void {
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript("do shell script \"/usr/bin/pluginkit -e use -i com.HyperartFlow.Kaka.FinderPlugin\"", withCompletionHandler: { (_, _) in
+            let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+            let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -a '%@'\"", pluginPath)
+            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
                 
             });
         }
     }
     
     func __unloadFinderPlugin() -> Void {
+        let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+        let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -r '%@'\"", pluginPath)
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript("do shell script \"/usr/bin/pluginkit -e ignore -i com.HyperartFlow.Kaka.FinderPlugin\"", withCompletionHandler: { (_, _) in
+            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
                 
             });
         }

@@ -1,3 +1,6 @@
 [submodule "ShadowstarKit"]
 	path = ShadowstarKit
 	url = https://github.com/HsiangHo/ShadowstarKit.git
+[submodule "Shortcuts"]
+	path = Shortcuts
+	url = https://github.com/HsiangHo/ShortcutsKit.git
