@@ -179,6 +179,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         
         __startToUpdateDesktopCover()
+        
+        HAFHotkeyManager.sharedManager.registerAll()
     }
     
     required init?(coder: NSCoder) {
