@@ -375,7 +375,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func rateOnMacAppStore_click(sender: AnyObject?){
-        NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id1434172933")!)
+        NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id1434172933?action=write-review")!)
     }
     
     @IBAction func displayKakaMenuItem_click(sender: AnyObject?){
