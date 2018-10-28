@@ -1,7 +1,7 @@
 # Kaka
 
 [![Travis](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/HsiangHo/Kaka)
-[![Packagist](https://img.shields.io/badge/release-1.0.3-blue.svg)](https://itunes.apple.com/app/id1434172933)
+[![Packagist](https://img.shields.io/badge/release-1.0.7-blue.svg)](https://itunes.apple.com/app/id1434172933)
 [![Jenkins](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/HsiangHo/Kaka/blob/master/LICENSE)
 [![Travis](https://img.shields.io/badge/platform-macOS-yellow.svg)]()
 
