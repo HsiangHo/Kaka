@@ -135,7 +135,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             })
         }
         
-        SSDesktopManager.shared().setDesktopObjectsChangedBlock { (_) in
+        SSDesktopManager.shared().setDesktopObjectsChangedBlock { (desktopObjsDict) in
             if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
                 self.menuItemAutoHideDesktopIcons.state = .on
                 SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
@@ -144,6 +144,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                     SSDesktopManager.shared().coverAllDesktop();
                 })
+                
+                for (_,value) in desktopObjsDict!{
+                    value.setMouseActionCallback({ (windowType, eventType, event,context)  in
+                        if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
+                            DispatchQueue.main.async {
+                                value.uncoverDesktop()
+                            }
+                        }
+                    }, withContext: nil)
+                }
             }
         }
         
