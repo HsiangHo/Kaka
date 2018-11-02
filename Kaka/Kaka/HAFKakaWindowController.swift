@@ -125,10 +125,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             }, withContext: nil)
         }
         
-        if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
-            menuItemAutoHideDesktopIcons.state = .on
-            SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
-            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+        SSDesktopManager.shared().setDesktopObjectsChangedBlock { (_) in
+            if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
+                self.menuItemAutoHideDesktopIcons.state = .on
+                SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
+                SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+            }
         }
         
         if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() {
