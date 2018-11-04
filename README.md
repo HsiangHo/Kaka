@@ -1,7 +1,7 @@
 # Kaka
 
 [![Travis](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/HsiangHo/Kaka)
-[![Packagist](https://img.shields.io/badge/release-1.0.7-blue.svg)](https://itunes.apple.com/app/id1434172933)
+[![Packagist](https://img.shields.io/badge/release-1.0.8-blue.svg)](https://itunes.apple.com/app/id1434172933)
 [![Jenkins](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/HsiangHo/Kaka/blob/master/LICENSE)
 [![Travis](https://img.shields.io/badge/platform-macOS-yellow.svg)]()
 
@@ -9,7 +9,7 @@
 
 ## Features
 
-1. 一键显示/隐藏桌面图标。
+1. 一键显示/隐藏桌面图标。(增加对多屏幕支持)
 2. 一键返回桌面。
 3. 自动(3秒)隐藏鼠标光标。
 4. 防止系统自动休眠。
@@ -38,3 +38,4 @@ Kaka is available on the Mac App Store.
 
 - [ShadowstarKit](https://github.com/HsiangHo/ShadowstarKit)
 - [ShortcutsKit](https://github.com/HsiangHo/ShortcutsKit)
+- [RateKit](https://github.com/HsiangHo/RateKit)
