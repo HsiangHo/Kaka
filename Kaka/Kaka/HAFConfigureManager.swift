@@ -30,7 +30,6 @@ class HAFConfigureManager: NSObject {
     let kTurnOffDisplayKeyCombo = "TurnOffDisplayKeyCombo"
     let kTurnOnDarkModeKeyCombo = "TurnOnDarkModeKeyCombo"
     let kRequestRating = "RequestRating"
-    let kUserActionCount = "UserActionCount"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -185,13 +184,5 @@ class HAFConfigureManager: NSObject {
     
     func isRequestRating() -> Bool{
         return !UserDefaults.standard.bool(forKey: kRequestRating)
-    }
-    
-    func setUserActionCount(nCount: Int) -> Void {
-        UserDefaults.standard.set(nCount, forKey: kUserActionCount)
-    }
-    
-    func getUserActionCount() -> Int{
-        return UserDefaults.standard.integer(forKey: kUserActionCount)
     }
 }
