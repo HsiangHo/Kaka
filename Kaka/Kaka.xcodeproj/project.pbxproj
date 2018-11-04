@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		980C11D8218E9CCC00890F27 /* RateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 980C11D1218E8BA300890F27 /* RateKit.framework */; };
 		983CFD35217E104500A91B50 /* ShortcutsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983CFD32217E0F5200A91B50 /* ShortcutsKit.framework */; };
 		9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */; };
 		9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */; };
@@ -39,6 +40,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		980C11D0218E8BA300890F27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 980C11CB218E8BA300890F27 /* RateKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 980C119B218D5D7500890F27;
+			remoteInfo = RateKit;
+		};
+		980C11D2218E8BA300890F27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 980C11CB218E8BA300890F27 /* RateKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 980C11AA218D60AC00890F27;
+			remoteInfo = RateKitDemo;
+		};
 		983CFD31217E0F5200A91B50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */;
@@ -94,6 +109,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		980C11CB218E8BA300890F27 /* RateKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RateKit.xcodeproj; path = ../RateKit/RateKit/RateKit.xcodeproj; sourceTree = "<group>"; };
 		983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutsKit.xcodeproj; path = ../Shortcuts/ShortcutsKit/ShortcutsKit.xcodeproj; sourceTree = "<group>"; };
 		9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAboutWindowController.swift; sourceTree = "<group>"; };
 		9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFPreferencesWindowController.swift; sourceTree = "<group>"; };
@@ -144,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				980C11D8218E9CCC00890F27 /* RateKit.framework in Frameworks */,
 				983CFD35217E104500A91B50 /* ShortcutsKit.framework in Frameworks */,
 				98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */,
 			);
@@ -167,6 +184,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		980C11CC218E8BA300890F27 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				980C11D1218E8BA300890F27 /* RateKit.framework */,
+				980C11D3218E8BA300890F27 /* RateKitDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		983CFD2C217E0F5200A91B50 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +205,7 @@
 		9862A1282119DC0000760570 = {
 			isa = PBXGroup;
 			children = (
+				980C11CB218E8BA300890F27 /* RateKit.xcodeproj */,
 				983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */,
 				98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */,
 				9862A1332119DC0000760570 /* Kaka */,
@@ -387,6 +414,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 980C11CC218E8BA300890F27 /* Products */;
+					ProjectRef = 980C11CB218E8BA300890F27 /* RateKit.xcodeproj */;
+				},
+				{
 					ProductGroup = 98F8F8AE212EF05E00DE612A /* Products */;
 					ProjectRef = 98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */;
 				},
@@ -405,6 +436,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		980C11D1218E8BA300890F27 /* RateKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RateKit.framework;
+			remoteRef = 980C11D0218E8BA300890F27 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		980C11D3218E8BA300890F27 /* RateKitDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = RateKitDemo.app;
+			remoteRef = 980C11D2218E8BA300890F27 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		983CFD32217E0F5200A91B50 /* ShortcutsKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

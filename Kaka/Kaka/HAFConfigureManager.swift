@@ -29,6 +29,7 @@ class HAFConfigureManager: NSObject {
     let kHideDesktopIconsKeyCombo = "HideDesktopIconsKeyCombo"
     let kTurnOffDisplayKeyCombo = "TurnOffDisplayKeyCombo"
     let kTurnOnDarkModeKeyCombo = "TurnOnDarkModeKeyCombo"
+    let kRequestRating = "RequestRating"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -175,5 +176,13 @@ class HAFConfigureManager: NSObject {
             return nil;
         }
         return NSKeyedUnarchiver.unarchiveObject(with: data as! Data) as? SCKeyCombo
+    }
+    
+    func setRequestRating(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kRequestRating)
+    }
+    
+    func isRequestRating() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kRequestRating)
     }
 }

@@ -4,3 +4,5 @@
 
 #import "HAFTransparentView.h"
 #import <ShadowstarKit/ShadowstarKit.h>
+#import <RateKit/RateKit.h>
+#import <ShortcutsKit/ShortcutsKit.h>
