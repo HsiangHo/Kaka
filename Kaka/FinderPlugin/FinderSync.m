@@ -52,6 +52,7 @@
                 }
                 [FIFinderSyncController defaultController].directoryURLs = _folderSet;
             }
+            CFRelease(disk);
             CFRelease(session);
         });
     }];
