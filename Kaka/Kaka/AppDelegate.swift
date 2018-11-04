@@ -14,6 +14,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     var kaka: HAFKakaObject = HAFKakaObject.init()
     var kakaWindowController: HAFKakaWindowController = HAFKakaWindowController.init()
+    var rateWindowController: RateWindowController?;
+    var rateConfigure: RateConfigure?
+    var nActionCount: Int = 0
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -28,10 +31,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem!.sendAction(on: [.leftMouseUp, .rightMouseUp])
         statusItem!.action = #selector(statusItem_click)
         statusItem!.target = self
+        
+        if HAFConfigureManager.sharedManager.isRequestRating() {
+            rateConfigure = RateConfigure.init()
+            rateConfigure?.name = NSLocalizedString("Love Kaka?", comment: "")
+            rateConfigure?.icon = NSImage(named: NSImage.Name(rawValue: "AppIcon"))
+            rateConfigure?.detailText = NSLocalizedString("We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n", comment: "") + "⭐️⭐️⭐️⭐️⭐️"
+            rateConfigure?.likeButtonTitle = NSLocalizedString("Rate Now!", comment: "")
+            rateConfigure?.ignoreButtonTitle = NSLocalizedString("Later", comment: "")
+            rateConfigure?.rateURL = URL.init(string: "macappstore://itunes.apple.com/app/id1434172933?action=write-review")
+            if nil != rateConfigure{
+                rateWindowController = RateWindowController.init(configure: rateConfigure!)
+                rateWindowController!.setRateTimeout(30)
+            }
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+    }
+    
+    func requestRating() -> Void {
+        nActionCount += 1;
+        if HAFConfigureManager.sharedManager.isRequestRating() && 0 == nActionCount % 20 {
+            rateWindowController?.requestRateWindow(RateWindowPositionTopRight, withRateCompletionCallback: { (rslt) in
+                if RateResultRated == rslt{
+                    HAFConfigureManager.sharedManager.setRequestRating(bFlag: false)
+                }
+            })
+        }
     }
     
     @IBAction func statusItem_click(sender: AnyObject?){
@@ -41,6 +69,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             kakaWindowController.updateActionMenu()
             statusItem!.popUpMenu(kakaWindowController.actionMenu)
         }
+        requestRating()
     }
     
     @IBAction func help_click(sender: AnyObject?){

@@ -4,3 +4,6 @@
 [submodule "Shortcuts"]
 	path = Shortcuts
 	url = https://github.com/HsiangHo/ShortcutsKit.git
+[submodule "RateKit"]
+	path = RateKit
+	url = https://github.com/HsiangHo/RateKit

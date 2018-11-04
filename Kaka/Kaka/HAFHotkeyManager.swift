@@ -61,11 +61,11 @@ class HAFHotkeyManager: NSObject {
         }
         if nil != keyCombo {
             hideDesktopIconsHotkey = SCHotkey.init(keyCombo: keyCombo!, identifier: "hideDesktopIcons", handler: { (_) in
-                if SSDesktopManager.shared().desktopCoverWindow().isVisible{
-                    SSDesktopManager.shared().uncoverDesktop()
+                if SSDesktopManager.shared().isAllDesktopCovered(){
+                    SSDesktopManager.shared().uncoverAllDesktop()
                 }else{
-                    SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
-                    SSDesktopManager.shared().coverDesktop()
+                    SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
+                    SSDesktopManager.shared().coverAllDesktop()
                 }
             });
             hideDesktopIconsHotkey!.register()

@@ -114,18 +114,47 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSDesktopManager.shared().preventSleep(true)
         }
         
-        SSDesktopManager.shared().setMouseActionCallback({ (windowType, eventType, event,context)  in
-            if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DM_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
-                DispatchQueue.main.async {
-                    SSDesktopManager.shared().uncoverDesktop()
+        let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
+        for (_,value) in desktopObjs!{
+            value.setMouseActionCallback({ (windowType, eventType, event,context)  in
+                if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
+                    DispatchQueue.main.async {
+                        value.uncoverDesktop()
+                    }
                 }
-            }
-        }, withContext: nil)
+            }, withContext: nil)
+        }
         
         if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
-            menuItemAutoHideDesktopIcons.state = .on
-            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
-            SSDesktopManager.shared().setAutoCoverDesktopTimeout(10)
+            self.menuItemAutoHideDesktopIcons.state = .on
+            SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
+            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+            SSDesktopManager.shared().uncoverAllDesktop();
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                SSDesktopManager.shared().coverAllDesktop();
+            })
+        }
+        
+        SSDesktopManager.shared().setDesktopObjectsChangedBlock { (desktopObjsDict) in
+            if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
+                self.menuItemAutoHideDesktopIcons.state = .on
+                SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
+                SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+                SSDesktopManager.shared().uncoverAllDesktop();
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    SSDesktopManager.shared().coverAllDesktop();
+                })
+                
+                for (_,value) in desktopObjsDict!{
+                    value.setMouseActionCallback({ (windowType, eventType, event,context)  in
+                        if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
+                            DispatchQueue.main.async {
+                                value.uncoverDesktop()
+                            }
+                        }
+                    }, withContext: nil)
+                }
+            }
         }
         
         if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() {
@@ -354,11 +383,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func autoHideDesktopIcons_click(sender: AnyObject?){
         if menuItemAutoHideDesktopIcons.state == .off {
             menuItemAutoHideDesktopIcons.state = .on
-            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
-            SSDesktopManager.shared().setAutoCoverDesktopTimeout(10)
+            SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
+            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
         }else{
             menuItemAutoHideDesktopIcons.state = .off
-            SSDesktopManager.shared().setAutoCoverDesktopTimeout(0)
+            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(0)
         }
         HAFConfigureManager.sharedManager.setAutoHideDesktopIcons(bFlag: menuItemAutoHideDesktopIcons.state == .on)
     }
@@ -375,7 +404,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func rateOnMacAppStore_click(sender: AnyObject?){
-        NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id1434172933")!)
+        NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id1434172933?action=write-review")!)
     }
     
     @IBAction func displayKakaMenuItem_click(sender: AnyObject?){
@@ -405,7 +434,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     //MARK: Public functions
     func updateActionMenu() -> Void{
-        menuItemShowDesktopIcon.state = SSDesktopManager.shared().desktopCoverWindow().isVisible ? .on : .off
+        menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
         menuItemTurnOnDarkMode.state = SSAppearanceManager.shared().isDarkMode() ? .on : .off
         var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
@@ -424,11 +453,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     func __showDesktopIcons() -> Void {
         //Desktop cover
-        if SSDesktopManager.shared().desktopCoverWindow().isVisible{
-            SSDesktopManager.shared().uncoverDesktop()
+        if SSDesktopManager.shared().isAllDesktopCovered(){
+            SSDesktopManager.shared().uncoverAllDesktop()
         }else{
-            SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
-            SSDesktopManager.shared().coverDesktop()
+            SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
+            SSDesktopManager.shared().coverAllDesktop()
         }
     }
     
@@ -456,8 +485,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         _updateDesktopCoverTimer = DispatchSource.makeTimerSource(queue: .main)
         _updateDesktopCoverTimer?.schedule(wallDeadline: .now(), repeating: .seconds(60), leeway: .milliseconds(1))
         _updateDesktopCoverTimer?.setEventHandler {
-            if SSDesktopManager.shared().desktopCoverWindow().isVisible{
-                SSDesktopManager.shared().desktopCoverImageView().image = SSDesktopManager.shared().snapshotDesktopImage()
+            if SSDesktopManager.shared().isAllDesktopCovered(){
+                SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
             }
         }
         _updateDesktopCoverTimer?.resume()
