@@ -21,6 +21,8 @@
 		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
 		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
 		987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC92129337700EE828E /* HAFKakaWindowController.swift */; };
+		987BE73321948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BE73221948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift */; };
+		987BE73C2195A4B300CB8DE3 /* HAFAppApprearanceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BE73B2195A4B300CB8DE3 /* HAFAppApprearanceButton.swift */; };
 		988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A177C2131225F00A89C25 /* HAFConfigureManager.swift */; };
 		988A17862131508D00A89C25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A17852131508D00A89C25 /* AppDelegate.swift */; };
 		988A17882131508D00A89C25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 988A17872131508D00A89C25 /* Assets.xcassets */; };
@@ -128,6 +130,8 @@
 		987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationWindow.swift; sourceTree = "<group>"; };
 		987BAFC92129337700EE828E /* HAFKakaWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaWindowController.swift; sourceTree = "<group>"; };
 		987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kaka-Bridging-Header.h"; sourceTree = "<group>"; };
+		987BE73221948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAppAppearanceWindowController.swift; sourceTree = "<group>"; };
+		987BE73B2195A4B300CB8DE3 /* HAFAppApprearanceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAppApprearanceButton.swift; sourceTree = "<group>"; };
 		988A177C2131225F00A89C25 /* HAFConfigureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFConfigureManager.swift; sourceTree = "<group>"; };
 		988A17832131508D00A89C25 /* LaunchAtLoginHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchAtLoginHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		988A17852131508D00A89C25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -298,6 +302,7 @@
 				9862A146211A628C00760570 /* HAFAnimationView.swift */,
 				988A177C2131225F00A89C25 /* HAFConfigureManager.swift */,
 				98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */,
+				987BE73B2195A4B300CB8DE3 /* HAFAppApprearanceButton.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				987BAFC92129337700EE828E /* HAFKakaWindowController.swift */,
 				9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */,
 				9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */,
+				987BE73221948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -520,6 +526,8 @@
 				9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */,
 				987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */,
 				988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */,
+				987BE73321948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift in Sources */,
+				987BE73C2195A4B300CB8DE3 /* HAFAppApprearanceButton.swift in Sources */,
 				9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */,
 				987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */,
 				98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */,
