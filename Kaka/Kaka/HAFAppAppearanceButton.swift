@@ -11,7 +11,7 @@ import Cocoa
 let buttonFont11 = NSFont.init(name: "Helvetica Neue", size: 11)
 let buttonFont16 = NSFont.init(name: "Helvetica Neue", size: 16)
 
-class HAFAppApprearanceButton: NSButton {
+class HAFAppAppearanceButton: NSButton {
     var _appPath: NSString?
     var _appBundleID: NSString?
     var _appIcon: NSImage?
@@ -22,7 +22,7 @@ class HAFAppApprearanceButton: NSButton {
     var _btnAppReset: NSButton?
     var _trackArea: NSTrackingArea?
     
-    static func defaultButton() -> HAFAppApprearanceButton{
+    static func defaultButton() -> HAFAppAppearanceButton{
         return HAFAppApprearanceButton.init(frame: NSMakeRect(50, 50, 128, 128))
     }
     
