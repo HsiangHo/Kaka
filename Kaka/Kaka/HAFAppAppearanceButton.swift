@@ -23,7 +23,7 @@ class HAFAppAppearanceButton: NSButton {
     var _trackArea: NSTrackingArea?
     
     static func defaultButton() -> HAFAppAppearanceButton{
-        return HAFAppApprearanceButton.init(frame: NSMakeRect(50, 50, 128, 128))
+        return HAFAppAppearanceButton.init(frame: NSMakeRect(0, 0, 128, 128))
     }
     
     var appPath: NSString?{
@@ -165,7 +165,9 @@ class HAFAppAppearanceButton: NSButton {
             var title: NSString = _appName!
             let paragraphStype = NSMutableParagraphStyle.init()
             paragraphStype.lineBreakMode = .byCharWrapping
-            let rct = title.boundingRect(with: _lbAppName!.frame.size, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: buttonFont16!, NSAttributedStringKey.paragraphStyle: paragraphStype])
+            var appNameSize = _lbAppName!.frame.size
+            appNameSize.width *= 0.97
+            let rct = title.boundingRect(with: appNameSize, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: buttonFont16!, NSAttributedStringKey.paragraphStyle: paragraphStype])
             if rct.size.height <= 23 {
                 title = NSString.init(format: "\n%@", title)
             }
