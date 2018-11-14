@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9801EE96219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9801EE95219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift */; };
 		980C11D8218E9CCC00890F27 /* RateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 980C11D1218E8BA300890F27 /* RateKit.framework */; };
 		983CFD35217E104500A91B50 /* ShortcutsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983CFD32217E0F5200A91B50 /* ShortcutsKit.framework */; };
 		9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */; };
@@ -111,6 +112,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9801EE95219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAppAppearanceCollectionViewItem.swift; sourceTree = "<group>"; };
 		980C11CB218E8BA300890F27 /* RateKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RateKit.xcodeproj; path = ../RateKit/RateKit/RateKit.xcodeproj; sourceTree = "<group>"; };
 		983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutsKit.xcodeproj; path = ../Shortcuts/ShortcutsKit/ShortcutsKit.xcodeproj; sourceTree = "<group>"; };
 		9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAboutWindowController.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				988A177C2131225F00A89C25 /* HAFConfigureManager.swift */,
 				98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */,
 				987BE73B2195A4B300CB8DE3 /* HAFAppAppearanceButton.swift */,
+				9801EE95219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9801EE96219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift in Sources */,
 				987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */,
 				989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */,
 				9862A1352119DC0000760570 /* AppDelegate.swift in Sources */,
