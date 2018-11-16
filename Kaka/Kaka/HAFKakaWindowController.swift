@@ -12,6 +12,14 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var _view: HAFAnimationView!
     var _kakaObj: HAFKakaObject? = nil
     var actionMenu: NSMenu!
+    var menuItemDarkmode: NSMenuItem!
+    var subMenuDarkmode: NSMenu!
+    var menuItemDesktop: NSMenuItem!
+    var subMenuDesktop: NSMenu!
+    var menuItemCursor: NSMenuItem!
+    var subMenuCursor: NSMenu!
+    var menuItemPower: NSMenuItem!
+    var subMenuPower: NSMenu!
     var menuItemPreventSystemSleep: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
@@ -41,6 +49,23 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         _view = HAFAnimationView.init(frame: frame)
         wnd.contentView?.addSubview(_view)
         actionMenu = NSMenu.init(title: "actionMenu")
+        
+        subMenuDarkmode = NSMenu.init(title: "darkModeMenu")
+        menuItemDarkmode = NSMenuItem.init(title: NSLocalizedString("Dark Mode", comment: ""), action: nil, keyEquivalent: "")
+        menuItemDarkmode.submenu = subMenuDarkmode
+        
+        subMenuDesktop = NSMenu.init(title: "desktopMenu")
+        menuItemDesktop = NSMenuItem.init(title: NSLocalizedString("Desktop", comment: ""), action: nil, keyEquivalent: "")
+        menuItemDesktop.submenu = subMenuDesktop
+        
+        subMenuCursor = NSMenu.init(title: "cursorMenu")
+        menuItemCursor = NSMenuItem.init(title: NSLocalizedString("Cursor", comment: ""), action: nil, keyEquivalent: "")
+        menuItemCursor.submenu = subMenuCursor
+        
+        subMenuPower = NSMenu.init(title: "Power")
+        menuItemPower = NSMenuItem.init(title: NSLocalizedString("Power", comment: ""), action: nil, keyEquivalent: "")
+        menuItemPower.submenu = subMenuPower
+        
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
@@ -80,17 +105,22 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemHelp.target = self
         menuItemQuit.target = self
         
-        actionMenu.addItem(menuItemShowDesktop)
-        actionMenu.addItem(menuItemShowDesktopIcon)
-//        actionMenu.addItem(menuItemShowHiddenFilesAndFolders)
-        actionMenu.addItem(menuItemTurnOffTheDisplay)
-        actionMenu.addItem(menuItemTurnOnDarkMode)
-        actionMenu.addItem(NSMenuItem.separator())
-        actionMenu.addItem(menuItemAutoHideMouseCursor)
-        actionMenu.addItem(menuItemAutoHideDesktopIcons)
-        actionMenu.addItem(menuItemPreventSystemSleep)
-        actionMenu.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
-        actionMenu.addItem(menuItemEnableFinderExtension)
+        subMenuDesktop.addItem(menuItemShowDesktop)
+        subMenuDesktop.addItem(menuItemShowDesktopIcon)
+        subMenuDesktop.addItem(menuItemAutoHideDesktopIcons)
+        
+        subMenuDarkmode.addItem(menuItemTurnOnDarkMode)
+        subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
+        
+        subMenuPower.addItem(menuItemTurnOffTheDisplay)
+        subMenuPower.addItem(menuItemPreventSystemSleep)
+        
+        subMenuCursor.addItem(menuItemAutoHideMouseCursor)
+        
+        actionMenu.addItem(menuItemDesktop)
+        actionMenu.addItem(menuItemDarkmode)
+        actionMenu.addItem(menuItemPower)
+        actionMenu.addItem(menuItemCursor)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemDisplayKaka)
         actionMenu.addItem(NSMenuItem.separator())
