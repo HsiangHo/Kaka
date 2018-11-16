@@ -82,6 +82,12 @@ class HAFAppAppearanceButton: NSButton {
         super.init(coder: coder)
     }
     
+    @available(OSX 10.14, *)
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        __setupUI()
+    }
+    
     func __updateAppInfo() -> Void {
         if nil == _appPath {
             return
