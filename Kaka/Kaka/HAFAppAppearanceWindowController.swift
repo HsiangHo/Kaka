@@ -24,7 +24,7 @@ class HAFAppAppearanceWindowController: NSWindowController {
         super.init(window: wnd)
         
         _lbTitle = NSTextField.init(frame: NSMakeRect(20, 655, 600, 30))
-        _lbTitle?.stringValue = "Custom Application Appearance"
+        _lbTitle?.stringValue = NSLocalizedString("Custom Application Appearance", comment: "")
         _lbTitle?.isEditable = false
         _lbTitle?.isSelectable = false
         _lbTitle?.isBezeled = false
@@ -33,7 +33,7 @@ class HAFAppAppearanceWindowController: NSWindowController {
         wnd.contentView?.addSubview(_lbTitle!)
         
         _lbSubTitle = NSTextField.init(frame: NSMakeRect(20,595, 600, 30))
-        _lbSubTitle?.stringValue = "⭐️Relaunch the target application takes effect.(some of applications are not supported)"
+        _lbSubTitle?.stringValue = "⭐️" + NSLocalizedString("Relaunch the target application takes effect.(some of applications are not supported)", comment: "")
         _lbSubTitle?.isEditable = false
         _lbSubTitle?.isSelectable = false
         _lbSubTitle?.isBezeled = false
