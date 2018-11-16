@@ -416,6 +416,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     @IBAction func customAppAppearanceMenuItem_click(sender: AnyObject?){
         appAppearanceWindowController?.window?.center()
+        NSApp.activate(ignoringOtherApps: true)
         appAppearanceWindowController?.showWindow(nil)
     }
     
