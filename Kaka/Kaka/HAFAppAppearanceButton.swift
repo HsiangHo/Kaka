@@ -122,7 +122,21 @@ class HAFAppAppearanceButton: NSButton {
         _btnAppReset?.isHidden = true
     }
     
+    func __notSupportedAlert() -> NSAlert {
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Not supported", comment: "")
+        alert.informativeText = NSLocalizedString("To custom app appearance needs macOS 10.14 and later.", comment: "")
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+        return alert
+    }
+    
     @IBAction func selfBtn_click(sender: AnyObject?){
+        if #available(OSX 10.14, *) {} else{
+            let alert = __notSupportedAlert()
+            alert.runModal()
+            return;
+        }
         if nil == _appBundleID {
             return
         }
@@ -140,6 +154,11 @@ class HAFAppAppearanceButton: NSButton {
     }
     
     @IBAction func resetBtn_click(sender: AnyObject?){
+        if #available(OSX 10.14, *) {} else{
+            let alert = __notSupportedAlert()
+            alert.runModal()
+            return;
+        }
         if nil == _appBundleID {
             return
         }
