@@ -18,6 +18,7 @@
 		9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A144211A626C00760570 /* HAFAnimationSequence.swift */; };
 		9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A146211A628C00760570 /* HAFAnimationView.swift */; };
 		98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */; };
+		9874A56B21A01073009839D8 /* HAFSuperModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874A56A21A01073009839D8 /* HAFSuperModeManager.swift */; };
 		987BAF882126E7A400EE828E /* Animations in Resources */ = {isa = PBXBuildFile; fileRef = 987BAF872126E7A400EE828E /* Animations */; };
 		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
 		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
@@ -126,6 +127,7 @@
 		9862A144211A626C00760570 /* HAFAnimationSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationSequence.swift; sourceTree = "<group>"; };
 		9862A146211A628C00760570 /* HAFAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationView.swift; sourceTree = "<group>"; };
 		98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFHotkeyManager.swift; sourceTree = "<group>"; };
+		9874A56A21A01073009839D8 /* HAFSuperModeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFSuperModeManager.swift; sourceTree = "<group>"; };
 		987BAF872126E7A400EE828E /* Animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Animations; sourceTree = "<group>"; };
 		987BAFC42127E56200EE828E /* HAFTransparentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAFTransparentView.h; sourceTree = "<group>"; };
 		987BAFC52127E56200EE828E /* HAFTransparentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HAFTransparentView.m; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				98F8F8B6212F6C5C00DE612A /* Model */,
 				987BAF872126E7A400EE828E /* Animations */,
 				9862A1342119DC0000760570 /* AppDelegate.swift */,
+				9874A56A21A01073009839D8 /* HAFSuperModeManager.swift */,
 				987BAFC42127E56200EE828E /* HAFTransparentView.h */,
 				987BAFC52127E56200EE828E /* HAFTransparentView.m */,
 				987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */,
@@ -522,6 +525,7 @@
 			files = (
 				9801EE96219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift in Sources */,
 				987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */,
+				9874A56B21A01073009839D8 /* HAFSuperModeManager.swift in Sources */,
 				989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */,
 				9862A1352119DC0000760570 /* AppDelegate.swift in Sources */,
 				9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */,
