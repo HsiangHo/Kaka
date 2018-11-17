@@ -140,7 +140,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
             menuItemAutoHideMouseCursor.state = .on
-            SSCursorManager.shared().setAutoHideTimeout(3)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideCursorTimeOut()
+            SSCursorManager.shared().setAutoHideTimeout(UInt(nTimeOut))
         }
         
         if HAFConfigureManager.sharedManager.isPreventSystemFromFallingAsleep() {
@@ -162,7 +163,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
             self.menuItemAutoHideDesktopIcons.state = .on
             SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
-            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(UInt(nTimeOut))
             SSDesktopManager.shared().uncoverAllDesktop();
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 SSDesktopManager.shared().coverAllDesktop();
@@ -173,7 +175,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
                 self.menuItemAutoHideDesktopIcons.state = .on
                 SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
-                SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+                let nTimeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+                SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(UInt(nTimeOut))
                 SSDesktopManager.shared().uncoverAllDesktop();
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                     SSDesktopManager.shared().coverAllDesktop();
@@ -386,7 +389,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func autoHideMouseCursorMenuItem_click(sender: AnyObject?){
         if menuItemAutoHideMouseCursor.state == .off {
             menuItemAutoHideMouseCursor.state = .on
-            SSCursorManager.shared().setAutoHideTimeout(3)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideCursorTimeOut()
+            SSCursorManager.shared().setAutoHideTimeout(UInt(nTimeOut))
         }else{
             menuItemAutoHideMouseCursor.state = .off
             SSCursorManager.shared().setAutoHideTimeout(0)
@@ -424,7 +428,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         if menuItemAutoHideDesktopIcons.state == .off {
             menuItemAutoHideDesktopIcons.state = .on
             SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
-            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(UInt(nTimeOut))
         }else{
             menuItemAutoHideDesktopIcons.state = .off
             SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(0)
