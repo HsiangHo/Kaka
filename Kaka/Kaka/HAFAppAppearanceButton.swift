@@ -22,6 +22,8 @@ class HAFAppAppearanceButton: NSButton {
     var _btnAppReset: NSButton?
     var _trackArea: NSTrackingArea?
     
+    var _bAppAppearanceFlag: Bool = true //Only available in No-superMode
+    
     static func defaultButton() -> HAFAppAppearanceButton{
         return HAFAppAppearanceButton.init(frame: NSMakeRect(0, 0, 128, 128))
     }
@@ -140,6 +142,10 @@ class HAFAppAppearanceButton: NSButton {
         if nil == _appBundleID {
             return
         }
+        if !HAFSuperModeManager.isKakaInSuperMode() {
+            self.__setupUI()
+            return;
+        }
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
             let appAppearance = SSAppearanceManager.shared()?.appAppearance(self._appBundleID! as String)
             if eAppLightkAppearance == appAppearance || (eAppSystemAppearence == appAppearance && !SSAppearanceManager.shared()!.isDarkMode()){
@@ -161,6 +167,9 @@ class HAFAppAppearanceButton: NSButton {
         }
         if nil == _appBundleID {
             return
+        }
+        if !HAFSuperModeManager.isKakaInSuperMode() {
+            return;
         }
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
             let appAppearance = SSAppearanceManager.shared()?.appAppearance(self._appBundleID! as String)
@@ -201,6 +210,16 @@ class HAFAppAppearanceButton: NSButton {
             _lbAppName?.stringValue = ""
         }
         _ivAppIcon?.image = _appIcon
+        
+        if !HAFSuperModeManager.isKakaInSuperMode() {
+            if _bAppAppearanceFlag{
+                __setupDarkUI()
+            }else{
+                __setupLightUI()
+            }
+            _bAppAppearanceFlag = !_bAppAppearanceFlag
+            return;
+        }
         
         if nil != _appBundleID {
             SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
