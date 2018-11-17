@@ -41,3 +41,5 @@
 "Desktop" = "桌面";
 "Cursor" = "鼠标";
 "Power" = "电源";
+"Not supported" = "不支持";
+"To custom app appearance needs macOS 10.14 and later." = "自定义应用外观需要macOS 10.14及以上.";

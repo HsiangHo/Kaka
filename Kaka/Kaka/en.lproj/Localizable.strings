@@ -41,3 +41,5 @@
 "Desktop" = "Desktop";
 "Cursor" = "Cursor";
 "Power" = "Power";
+"Not supported" = "Not supported";
+"To custom app appearance needs macOS 10.14 and later." = "To custom app appearance needs macOS 10.14 and later.";
