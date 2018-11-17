@@ -113,8 +113,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuDesktop.addItem(menuItemAutoHideDesktopIcons)
         
         subMenuDarkmode.addItem(menuItemTurnOnDarkMode)
-        subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
         subMenuDarkmode.addItem(menuItemCustomAppAppearance)
+        subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
         
         subMenuPower.addItem(menuItemTurnOffTheDisplay)
         subMenuPower.addItem(menuItemPreventSystemSleep)
