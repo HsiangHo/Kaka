@@ -26,9 +26,13 @@ class HAFPreferencesWindowController: NSWindowController {
     var _kcvTurnOffDisplay: SCKeyComboView!
     var _lbTurnOnDarkMode: NSTextField!
     var _kcvTurnOnDarkMode: SCKeyComboView!
+    var _lbAutoHideDesktopIconTimeout: NSTextField!
+    var _tfAutoHideDesktopIconTimeoutValue: NSTextField!
+    var _lbAutoHideCursorTimeout: NSTextField!
+    var _tfAutoHideCursorTimeoutValue: NSTextField!
 
     init() {
-        let frame = NSMakeRect(0, 0, 500, 180)
+        let frame = NSMakeRect(0, 0, 580, 180)
         let wnd = NSWindow.init(contentRect: frame, styleMask: [.titled, .closable, .fullSizeContentView], backing: .buffered, defer: false)
         wnd.backgroundColor = NSColor.white
         wnd.titlebarAppearsTransparent = true
@@ -40,10 +44,10 @@ class HAFPreferencesWindowController: NSWindowController {
         let visualEffectView: NSVisualEffectView = NSVisualEffectView.init(frame: frame)
         wnd.contentView = visualEffectView
         
-        let tabFrame = NSMakeRect((NSWidth(frame) - 390) / 2, NSHeight(frame) - 55, 390, 23)
+        let tabFrame = NSMakeRect((NSWidth(frame) - 470) / 2, NSHeight(frame) - 55, 470, 23)
         _scTabs = NSSegmentedControl.init(frame: tabFrame)
-        _scTabs.segmentCount = 4
-        _scTabs.setLabel(NSLocalizedString("Genernal", comment: ""), forSegment: 0)
+        _scTabs.segmentCount = 5
+        _scTabs.setLabel(NSLocalizedString("General", comment: ""), forSegment: 0)
         _scTabs.setWidth(80, forSegment: 0)
         _scTabs.setLabel(NSLocalizedString("Display & Brightness", comment: ""), forSegment: 1)
         _scTabs.setWidth(140, forSegment: 1)
@@ -51,10 +55,13 @@ class HAFPreferencesWindowController: NSWindowController {
         _scTabs.setWidth(80, forSegment: 2)
         _scTabs.setLabel(NSLocalizedString("Shortcuts", comment: ""), forSegment: 3)
         _scTabs.setWidth(80, forSegment: 3)
+        _scTabs.setLabel(NSLocalizedString("Timer", comment: ""), forSegment: 4)
+        _scTabs.setWidth(80, forSegment: 4)
         _scTabs.setSelected(true, forSegment: 0)
         _scTabs.setSelected(false, forSegment: 1)
         _scTabs.setSelected(false, forSegment: 2)
         _scTabs.setSelected(false, forSegment: 3)
+        _scTabs.setSelected(false, forSegment: 4)
         _scTabs.target = self
         _scTabs.action = #selector(tabs_click)
         wnd.contentView?.addSubview(_scTabs)
@@ -188,6 +195,42 @@ class HAFPreferencesWindowController: NSWindowController {
         _kcvTurnOnDarkMode.keyCombo = HAFConfigureManager.sharedManager.turnOnDarkModeKeyCombo()
         wnd.contentView?.addSubview(_kcvTurnOnDarkMode)
         
+        _lbAutoHideDesktopIconTimeout = NSTextField.init(frame: NSMakeRect(0, NSMinY(tabFrame) - 40, 250, 23))
+        _lbAutoHideDesktopIconTimeout.alignment = .right
+        _lbAutoHideDesktopIconTimeout.isEditable = false
+        _lbAutoHideDesktopIconTimeout.isBezeled = false
+        _lbAutoHideDesktopIconTimeout.isSelectable = false
+        _lbAutoHideDesktopIconTimeout.backgroundColor = NSColor.clear
+        _lbAutoHideDesktopIconTimeout.stringValue = NSLocalizedString("Auto Hide Desktop Icon Timeout(sec)", comment: "") + ":"
+        wnd.contentView?.addSubview(_lbAutoHideDesktopIconTimeout)
+        
+        _tfAutoHideDesktopIconTimeoutValue = NSTextField.init(frame: NSMakeRect(NSMaxX(_lbAutoHideDesktopIconTimeout.frame) + 10, NSMinY(tabFrame) - 37, 50, 23))
+        _tfAutoHideDesktopIconTimeoutValue.focusRingType = .none
+        _tfAutoHideDesktopIconTimeoutValue.alignment = .right
+        _tfAutoHideDesktopIconTimeoutValue.stringValue = ""
+        wnd.contentView?.addSubview(_tfAutoHideDesktopIconTimeoutValue)
+        var timeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+        _tfAutoHideDesktopIconTimeoutValue.stringValue = "\(timeOut)"
+        _tfAutoHideDesktopIconTimeoutValue.delegate = self
+        
+        _lbAutoHideCursorTimeout = NSTextField.init(frame: NSMakeRect(0, NSMinY(tabFrame) - 70, 250, 23))
+        _lbAutoHideCursorTimeout.alignment = .right
+        _lbAutoHideCursorTimeout.isEditable = false
+        _lbAutoHideCursorTimeout.isBezeled = false
+        _lbAutoHideCursorTimeout.isSelectable = false
+        _lbAutoHideCursorTimeout.backgroundColor = NSColor.clear
+        _lbAutoHideCursorTimeout.stringValue = NSLocalizedString("Auto Hide Cursor Timeout(sec)", comment: "") + ":"
+        wnd.contentView?.addSubview(_lbAutoHideCursorTimeout)
+        
+        _tfAutoHideCursorTimeoutValue = NSTextField.init(frame: NSMakeRect(NSMaxX(_lbAutoHideCursorTimeout.frame) + 10, NSMinY(tabFrame) - 67, 50, 23))
+        _tfAutoHideCursorTimeoutValue.focusRingType = .none
+        _tfAutoHideCursorTimeoutValue.alignment = .right
+        _tfAutoHideCursorTimeoutValue.stringValue = ""
+        wnd.contentView?.addSubview(_tfAutoHideCursorTimeoutValue)
+        timeOut = HAFConfigureManager.sharedManager.autoHideCursorTimeOut()
+        _tfAutoHideCursorTimeoutValue.stringValue = "\(timeOut)"
+        _tfAutoHideCursorTimeoutValue.delegate = self
+        
         updateThresholdValue()
         updateTabs()
         
@@ -196,6 +239,18 @@ class HAFPreferencesWindowController: NSWindowController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func showWindow(_ sender: Any?) {
+        super.showWindow(sender)
+        updateTimerValue()
+    }
+    
+    func updateTimerValue() -> Void {
+        var timeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+        _tfAutoHideDesktopIconTimeoutValue.stringValue = "\(timeOut)"
+        timeOut = HAFConfigureManager.sharedManager.autoHideCursorTimeOut()
+        _tfAutoHideCursorTimeoutValue.stringValue = "\(timeOut)"
     }
     
     func updateThresholdValue() -> Void {
@@ -220,6 +275,10 @@ class HAFPreferencesWindowController: NSWindowController {
         _kcvTurnOffDisplay.isHidden = true
         _lbTurnOnDarkMode.isHidden = true
         _kcvTurnOnDarkMode.isHidden = true
+        _lbAutoHideDesktopIconTimeout.isHidden = true
+        _tfAutoHideDesktopIconTimeoutValue.isHidden = true
+        _lbAutoHideCursorTimeout.isHidden = true
+        _tfAutoHideCursorTimeoutValue.isHidden = true
         
         switch _scTabs.selectedSegment {
         case 0:
@@ -244,6 +303,12 @@ class HAFPreferencesWindowController: NSWindowController {
             _kcvTurnOffDisplay.isHidden = false
             _lbTurnOnDarkMode.isHidden = false
             _kcvTurnOnDarkMode.isHidden = false
+            break;
+        case 4:
+            _lbAutoHideDesktopIconTimeout.isHidden = false
+            _tfAutoHideDesktopIconTimeoutValue.isHidden = false
+            _lbAutoHideCursorTimeout.isHidden = false
+            _tfAutoHideCursorTimeoutValue.isHidden = false
             break;
         default:
             break;
@@ -312,6 +377,24 @@ extension HAFPreferencesWindowController:SCKeyComboViewDelegate{
         
         if keyComboView == _kcvTurnOnDarkMode {
             HAFHotkeyManager.sharedManager.setTurnOnDarkModeHotkey(keyCombo: keyComboView.keyCombo)
+        }
+    }
+}
+
+extension HAFPreferencesWindowController: NSControlTextEditingDelegate, NSTextFieldDelegate{
+    override func controlTextDidChange(_ obj: Notification) {
+        let textField = obj.object as? NSTextField
+        let value = textField?.stringValue
+        if nil != value  {
+            let intValue = Int(value!)
+            if nil == intValue || intValue! <= 0{
+                return;
+            }
+            if textField == _tfAutoHideDesktopIconTimeoutValue{
+                HAFConfigureManager.sharedManager.setAutoHideDesktopIconTimeOut(nSeconds: intValue!)
+            }else if textField == _tfAutoHideCursorTimeoutValue{
+                HAFConfigureManager.sharedManager.setAutoHideCursorTimeOut(nSeconds: intValue!)
+            }
         }
     }
 }
