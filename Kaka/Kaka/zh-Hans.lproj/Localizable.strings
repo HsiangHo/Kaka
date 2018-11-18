@@ -44,3 +44,6 @@
 "Not supported" = "不支持";
 "To custom app appearance needs macOS 10.14 and later." = "自定义应用外观需要macOS 10.14及以上.";
 "Shortcuts" = "快捷键";
+"Timer" = "计时器";
+"Auto Hide Desktop Icon Timeout(sec)" = "自动隐藏桌面图标超时时间(秒)";
+"Auto Hide Cursor Timeout(sec)" = "自动隐藏鼠标超时时间(秒)";
