@@ -53,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func requestRating() -> Void {
         nActionCount += 1;
-        if HAFConfigureManager.sharedManager.isRequestRating() && 0 == nActionCount % 20 {
+        if HAFSuperModeManager.isKakaInSuperMode() && HAFConfigureManager.sharedManager.isRequestRating() && 0 == nActionCount % 5 {
             rateWindowController?.requestRateWindow(RateWindowPositionTopRight, withRateCompletionCallback: { (rslt) in
                 if RateResultRated == rslt{
                     HAFConfigureManager.sharedManager.setRequestRating(bFlag: false)

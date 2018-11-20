@@ -12,6 +12,14 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var _view: HAFAnimationView!
     var _kakaObj: HAFKakaObject? = nil
     var actionMenu: NSMenu!
+    var menuItemDarkmode: NSMenuItem!
+    var subMenuDarkmode: NSMenu!
+    var menuItemDesktop: NSMenuItem!
+    var subMenuDesktop: NSMenu!
+    var menuItemCursor: NSMenuItem!
+    var subMenuCursor: NSMenu!
+    var menuItemPower: NSMenuItem!
+    var subMenuPower: NSMenu!
     var menuItemPreventSystemSleep: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
@@ -20,6 +28,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemEnableFinderExtension: NSMenuItem!
     var menuItemTurnOnDarkMode: NSMenuItem!
     var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
+    var menuItemCustomAppAppearance: NSMenuItem!
     var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemDisplayKaka: NSMenuItem!
     var menuItemAbout: NSMenuItem!
@@ -30,6 +39,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
+    let appAppearanceWindowController: HAFAppAppearanceWindowController? = HAFAppAppearanceWindowController.init()
     var _updateDesktopCoverTimer: DispatchSourceTimer?
     
     init() {
@@ -41,6 +51,23 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         _view = HAFAnimationView.init(frame: frame)
         wnd.contentView?.addSubview(_view)
         actionMenu = NSMenu.init(title: "actionMenu")
+        
+        subMenuDarkmode = NSMenu.init(title: "darkModeMenu")
+        menuItemDarkmode = NSMenuItem.init(title: NSLocalizedString("Dark Mode", comment: ""), action: nil, keyEquivalent: "")
+        menuItemDarkmode.submenu = subMenuDarkmode
+        
+        subMenuDesktop = NSMenu.init(title: "desktopMenu")
+        menuItemDesktop = NSMenuItem.init(title: NSLocalizedString("Desktop", comment: ""), action: nil, keyEquivalent: "")
+        menuItemDesktop.submenu = subMenuDesktop
+        
+        subMenuCursor = NSMenu.init(title: "cursorMenu")
+        menuItemCursor = NSMenuItem.init(title: NSLocalizedString("Cursor", comment: ""), action: nil, keyEquivalent: "")
+        menuItemCursor.submenu = subMenuCursor
+        
+        subMenuPower = NSMenu.init(title: "Power")
+        menuItemPower = NSMenuItem.init(title: NSLocalizedString("Power", comment: ""), action: nil, keyEquivalent: "")
+        menuItemPower.submenu = subMenuPower
+        
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
@@ -50,6 +77,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemTurnOffTheDisplay = NSMenuItem.init(title: NSLocalizedString("Turn Off The Display",comment: ""), action: #selector(turnOffTheDisplay_click), keyEquivalent: "")
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
+        menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
        menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
@@ -67,10 +95,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPreventSystemSleep.target = self
         menuItemShowDesktop.target = self
         menuItemShowDesktopIcon.target = self
-        menuItemPreventSystemSleep.target = self
 //        menuItemShowHiddenFilesAndFolders.target = self
         menuItemTurnOffTheDisplay.target = self
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.target = self
+        menuItemCustomAppAppearance.target = self
         menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
         menuItemAutoHideDesktopIcons.target = self
@@ -80,17 +108,23 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemHelp.target = self
         menuItemQuit.target = self
         
-        actionMenu.addItem(menuItemShowDesktop)
-        actionMenu.addItem(menuItemShowDesktopIcon)
-//        actionMenu.addItem(menuItemShowHiddenFilesAndFolders)
-        actionMenu.addItem(menuItemTurnOffTheDisplay)
-        actionMenu.addItem(menuItemTurnOnDarkMode)
-        actionMenu.addItem(NSMenuItem.separator())
-        actionMenu.addItem(menuItemAutoHideMouseCursor)
-        actionMenu.addItem(menuItemAutoHideDesktopIcons)
-        actionMenu.addItem(menuItemPreventSystemSleep)
-        actionMenu.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
-        actionMenu.addItem(menuItemEnableFinderExtension)
+        subMenuDesktop.addItem(menuItemShowDesktop)
+        subMenuDesktop.addItem(menuItemShowDesktopIcon)
+        subMenuDesktop.addItem(menuItemAutoHideDesktopIcons)
+        
+        subMenuDarkmode.addItem(menuItemTurnOnDarkMode)
+        subMenuDarkmode.addItem(menuItemCustomAppAppearance)
+        subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
+        
+        subMenuPower.addItem(menuItemTurnOffTheDisplay)
+        subMenuPower.addItem(menuItemPreventSystemSleep)
+        
+        subMenuCursor.addItem(menuItemAutoHideMouseCursor)
+        
+        actionMenu.addItem(menuItemDesktop)
+        actionMenu.addItem(menuItemDarkmode)
+        actionMenu.addItem(menuItemPower)
+        actionMenu.addItem(menuItemCursor)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemDisplayKaka)
         actionMenu.addItem(NSMenuItem.separator())
@@ -106,7 +140,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         if HAFConfigureManager.sharedManager.isAutoHideMouseCursor() {
             menuItemAutoHideMouseCursor.state = .on
-            SSCursorManager.shared().setAutoHideTimeout(3)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideCursorTimeOut()
+            SSCursorManager.shared().setAutoHideTimeout(UInt(nTimeOut))
         }
         
         if HAFConfigureManager.sharedManager.isPreventSystemFromFallingAsleep() {
@@ -128,7 +163,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
             self.menuItemAutoHideDesktopIcons.state = .on
             SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
-            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(UInt(nTimeOut))
             SSDesktopManager.shared().uncoverAllDesktop();
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 SSDesktopManager.shared().coverAllDesktop();
@@ -139,7 +175,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             if HAFConfigureManager.sharedManager.isAutoHideDesktopIcons(){
                 self.menuItemAutoHideDesktopIcons.state = .on
                 SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
-                SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+                let nTimeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+                SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(UInt(nTimeOut))
                 SSDesktopManager.shared().uncoverAllDesktop();
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                     SSDesktopManager.shared().coverAllDesktop();
@@ -352,7 +389,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func autoHideMouseCursorMenuItem_click(sender: AnyObject?){
         if menuItemAutoHideMouseCursor.state == .off {
             menuItemAutoHideMouseCursor.state = .on
-            SSCursorManager.shared().setAutoHideTimeout(3)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideCursorTimeOut()
+            SSCursorManager.shared().setAutoHideTimeout(UInt(nTimeOut))
         }else{
             menuItemAutoHideMouseCursor.state = .off
             SSCursorManager.shared().setAutoHideTimeout(0)
@@ -380,11 +418,18 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
+    @IBAction func customAppAppearanceMenuItem_click(sender: AnyObject?){
+        appAppearanceWindowController?.window?.center()
+        NSApp.activate(ignoringOtherApps: true)
+        appAppearanceWindowController?.showWindow(nil)
+    }
+    
     @IBAction func autoHideDesktopIcons_click(sender: AnyObject?){
         if menuItemAutoHideDesktopIcons.state == .off {
             menuItemAutoHideDesktopIcons.state = .on
             SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
-            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(10)
+            let nTimeOut = HAFConfigureManager.sharedManager.autoHideDesktopIconTimeOut()
+            SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(UInt(nTimeOut))
         }else{
             menuItemAutoHideDesktopIcons.state = .off
             SSDesktopManager.shared().setAutoCoverAllDesktopTimeout(0)

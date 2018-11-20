@@ -25,7 +25,7 @@
 "Enable animation audios" = "啟用動畫音效";
 "Turn On Dark Mode" = "啟動黑暗模式";
 "Toggle Dark Mode Base On Display Brightness" = "根據屏幕亮度切換黑暗模式";
-"Genernal" = "一般";
+"General" = "一般";
 "Display & Brightness" = "屏幕和亮度";
 "Actions" = "動作";
 "Toggle dark mode base on display brightness threshold" = "根據屏幕亮度切換黑暗模式的臨界值";
@@ -35,3 +35,15 @@
 "We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n" = "我們期待您的五星評價來幫助Kaka變得越來越好 : )\n";
 "Rate Now!" = "馬上評價!";
 "Later" = "稍後";
+"Custom Application Appearance" = "自定義應用外觀";
+"Relaunch the target application takes effect.(some of applications are not supported)" = "重啟目標應用后生效. (暫不支持部分應用)";
+"Dark Mode" = "黑暗模式";
+"Desktop" = "桌面";
+"Cursor" = "鼠標";
+"Power" = "電源";
+"Not supported" = "不支援";
+"To custom app appearance needs macOS 10.14 and later." = "自定義應用外觀需要macOS 10.14及以上.";
+"Shortcuts" = "快捷鍵";
+"Timer" = "計時器";
+"Auto Hide Desktop Icon Timeout(sec)" = "自動隱藏桌面圖標超時時間(秒)";
+"Auto Hide Cursor Timeout(sec)" = "自動隱藏鼠標超時時間(秒)";
