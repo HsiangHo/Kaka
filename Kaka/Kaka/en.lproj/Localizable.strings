@@ -25,7 +25,7 @@
 "Enable animation audios" = "Enable animation audios";
 "Turn On Dark Mode" = "Turn On Dark Mode";
 "Toggle Dark Mode Base On Display Brightness" = "Toggle Dark Mode Base On Display Brightness";
-"Genernal" = "Genernal";
+"General" = "General";
 "Display & Brightness" = "Display & Brightness";
 "Actions" = "Actions";
 "Toggle dark mode base on display brightness threshold" = "Toggle dark mode base on display brightness threshold";
@@ -35,3 +35,15 @@
 "We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n" = "We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n";
 "Rate Now!" = "Rate Now!";
 "Later" = "Later";
+"Custom Application Appearance" = "Custom Application Appearance";
+"Relaunch the target application takes effect.(some of applications are not supported)" = "Relaunch the target application takes effect. (some of applications are not supported)";
+"Dark Mode" = "Dark Mode";
+"Desktop" = "Desktop";
+"Cursor" = "Cursor";
+"Power" = "Power";
+"Not supported" = "Not supported";
+"To custom app appearance needs macOS 10.14 and later." = "To custom app appearance needs macOS 10.14 and later.";
+"Shortcuts" = "Shortcuts";
+"Timer" = "Timer";
+"Auto Hide Desktop Icon Timeout(sec)" = "Auto Hide Desktop Icon Timeout(sec)";
+"Auto Hide Cursor Timeout(sec)" = "Auto Hide Cursor Timeout(sec)";

@@ -30,6 +30,8 @@ class HAFConfigureManager: NSObject {
     let kTurnOffDisplayKeyCombo = "TurnOffDisplayKeyCombo"
     let kTurnOnDarkModeKeyCombo = "TurnOnDarkModeKeyCombo"
     let kRequestRating = "RequestRating"
+    let kAutoHideDesktopIconTimeOut = "AutoHideDesktopIconTimeOut"
+    let kAutoHideCursorTimeOut = "AutoHideCursorTimeOut"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -184,5 +186,31 @@ class HAFConfigureManager: NSObject {
     
     func isRequestRating() -> Bool{
         return !UserDefaults.standard.bool(forKey: kRequestRating)
+    }
+    
+    func setAutoHideDesktopIconTimeOut(nSeconds: Int) -> Void {
+        UserDefaults.standard.set(nSeconds, forKey: kAutoHideDesktopIconTimeOut)
+    }
+    
+    func autoHideDesktopIconTimeOut() -> Int {
+        let value = UserDefaults.standard.value(forKey: kAutoHideDesktopIconTimeOut)
+        if nil == value {
+            return 10
+        }else{
+            return value as! Int
+        }
+    }
+    
+    func setAutoHideCursorTimeOut(nSeconds: Int) -> Void {
+        UserDefaults.standard.set(nSeconds, forKey: kAutoHideCursorTimeOut)
+    }
+    
+    func autoHideCursorTimeOut() -> Int {
+        let value = UserDefaults.standard.value(forKey: kAutoHideCursorTimeOut)
+        if nil == value {
+            return 3
+        }else{
+            return value as! Int
+        }
     }
 }

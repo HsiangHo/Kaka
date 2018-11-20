@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9801EE96219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9801EE95219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift */; };
 		980C11D8218E9CCC00890F27 /* RateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 980C11D1218E8BA300890F27 /* RateKit.framework */; };
 		983CFD35217E104500A91B50 /* ShortcutsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 983CFD32217E0F5200A91B50 /* ShortcutsKit.framework */; };
 		9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */; };
@@ -17,10 +18,13 @@
 		9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A144211A626C00760570 /* HAFAnimationSequence.swift */; };
 		9862A147211A628C00760570 /* HAFAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9862A146211A628C00760570 /* HAFAnimationView.swift */; };
 		98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */; };
+		9874A56B21A01073009839D8 /* HAFSuperModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9874A56A21A01073009839D8 /* HAFSuperModeManager.swift */; };
 		987BAF882126E7A400EE828E /* Animations in Resources */ = {isa = PBXBuildFile; fileRef = 987BAF872126E7A400EE828E /* Animations */; };
 		987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC52127E56200EE828E /* HAFTransparentView.m */; };
 		987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */; };
 		987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BAFC92129337700EE828E /* HAFKakaWindowController.swift */; };
+		987BE73321948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BE73221948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift */; };
+		987BE73C2195A4B300CB8DE3 /* HAFAppAppearanceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987BE73B2195A4B300CB8DE3 /* HAFAppAppearanceButton.swift */; };
 		988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A177C2131225F00A89C25 /* HAFConfigureManager.swift */; };
 		988A17862131508D00A89C25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988A17852131508D00A89C25 /* AppDelegate.swift */; };
 		988A17882131508D00A89C25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 988A17872131508D00A89C25 /* Assets.xcassets */; };
@@ -109,6 +113,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9801EE95219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAppAppearanceCollectionViewItem.swift; sourceTree = "<group>"; };
 		980C11CB218E8BA300890F27 /* RateKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RateKit.xcodeproj; path = ../RateKit/RateKit/RateKit.xcodeproj; sourceTree = "<group>"; };
 		983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutsKit.xcodeproj; path = ../Shortcuts/ShortcutsKit/ShortcutsKit.xcodeproj; sourceTree = "<group>"; };
 		9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAboutWindowController.swift; sourceTree = "<group>"; };
@@ -122,12 +127,15 @@
 		9862A144211A626C00760570 /* HAFAnimationSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationSequence.swift; sourceTree = "<group>"; };
 		9862A146211A628C00760570 /* HAFAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationView.swift; sourceTree = "<group>"; };
 		98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFHotkeyManager.swift; sourceTree = "<group>"; };
+		9874A56A21A01073009839D8 /* HAFSuperModeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFSuperModeManager.swift; sourceTree = "<group>"; };
 		987BAF872126E7A400EE828E /* Animations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Animations; sourceTree = "<group>"; };
 		987BAFC42127E56200EE828E /* HAFTransparentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HAFTransparentView.h; sourceTree = "<group>"; };
 		987BAFC52127E56200EE828E /* HAFTransparentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HAFTransparentView.m; sourceTree = "<group>"; };
 		987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAnimationWindow.swift; sourceTree = "<group>"; };
 		987BAFC92129337700EE828E /* HAFKakaWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFKakaWindowController.swift; sourceTree = "<group>"; };
 		987BAFD2212937DA00EE828E /* Kaka-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kaka-Bridging-Header.h"; sourceTree = "<group>"; };
+		987BE73221948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAppAppearanceWindowController.swift; sourceTree = "<group>"; };
+		987BE73B2195A4B300CB8DE3 /* HAFAppAppearanceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFAppAppearanceButton.swift; sourceTree = "<group>"; };
 		988A177C2131225F00A89C25 /* HAFConfigureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFConfigureManager.swift; sourceTree = "<group>"; };
 		988A17832131508D00A89C25 /* LaunchAtLoginHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchAtLoginHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		988A17852131508D00A89C25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -233,6 +241,7 @@
 				98F8F8B6212F6C5C00DE612A /* Model */,
 				987BAF872126E7A400EE828E /* Animations */,
 				9862A1342119DC0000760570 /* AppDelegate.swift */,
+				9874A56A21A01073009839D8 /* HAFSuperModeManager.swift */,
 				987BAFC42127E56200EE828E /* HAFTransparentView.h */,
 				987BAFC52127E56200EE828E /* HAFTransparentView.m */,
 				987BAFC72128D78900EE828E /* HAFAnimationWindow.swift */,
@@ -298,6 +307,8 @@
 				9862A146211A628C00760570 /* HAFAnimationView.swift */,
 				988A177C2131225F00A89C25 /* HAFConfigureManager.swift */,
 				98638D1A217F587100836DA6 /* HAFHotkeyManager.swift */,
+				987BE73B2195A4B300CB8DE3 /* HAFAppAppearanceButton.swift */,
+				9801EE95219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -308,6 +319,7 @@
 				987BAFC92129337700EE828E /* HAFKakaWindowController.swift */,
 				9840AEAB212FBFD300EDB2A3 /* HAFAboutWindowController.swift */,
 				9840AEAE212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift */,
+				987BE73221948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -511,7 +523,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9801EE96219B03C000FA86A6 /* HAFAppAppearanceCollectionViewItem.swift in Sources */,
 				987BAFC82128D78900EE828E /* HAFAnimationWindow.swift in Sources */,
+				9874A56B21A01073009839D8 /* HAFSuperModeManager.swift in Sources */,
 				989CA767211FDD1400E7A004 /* HAFKakaObject.swift in Sources */,
 				9862A1352119DC0000760570 /* AppDelegate.swift in Sources */,
 				9862A145211A626C00760570 /* HAFAnimationSequence.swift in Sources */,
@@ -520,6 +534,8 @@
 				9840AEAC212FBFD300EDB2A3 /* HAFAboutWindowController.swift in Sources */,
 				987BAFC62127E56200EE828E /* HAFTransparentView.m in Sources */,
 				988A177D2131225F00A89C25 /* HAFConfigureManager.swift in Sources */,
+				987BE73321948AD900CB8DE3 /* HAFAppAppearanceWindowController.swift in Sources */,
+				987BE73C2195A4B300CB8DE3 /* HAFAppAppearanceButton.swift in Sources */,
 				9840AEAF212FC43F00EDB2A3 /* HAFPreferencesWindowController.swift in Sources */,
 				987BAFCA2129337700EE828E /* HAFKakaWindowController.swift in Sources */,
 				98638D1B217F587100836DA6 /* HAFHotkeyManager.swift in Sources */,
