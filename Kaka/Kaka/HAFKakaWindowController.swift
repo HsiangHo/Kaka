@@ -151,7 +151,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
         for (_,value) in desktopObjs!{
-            value.setMouseActionCallback({ (windowType, eventType, event,context)  in
+            value.setMouseActionCallback({ (windowType, event, context)  in
                 if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
                     DispatchQueue.main.async {
                         value.uncoverDesktop()
@@ -183,7 +183,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
                 })
                 
                 for (_,value) in desktopObjsDict!{
-                    value.setMouseActionCallback({ (windowType, eventType, event,context)  in
+                    value.setMouseActionCallback({ (windowType, event, context)  in
                         if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
                             DispatchQueue.main.async {
                                 value.uncoverDesktop()
