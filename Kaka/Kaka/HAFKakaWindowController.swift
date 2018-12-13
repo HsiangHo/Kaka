@@ -21,6 +21,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPower: NSMenuItem!
     var subMenuPower: NSMenu!
     var menuItemPreventSystemSleep: NSMenuItem!
+    var menuItemPreventSystemSleepFor5Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor10Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor15Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor30Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor1Hour: NSMenuItem!
+    var menuItemPreventSystemSleepFor2Hours: NSMenuItem!
+    var menuItemPreventSystemSleepFor5Hours: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
 //    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
@@ -83,6 +90,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(preventSystemSleepMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor5Mins = NSMenuItem.init(title: NSLocalizedString("For 5 Mins", comment: ""), action: #selector(preventSystemSleepFor5MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor10Mins = NSMenuItem.init(title: NSLocalizedString("For 10 Mins", comment: ""), action: #selector(preventSystemSleepFor10MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor15Mins = NSMenuItem.init(title: NSLocalizedString("For 15 Mins", comment: ""), action: #selector(preventSystemSleepFor15MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor30Mins = NSMenuItem.init(title: NSLocalizedString("For 30 Mins", comment: ""), action: #selector(preventSystemSleepFor30MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor1Hour = NSMenuItem.init(title: NSLocalizedString("For 1 Hour", comment: ""), action: #selector(preventSystemSleepFor1HourMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor2Hours = NSMenuItem.init(title: NSLocalizedString("For 2 Hours", comment: ""), action: #selector(preventSystemSleepFor2HoursMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor5Hours = NSMenuItem.init(title: NSLocalizedString("For 5 Hours", comment: ""), action: #selector(preventSystemSleepFor5HoursMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
         menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
@@ -93,6 +107,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemAbout.target = self
         menuItemPreferences.target = self
         menuItemPreventSystemSleep.target = self
+        menuItemPreventSystemSleepFor5Mins.target = self
+        menuItemPreventSystemSleepFor10Mins.target = self
+        menuItemPreventSystemSleepFor15Mins.target = self
+        menuItemPreventSystemSleepFor30Mins.target = self
+        menuItemPreventSystemSleepFor1Hour.target = self
+        menuItemPreventSystemSleepFor2Hours.target = self
+        menuItemPreventSystemSleepFor5Hours.target = self
         menuItemShowDesktop.target = self
         menuItemShowDesktopIcon.target = self
 //        menuItemShowHiddenFilesAndFolders.target = self
@@ -117,7 +138,15 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
         
         subMenuPower.addItem(menuItemTurnOffTheDisplay)
+        subMenuPower.addItem(NSMenuItem.separator())
         subMenuPower.addItem(menuItemPreventSystemSleep)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor5Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor10Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor15Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor30Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor1Hour)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor2Hours)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor5Hours)
         
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
         
@@ -384,6 +413,27 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             menuItemPreventSystemSleep.state = .off
             SSDesktopManager.shared().preventSleep(false)
         }
+    }
+    
+    @IBAction func preventSystemSleepFor5MinsMenuItem_click(sender: AnyObject?){
+    }
+    
+    @IBAction func preventSystemSleepFor10MinsMenuItem_click(sender: AnyObject?){
+    }
+    
+    @IBAction func preventSystemSleepFor15MinsMenuItem_click(sender: AnyObject?){
+    }
+    
+    @IBAction func preventSystemSleepFor30MinsMenuItem_click(sender: AnyObject?){
+    }
+    
+    @IBAction func preventSystemSleepFor1HourMenuItem_click(sender: AnyObject?){
+    }
+    
+    @IBAction func preventSystemSleepFor2HoursMenuItem_click(sender: AnyObject?){
+    }
+    
+    @IBAction func preventSystemSleepFor5HoursMenuItem_click(sender: AnyObject?){
     }
     
     @IBAction func autoHideMouseCursorMenuItem_click(sender: AnyObject?){
