@@ -47,3 +47,10 @@
 "Timer" = "Timer";
 "Auto Hide Desktop Icon Timeout(sec)" = "Auto Hide Desktop Icon Timeout(sec)";
 "Auto Hide Cursor Timeout(sec)" = "Auto Hide Cursor Timeout(sec)";
+"For 5 Mins" = "For 5 Mins";
+"For 10 Mins" = "For 10 Mins";
+"For 15 Mins" = "For 15 Mins";
+"For 30 Mins" = "For 30 Mins";
+"For 1 Hour" = "For 1 Hour";
+"For 2 Hours" = "For 2 Hours";
+"For 5 Hours" = "For 5 Hours";

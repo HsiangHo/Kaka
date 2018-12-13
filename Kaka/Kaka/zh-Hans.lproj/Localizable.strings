@@ -47,3 +47,10 @@
 "Timer" = "计时器";
 "Auto Hide Desktop Icon Timeout(sec)" = "自动隐藏桌面图标超时时间(秒)";
 "Auto Hide Cursor Timeout(sec)" = "自动隐藏鼠标超时时间(秒)";
+"For 5 Mins" = "持续5分钟";
+"For 10 Mins" = "持续10分钟";
+"For 15 Mins" = "持续15分钟";
+"For 30 Mins" = "持续30分钟";
+"For 1 Hour" = "持续1小时";
+"For 2 Hours" = "持续2小时";
+"For 5 Hours" = "持续5小时";
