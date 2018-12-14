@@ -39,7 +39,7 @@
 "Relaunch the target application takes effect.(some of applications are not supported)" = "重啟目標應用后生效. (暫不支持部分應用)";
 "Dark Mode" = "黑暗模式";
 "Desktop" = "桌面";
-"Cursor" = "鼠標";
+"Cursor" = "滑鼠";
 "Power" = "電源";
 "Not supported" = "不支援";
 "To custom app appearance needs macOS 10.14 and later." = "自定義應用外觀需要macOS 10.14及以上.";
