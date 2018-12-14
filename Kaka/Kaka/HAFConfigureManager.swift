@@ -17,7 +17,6 @@ class HAFConfigureManager: NSObject {
     let kAutoHideMouseCursor = "AutoHideMouseCursorKey"
     let kOneClickToHideDesktopIcons = "OneClickToHideDesktopIconsKey"
     let kDoubleClickToShowDesktop = "DoubleClickToShowDesktopKey"
-    let kPreventSystemFromFallingAsleep = "PreventSystemFromFallingAsleepKey"
     let kDoubleClickDesktopToShowIcons = "DoubleClickDesktopToShowIconsKey"
     let kAutoHideDesktopIcons = "AutoHideDesktopIconsKey"
     let kEnableAnimationAudio = "EnableAnimationAudioKey"
@@ -67,14 +66,6 @@ class HAFConfigureManager: NSObject {
     
     func isDoubleClickToShowDesktop() -> Bool{
         return !UserDefaults.standard.bool(forKey: kDoubleClickToShowDesktop)
-    }
-    
-    func setPreventSystemFromFallingAsleep(bFlag: Bool) -> Void{
-        UserDefaults.standard.set(bFlag, forKey: kPreventSystemFromFallingAsleep)
-    }
-    
-    func isPreventSystemFromFallingAsleep() -> Bool{
-        return UserDefaults.standard.bool(forKey: kPreventSystemFromFallingAsleep)
     }
     
     func setDoubleClickDesktopToShowIcons(bFlag: Bool) -> Void{
