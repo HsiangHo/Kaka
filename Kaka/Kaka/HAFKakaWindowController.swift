@@ -48,6 +48,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
     let appAppearanceWindowController: HAFAppAppearanceWindowController? = HAFAppAppearanceWindowController.init()
     var _updateDesktopCoverTimer: DispatchSourceTimer?
+    var _preventSleepTimer: DispatchSourceTimer?
     
     init() {
         let offsetX: CGFloat = NSScreen.screens[0].frame.width - 150
@@ -171,11 +172,6 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             menuItemAutoHideMouseCursor.state = .on
             let nTimeOut = HAFConfigureManager.sharedManager.autoHideCursorTimeOut()
             SSCursorManager.shared().setAutoHideTimeout(UInt(nTimeOut))
-        }
-        
-        if HAFConfigureManager.sharedManager.isPreventSystemFromFallingAsleep() {
-            menuItemPreventSystemSleep.state = .on
-            SSDesktopManager.shared().preventSleep(true)
         }
         
         let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
@@ -406,6 +402,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func preventSystemSleepMenuItem_click(sender: AnyObject?){
+        __cancelPreventSleepTimeout()
         if menuItemPreventSystemSleep.state == .off {
             menuItemPreventSystemSleep.state = .on
             SSDesktopManager.shared().preventSleep(true)
@@ -416,24 +413,45 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func preventSystemSleepFor5MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSDesktopManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 300)
     }
     
     @IBAction func preventSystemSleepFor10MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSDesktopManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 600)
     }
     
     @IBAction func preventSystemSleepFor15MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSDesktopManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 900)
     }
     
     @IBAction func preventSystemSleepFor30MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSDesktopManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 1800)
     }
     
     @IBAction func preventSystemSleepFor1HourMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSDesktopManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 3600)
     }
     
     @IBAction func preventSystemSleepFor2HoursMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSDesktopManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 7200)
     }
     
     @IBAction func preventSystemSleepFor5HoursMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSDesktopManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 18000)
     }
     
     @IBAction func autoHideMouseCursorMenuItem_click(sender: AnyObject?){
@@ -587,9 +605,30 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         _updateDesktopCoverTimer?.resume()
     }
     
-    public func __stopToUpdateDesktopCover(){
+    func __stopToUpdateDesktopCover(){
         _updateDesktopCoverTimer?.cancel()
         _updateDesktopCoverTimer = nil
+    }
+    
+    func __setPreventSleepTimeout(nTimeout: Int) -> Void {
+        if nil != _preventSleepTimer {
+            _preventSleepTimer?.cancel()
+            _preventSleepTimer = nil
+        }
+        _preventSleepTimer = DispatchSource.makeTimerSource(queue: .main)
+        _preventSleepTimer?.schedule(wallDeadline: .now() + .seconds(nTimeout), repeating: .never, leeway: .milliseconds(1))
+        _preventSleepTimer?.setEventHandler {
+            self.menuItemPreventSystemSleep.state = .off
+            SSDesktopManager.shared().preventSleep(false)
+        }
+        _preventSleepTimer?.resume()
+    }
+    
+    func __cancelPreventSleepTimeout() -> Void {
+        if nil != _preventSleepTimer {
+            _preventSleepTimer?.cancel()
+            _preventSleepTimer = nil
+        }
     }
 }
 
