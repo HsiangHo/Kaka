@@ -389,7 +389,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
 //        }
 //    }
     @IBAction func turnOffTheDisplay_click(sender: AnyObject?){
-        SSDesktopManager.shared().turnOffTheDisplay()
+        SSEnergyManager.shared().displaySleep()
     }
     
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
@@ -405,52 +405,52 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         __cancelPreventSleepTimeout()
         if menuItemPreventSystemSleep.state == .off {
             menuItemPreventSystemSleep.state = .on
-            SSDesktopManager.shared().preventSleep(true)
+            SSEnergyManager.shared().preventSleep(true)
         }else{
             menuItemPreventSystemSleep.state = .off
-            SSDesktopManager.shared().preventSleep(false)
+            SSEnergyManager.shared().preventSleep(false)
         }
     }
     
     @IBAction func preventSystemSleepFor5MinsMenuItem_click(sender: AnyObject?){
         menuItemPreventSystemSleep.state = .on
-        SSDesktopManager.shared().preventSleep(true)
+        SSEnergyManager.shared().preventSleep(true)
         __setPreventSleepTimeout(nTimeout: 300)
     }
     
     @IBAction func preventSystemSleepFor10MinsMenuItem_click(sender: AnyObject?){
         menuItemPreventSystemSleep.state = .on
-        SSDesktopManager.shared().preventSleep(true)
+        SSEnergyManager.shared().preventSleep(true)
         __setPreventSleepTimeout(nTimeout: 600)
     }
     
     @IBAction func preventSystemSleepFor15MinsMenuItem_click(sender: AnyObject?){
         menuItemPreventSystemSleep.state = .on
-        SSDesktopManager.shared().preventSleep(true)
+        SSEnergyManager.shared().preventSleep(true)
         __setPreventSleepTimeout(nTimeout: 900)
     }
     
     @IBAction func preventSystemSleepFor30MinsMenuItem_click(sender: AnyObject?){
         menuItemPreventSystemSleep.state = .on
-        SSDesktopManager.shared().preventSleep(true)
+        SSEnergyManager.shared().preventSleep(true)
         __setPreventSleepTimeout(nTimeout: 1800)
     }
     
     @IBAction func preventSystemSleepFor1HourMenuItem_click(sender: AnyObject?){
         menuItemPreventSystemSleep.state = .on
-        SSDesktopManager.shared().preventSleep(true)
+        SSEnergyManager.shared().preventSleep(true)
         __setPreventSleepTimeout(nTimeout: 3600)
     }
     
     @IBAction func preventSystemSleepFor2HoursMenuItem_click(sender: AnyObject?){
         menuItemPreventSystemSleep.state = .on
-        SSDesktopManager.shared().preventSleep(true)
+        SSEnergyManager.shared().preventSleep(true)
         __setPreventSleepTimeout(nTimeout: 7200)
     }
     
     @IBAction func preventSystemSleepFor5HoursMenuItem_click(sender: AnyObject?){
         menuItemPreventSystemSleep.state = .on
-        SSDesktopManager.shared().preventSleep(true)
+        SSEnergyManager.shared().preventSleep(true)
         __setPreventSleepTimeout(nTimeout: 18000)
     }
     
@@ -619,7 +619,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         _preventSleepTimer?.schedule(wallDeadline: .now() + .seconds(nTimeout), repeating: .never, leeway: .milliseconds(1))
         _preventSleepTimer?.setEventHandler {
             self.menuItemPreventSystemSleep.state = .off
-            SSDesktopManager.shared().preventSleep(false)
+            SSEnergyManager.shared().preventSleep(false)
         }
         _preventSleepTimer?.resume()
     }
