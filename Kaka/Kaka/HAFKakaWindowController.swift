@@ -72,8 +72,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemCursor = NSMenuItem.init(title: NSLocalizedString("Cursor", comment: ""), action: nil, keyEquivalent: "")
         menuItemCursor.submenu = subMenuCursor
         
-        subMenuPower = NSMenu.init(title: "Power")
-        menuItemPower = NSMenuItem.init(title: NSLocalizedString("Power", comment: ""), action: nil, keyEquivalent: "")
+        subMenuPower = NSMenu.init(title: "Energy")
+        menuItemPower = NSMenuItem.init(title: NSLocalizedString("Energy", comment: ""), action: nil, keyEquivalent: "")
         menuItemPower.submenu = subMenuPower
         
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
