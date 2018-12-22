@@ -31,8 +31,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
 //    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
+//    var menuItemEnableFinderExtension: NSMenuItem!
     var menuItemTurnOffTheDisplay: NSMenuItem!
-    var menuItemEnableFinderExtension: NSMenuItem!
+    var menuItemSleep: NSMenuItem!
+    var menuItemScreenSaver: NSMenuItem!
+    var menuItemClamshellCausingSleep: NSMenuItem!
     var menuItemTurnOnDarkMode: NSMenuItem!
     var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
     var menuItemCustomAppAppearance: NSMenuItem!
@@ -83,6 +86,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
 //        menuItemShowHiddenFilesAndFolders = NSMenuItem.init(title: NSLocalizedString("Show Hidden Files & Folders",comment: ""), action: #selector(showHiddenFilesAndFolders_click), keyEquivalent: "")
         menuItemTurnOffTheDisplay = NSMenuItem.init(title: NSLocalizedString("Turn Off The Display",comment: ""), action: #selector(turnOffTheDisplay_click), keyEquivalent: "")
+        menuItemSleep = NSMenuItem.init(title: NSLocalizedString("Sleep",comment: ""), action: #selector(sleep_click), keyEquivalent: "")
+        menuItemScreenSaver = NSMenuItem.init(title: NSLocalizedString("ScreenSaver",comment: ""), action: #selector(screensaver_click), keyEquivalent: "")
+        menuItemClamshellCausingSleep = NSMenuItem.init(title: NSLocalizedString("Prevent Sleep When Lid Is Closed",comment: ""), action: #selector(preventClamShellCausingSleep_click), keyEquivalent: "")
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
@@ -99,7 +105,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPreventSystemSleepFor2Hours = NSMenuItem.init(title: NSLocalizedString("For 2 Hours", comment: ""), action: #selector(preventSystemSleepFor2HoursMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleepFor5Hours = NSMenuItem.init(title: NSLocalizedString("For 5 Hours", comment: ""), action: #selector(preventSystemSleepFor5HoursMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
-        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
+//        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
@@ -119,6 +125,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemShowDesktopIcon.target = self
 //        menuItemShowHiddenFilesAndFolders.target = self
         menuItemTurnOffTheDisplay.target = self
+        menuItemSleep.target = self
+        menuItemScreenSaver.target = self
+        menuItemClamshellCausingSleep.target = self
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.target = self
         menuItemCustomAppAppearance.target = self
         menuItemTurnOnDarkMode.target = self
@@ -126,7 +135,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemAutoHideDesktopIcons.target = self
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
-        menuItemEnableFinderExtension.target = self
+//        menuItemEnableFinderExtension.target = self
         menuItemHelp.target = self
         menuItemQuit.target = self
         
@@ -139,6 +148,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
         
         subMenuPower.addItem(menuItemTurnOffTheDisplay)
+        subMenuPower.addItem(menuItemSleep)
+        subMenuPower.addItem(menuItemScreenSaver)
+        subMenuPower.addItem(menuItemClamshellCausingSleep)
         subMenuPower.addItem(NSMenuItem.separator())
         subMenuPower.addItem(menuItemPreventSystemSleep)
         subMenuPower.addItem(menuItemPreventSystemSleepFor5Mins)
@@ -254,10 +266,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             }
         }
         
-        if HAFConfigureManager.sharedManager.isEnableFinderExtension(){
-            menuItemEnableFinderExtension.state = .on
-            __loadFinderPlugin()
-        }
+//        if HAFConfigureManager.sharedManager.isEnableFinderExtension(){
+//            menuItemEnableFinderExtension.state = .on
+//            __loadFinderPlugin()
+//        }
+        
+        menuItemClamshellCausingSleep.state = !SSEnergyManager.shared().isClamshellCausingSleep() ? .on : .off
         
         if HAFConfigureManager.sharedManager.isEnableKaka(){
             menuItemDisplayKaka.state = .on
@@ -392,6 +406,20 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         SSEnergyManager.shared().displaySleep()
     }
     
+    @IBAction func sleep_click(sender: AnyObject?){
+        SSEnergyManager.shared().sleep()
+    }
+    
+    @IBAction func screensaver_click(sender: AnyObject?){
+        SSEnergyManager.shared().screenSaver()
+    }
+    
+    @IBAction func preventClamShellCausingSleep_click(sender: AnyObject?){
+        let isClamshellCausingSleep = SSEnergyManager.shared().isClamshellCausingSleep()
+        SSEnergyManager.shared().setClamshellCausingSleep(!isClamshellCausingSleep)
+        menuItemClamshellCausingSleep.state = !isClamshellCausingSleep ? .on : .off
+    }
+    
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
         if menuItemShowDesktopIcon.state == .off {
             menuItemShowDesktopIcon.state = .on
@@ -505,16 +533,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         HAFConfigureManager.sharedManager.setAutoHideDesktopIcons(bFlag: menuItemAutoHideDesktopIcons.state == .on)
     }
     
-    @IBAction func enableFinderExtension_click(sender: AnyObject?){
-        if menuItemEnableFinderExtension.state == .off {
-            menuItemEnableFinderExtension.state = .on
-            __loadFinderPlugin()
-        }else{
-            menuItemEnableFinderExtension.state = .off
-            __unloadFinderPlugin()
-        }
-        HAFConfigureManager.sharedManager.setEnableFinderExtension(bFlag: menuItemEnableFinderExtension.state == .on)
-    }
+//    @IBAction func enableFinderExtension_click(sender: AnyObject?){
+//        if menuItemEnableFinderExtension.state == .off {
+//            menuItemEnableFinderExtension.state = .on
+//            __loadFinderPlugin()
+//        }else{
+//            menuItemEnableFinderExtension.state = .off
+//            __unloadFinderPlugin()
+//        }
+//        HAFConfigureManager.sharedManager.setEnableFinderExtension(bFlag: menuItemEnableFinderExtension.state == .on)
+//    }
     
     @IBAction func rateOnMacAppStore_click(sender: AnyObject?){
         NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id1434172933?action=write-review")!)
