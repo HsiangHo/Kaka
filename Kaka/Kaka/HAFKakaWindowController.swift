@@ -87,7 +87,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
 //        menuItemShowHiddenFilesAndFolders = NSMenuItem.init(title: NSLocalizedString("Show Hidden Files & Folders",comment: ""), action: #selector(showHiddenFilesAndFolders_click), keyEquivalent: "")
         menuItemTurnOffTheDisplay = NSMenuItem.init(title: NSLocalizedString("Turn Off The Display",comment: ""), action: #selector(turnOffTheDisplay_click), keyEquivalent: "")
         menuItemSleep = NSMenuItem.init(title: NSLocalizedString("Sleep",comment: ""), action: #selector(sleep_click), keyEquivalent: "")
-        menuItemScreenSaver = NSMenuItem.init(title: NSLocalizedString("ScreenSaver",comment: ""), action: #selector(screensaver_click), keyEquivalent: "")
+        menuItemScreenSaver = NSMenuItem.init(title: NSLocalizedString("Screensaver",comment: ""), action: #selector(screensaver_click), keyEquivalent: "")
         menuItemClamshellCausingSleep = NSMenuItem.init(title: NSLocalizedString("Prevent Sleep When Lid Is Closed",comment: ""), action: #selector(preventClamShellCausingSleep_click), keyEquivalent: "")
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
