@@ -64,6 +64,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func requestUpdating() -> Void {
+        if !HAFSuperModeManager.isKakaInSuperMode(){
+            return;
+        }
         AppStoreUpdateManager.shared().checkAppUpdateAsync(appObj) { (rslt, obj) in
             if rslt && !AppStoreUpdateManager.shared().isCurrentNewVersionSkipped(obj){
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
