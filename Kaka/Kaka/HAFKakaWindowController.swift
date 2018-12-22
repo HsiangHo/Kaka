@@ -417,7 +417,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func preventClamShellCausingSleep_click(sender: AnyObject?){
         let isClamshellCausingSleep = SSEnergyManager.shared().isClamshellCausingSleep()
         SSEnergyManager.shared().setClamshellCausingSleep(!isClamshellCausingSleep)
-        menuItemClamshellCausingSleep.state = !isClamshellCausingSleep ? .on : .off
+        menuItemClamshellCausingSleep.state = isClamshellCausingSleep ? .on : .off
     }
     
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
