@@ -54,3 +54,6 @@
 "For 1 Hour" = "持续1小时";
 "For 2 Hours" = "持续2小时";
 "For 5 Hours" = "持续5小时";
+"Sleep" = "休眠";
+"Screensaver" = "屏幕保护";
+"Prevent Sleep When Lid Is Closed" = "防止盒盖休眠";
