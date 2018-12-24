@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             rateConfigure = RateConfigure.init()
             rateConfigure?.name = NSLocalizedString("Love Kaka?", comment: "")
             rateConfigure?.icon = NSImage(named: NSImage.Name(rawValue: "AppIcon"))
-            rateConfigure?.detailText = NSLocalizedString("We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n", comment: "") + "⭐️⭐️⭐️⭐️⭐️"
+            rateConfigure?.detailText = NSLocalizedString("We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n", comment: "") + "⭐️⭐️⭐️⭐️🌟"
             rateConfigure?.likeButtonTitle = NSLocalizedString("Rate Now!", comment: "")
             rateConfigure?.ignoreButtonTitle = NSLocalizedString("Later", comment: "")
             rateConfigure?.rateURL = URL.init(string: "macappstore://itunes.apple.com/app/id1434172933?action=write-review")
