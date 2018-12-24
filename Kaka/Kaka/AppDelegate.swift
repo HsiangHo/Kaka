@@ -68,7 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return;
         }
         AppStoreUpdateManager.shared().checkAppUpdateAsync(appObj) { (rslt, obj) in
-            if rslt && !AppStoreUpdateManager.shared().isCurrentNewVersionSkipped(obj){
+            if rslt && obj.isNewVersionAvailable() && !AppStoreUpdateManager.shared().isCurrentNewVersionSkipped(obj){
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                     AppStoreUpdateManager.shared().requestAppUpdateWindow(obj, withCompletionCallback: { (result, _obj) in
                         switch result {
