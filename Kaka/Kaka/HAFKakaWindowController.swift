@@ -186,6 +186,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSCursorManager.shared().setAutoHideTimeout(UInt(nTimeOut))
         }
         
+        self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() ? .on : .off
+        
         let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
         for (_,value) in desktopObjs!{
             value.setMouseActionCallback({ (windowType, event, context)  in
