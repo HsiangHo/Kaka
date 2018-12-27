@@ -57,3 +57,4 @@
 "Sleep" = "休眠";
 "Screensaver" = "熒幕保護";
 "Prevent Sleep When Lid Is Closed" = "防止合蓋休眠";
+"Deactivate Critical Battery Charge" = "在電量不足時停用";
