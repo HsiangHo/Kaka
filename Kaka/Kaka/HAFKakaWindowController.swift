@@ -20,6 +20,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var subMenuCursor: NSMenu!
     var menuItemPower: NSMenuItem!
     var subMenuPower: NSMenu!
+    var menuItemDeactivateCriticalBatteryCharge: NSMenuItem!
     var menuItemPreventSystemSleep: NSMenuItem!
     var menuItemPreventSystemSleepFor5Mins: NSMenuItem!
     var menuItemPreventSystemSleepFor10Mins: NSMenuItem!
@@ -52,6 +53,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     let appAppearanceWindowController: HAFAppAppearanceWindowController? = HAFAppAppearanceWindowController.init()
     var _updateDesktopCoverTimer: DispatchSourceTimer?
     var _preventSleepTimer: DispatchSourceTimer?
+    var _lastBatteryPercentage: Int = SSEnergyManager.shared().batteryPercentage()
     
     init() {
         let offsetX: CGFloat = NSScreen.screens[0].frame.width - 150
@@ -96,6 +98,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
        menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
+        menuItemDeactivateCriticalBatteryCharge = NSMenuItem.init(title: NSLocalizedString("Deactivate Critical Battery Charge", comment: "") + " (10%)", action: #selector(deactivateCriticalBatteryCharge_click), keyEquivalent: "")
         menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(preventSystemSleepMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleepFor5Mins = NSMenuItem.init(title: NSLocalizedString("For 5 Mins", comment: ""), action: #selector(preventSystemSleepFor5MinsMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleepFor10Mins = NSMenuItem.init(title: NSLocalizedString("For 10 Mins", comment: ""), action: #selector(preventSystemSleepFor10MinsMenuItem_click), keyEquivalent: "")
@@ -113,6 +116,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         menuItemAbout.target = self
         menuItemPreferences.target = self
+        menuItemDeactivateCriticalBatteryCharge.target = self
         menuItemPreventSystemSleep.target = self
         menuItemPreventSystemSleepFor5Mins.target = self
         menuItemPreventSystemSleepFor10Mins.target = self
@@ -152,6 +156,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuPower.addItem(menuItemScreenSaver)
         subMenuPower.addItem(menuItemClamshellCausingSleep)
         subMenuPower.addItem(NSMenuItem.separator())
+        subMenuPower.addItem(menuItemDeactivateCriticalBatteryCharge)
         subMenuPower.addItem(menuItemPreventSystemSleep)
         subMenuPower.addItem(menuItemPreventSystemSleepFor5Mins)
         subMenuPower.addItem(menuItemPreventSystemSleepFor10Mins)
@@ -187,6 +192,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         
         self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() ? .on : .off
+        self.menuItemDeactivateCriticalBatteryCharge.state = HAFConfigureManager.sharedManager.isDeactivateCriticalBatteryCharge() ? .on : .off
         
         let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
         for (_,value) in desktopObjs!{
@@ -284,6 +290,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             wnd.orderOut(nil)
             _view.isVisible = false
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(__monitorBatteryPercentage), name: NSNotification.Name.SSEnergyBatteryPercentageDidChanged, object: nil)
         
         __startToUpdateDesktopCover()
         
@@ -429,6 +437,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             menuItemShowDesktopIcon.state = .off
         }
         __showDesktopIcons()
+    }
+    
+    @IBAction func deactivateCriticalBatteryCharge_click(sender: AnyObject?){
+        if menuItemDeactivateCriticalBatteryCharge.state == .off {
+            menuItemDeactivateCriticalBatteryCharge.state = .on
+            HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryCharge(bFlag: true)
+        }else{
+            menuItemDeactivateCriticalBatteryCharge.state = .off
+            HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryCharge(bFlag: false)
+        }
     }
     
     @IBAction func preventSystemSleepMenuItem_click(sender: AnyObject?){
@@ -639,6 +657,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     func __stopToUpdateDesktopCover(){
         _updateDesktopCoverTimer?.cancel()
         _updateDesktopCoverTimer = nil
+    }
+    
+    @objc func __monitorBatteryPercentage(){
+        let currentValue = SSEnergyManager.shared().batteryPercentage()
+        let threshold = 10
+        if _lastBatteryPercentage > threshold && currentValue <= threshold && HAFConfigureManager.sharedManager.isDeactivateCriticalBatteryCharge(){
+            self.menuItemPreventSystemSleep.state = .off
+            SSEnergyManager.shared().preventSleep(false)
+        }
+        _lastBatteryPercentage = currentValue
     }
     
     func __setPreventSleepTimeout(nTimeout: Int) -> Void {
