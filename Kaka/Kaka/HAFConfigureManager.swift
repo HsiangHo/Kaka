@@ -32,6 +32,7 @@ class HAFConfigureManager: NSObject {
     let kAutoHideDesktopIconTimeOut = "AutoHideDesktopIconTimeOut"
     let kAutoHideCursorTimeOut = "AutoHideCursorTimeOut"
     let kDeactivateCriticalBatteryCharge = "DeactivateCriticalBatteryCharge"
+    let kDeactivateCriticalBatteryChargeThreshold = "DeactivateCriticalBatteryChargeThreshold"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -212,5 +213,18 @@ class HAFConfigureManager: NSObject {
     
     func isDeactivateCriticalBatteryCharge() -> Bool {
         return !UserDefaults.standard.bool(forKey: kDeactivateCriticalBatteryCharge)
+    }
+    
+    func setDeactivateCriticalBatteryChargeThreshold(nValue: Float) -> Void {
+        UserDefaults.standard.set(nValue, forKey: kDeactivateCriticalBatteryChargeThreshold)
+    }
+    
+    func deactivateCriticalBatteryChargeThreshold() -> Float {
+        let value = UserDefaults.standard.value(forKey: kDeactivateCriticalBatteryChargeThreshold)
+        if nil == value {
+            return 0.1
+        }else{
+            return value as! Float
+        }
     }
 }
