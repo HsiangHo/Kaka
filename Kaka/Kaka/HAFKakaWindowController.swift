@@ -127,12 +127,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         toggleDarkModeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()
         toggleDarkModeThresholdSlider.target = self
         toggleDarkModeThresholdSlider.action = #selector(onBrightnessValueSliderChanged)
-        toggleDarkModeThresholdSlider.autoresizingMask = [.minXMargin,.maxXMargin]
+        toggleDarkModeThresholdSlider.autoresizingMask = .width
         
         deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
         deactivateCriticalBatteryChargeThresholdSlider.target = self
         deactivateCriticalBatteryChargeThresholdSlider.action = #selector(onDeactivateCriticalBatteryChargeSliderChanged)
-        deactivateCriticalBatteryChargeThresholdSlider.autoresizingMask = [.minXMargin,.maxXMargin]
+        deactivateCriticalBatteryChargeThresholdSlider.autoresizingMask = .width
         
         menuItemAbout.target = self
         menuItemPreferences.target = self
