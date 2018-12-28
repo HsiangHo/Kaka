@@ -21,6 +21,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPower: NSMenuItem!
     var subMenuPower: NSMenu!
     var menuItemDeactivateCriticalBatteryCharge: NSMenuItem!
+    var menuItemDeactivateCriticalBatteryChargeThresholdSlider: NSMenuItem!
+    var deactivateCriticalBatteryChargeThresholdSlider: NSSlider!
     var menuItemPreventSystemSleep: NSMenuItem!
     var menuItemPreventSystemSleepFor5Mins: NSMenuItem!
     var menuItemPreventSystemSleepFor10Mins: NSMenuItem!
@@ -104,6 +106,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
         menuItemDeactivateCriticalBatteryCharge = NSMenuItem.init(title: NSLocalizedString("Deactivate Critical Battery Charge", comment: "") + " (10%)", action: #selector(deactivateCriticalBatteryCharge_click), keyEquivalent: "")
+        menuItemDeactivateCriticalBatteryChargeThresholdSlider = NSMenuItem.init(title: "", action: nil, keyEquivalent: "")
+        deactivateCriticalBatteryChargeThresholdSlider = NSSlider.init(frame: NSMakeRect(0, 0, 160, 23))
+        menuItemDeactivateCriticalBatteryChargeThresholdSlider.view = deactivateCriticalBatteryChargeThresholdSlider
         menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(preventSystemSleepMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleepFor5Mins = NSMenuItem.init(title: NSLocalizedString("For 5 Mins", comment: ""), action: #selector(preventSystemSleepFor5MinsMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleepFor10Mins = NSMenuItem.init(title: NSLocalizedString("For 10 Mins", comment: ""), action: #selector(preventSystemSleepFor10MinsMenuItem_click), keyEquivalent: "")
@@ -124,9 +129,15 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         toggleDarkModeThresholdSlider.action = #selector(onBrightnessValueSliderChanged)
         toggleDarkModeThresholdSlider.autoresizingMask = [.minXMargin,.maxXMargin]
         
+        deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
+        deactivateCriticalBatteryChargeThresholdSlider.target = self
+        deactivateCriticalBatteryChargeThresholdSlider.action = #selector(onDeactivateCriticalBatteryChargeSliderChanged)
+        deactivateCriticalBatteryChargeThresholdSlider.autoresizingMask = [.minXMargin,.maxXMargin]
+        
         menuItemAbout.target = self
         menuItemPreferences.target = self
         menuItemDeactivateCriticalBatteryCharge.target = self
+        menuItemDeactivateCriticalBatteryChargeThresholdSlider.target = self
         menuItemPreventSystemSleep.target = self
         menuItemPreventSystemSleepFor5Mins.target = self
         menuItemPreventSystemSleepFor10Mins.target = self
@@ -170,6 +181,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuPower.addItem(menuItemClamshellCausingSleep)
         subMenuPower.addItem(NSMenuItem.separator())
         subMenuPower.addItem(menuItemDeactivateCriticalBatteryCharge)
+        subMenuPower.addItem(menuItemDeactivateCriticalBatteryChargeThresholdSlider)
+        subMenuPower.addItem(NSMenuItem.separator())
         subMenuPower.addItem(menuItemPreventSystemSleep)
         subMenuPower.addItem(menuItemPreventSystemSleepFor5Mins)
         subMenuPower.addItem(menuItemPreventSystemSleepFor10Mins)
@@ -611,6 +624,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         updateActionMenu()
     }
     
+    @IBAction func onDeactivateCriticalBatteryChargeSliderChanged(_ sender: NSSlider) {
+        HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryChargeThreshold(nValue: deactivateCriticalBatteryChargeThresholdSlider.floatValue)
+        updateActionMenu()
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -620,6 +638,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.title = turnOnDarkModeBaseOnDisplayBrightness
         menuItemClamshellCausingSleep.state = !SSEnergyManager.shared().isClamshellCausingSleep() ? .on : .off
         toggleDarkModeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()
+        var deactivateCriticalBatteryCharge = NSLocalizedString("Deactivate Critical Battery Charge", comment: "")
+        deactivateCriticalBatteryCharge = deactivateCriticalBatteryCharge.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()*100)]))
+        menuItemDeactivateCriticalBatteryCharge.title = deactivateCriticalBatteryCharge
+        deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
 //        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
 //            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
 //                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
@@ -680,7 +702,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     @objc func __monitorBatteryPercentage(){
         let currentValue = SSEnergyManager.shared().batteryPercentage()
-        let threshold = 10
+        let threshold = Int(HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()*100)
         if _lastBatteryPercentage > threshold && currentValue <= threshold && HAFConfigureManager.sharedManager.isDeactivateCriticalBatteryCharge(){
             self.menuItemPreventSystemSleep.state = .off
             SSEnergyManager.shared().preventSleep(false)
