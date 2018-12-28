@@ -625,6 +625,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func onDeactivateCriticalBatteryChargeSliderChanged(_ sender: NSSlider) {
+        if deactivateCriticalBatteryChargeThresholdSlider.floatValue > 0.99 {
+            deactivateCriticalBatteryChargeThresholdSlider.floatValue = 0.99
+        }
         HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryChargeThreshold(nValue: deactivateCriticalBatteryChargeThresholdSlider.floatValue)
         updateActionMenu()
     }
