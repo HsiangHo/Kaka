@@ -39,6 +39,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemClamshellCausingSleep: NSMenuItem!
     var menuItemTurnOnDarkMode: NSMenuItem!
     var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
+    var menuItemToggleDarkModeThresholdSlider: NSMenuItem!
+    var toggleDarkModeThresholdSlider: NSSlider!
     var menuItemCustomAppAppearance: NSMenuItem!
     var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemDisplayKaka: NSMenuItem!
@@ -92,6 +94,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemScreenSaver = NSMenuItem.init(title: NSLocalizedString("Screensaver",comment: ""), action: #selector(screensaver_click), keyEquivalent: "")
         menuItemClamshellCausingSleep = NSMenuItem.init(title: NSLocalizedString("Prevent Sleep When Lid Is Closed",comment: ""), action: #selector(preventClamShellCausingSleep_click), keyEquivalent: "")
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
+        menuItemToggleDarkModeThresholdSlider = NSMenuItem.init(title: "", action: nil, keyEquivalent: "")
+        toggleDarkModeThresholdSlider = NSSlider.init(frame: NSMakeRect(0, 0, 200, 23))
+        menuItemToggleDarkModeThresholdSlider.view = toggleDarkModeThresholdSlider
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
@@ -114,6 +119,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         super.init(window: wnd)
         
+        toggleDarkModeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()
+        toggleDarkModeThresholdSlider.target = self
+        toggleDarkModeThresholdSlider.action = #selector(onBrightnessValueSliderChanged)
+        toggleDarkModeThresholdSlider.autoresizingMask = [.minXMargin,.maxXMargin]
+        
         menuItemAbout.target = self
         menuItemPreferences.target = self
         menuItemDeactivateCriticalBatteryCharge.target = self
@@ -134,6 +144,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemClamshellCausingSleep.target = self
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.target = self
         menuItemCustomAppAppearance.target = self
+        menuItemToggleDarkModeThresholdSlider.target = self
         menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
         menuItemAutoHideDesktopIcons.target = self
@@ -149,7 +160,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         subMenuDarkmode.addItem(menuItemTurnOnDarkMode)
         subMenuDarkmode.addItem(menuItemCustomAppAppearance)
+        subMenuDarkmode.addItem(NSMenuItem.separator())
         subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
+        subMenuDarkmode.addItem(menuItemToggleDarkModeThresholdSlider)
         
         subMenuPower.addItem(menuItemTurnOffTheDisplay)
         subMenuPower.addItem(menuItemSleep)
@@ -593,6 +606,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
+    @IBAction func onBrightnessValueSliderChanged(_ sender: NSSlider) {
+        HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: toggleDarkModeThresholdSlider.floatValue)
+        updateActionMenu()
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -601,6 +619,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.title = turnOnDarkModeBaseOnDisplayBrightness
         menuItemClamshellCausingSleep.state = !SSEnergyManager.shared().isClamshellCausingSleep() ? .on : .off
+        toggleDarkModeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()
 //        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
 //            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
 //                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
