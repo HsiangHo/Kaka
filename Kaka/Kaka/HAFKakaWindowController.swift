@@ -170,7 +170,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuDesktop.addItem(menuItemAutoHideDesktopIcons)
         
         subMenuDarkmode.addItem(menuItemTurnOnDarkMode)
-        subMenuDarkmode.addItem(menuItemCustomAppAppearance)
+        if(HAFSuperModeManager.isKakaInSuperMode()){
+            subMenuDarkmode.addItem(menuItemCustomAppAppearance)
+        }
         subMenuDarkmode.addItem(NSMenuItem.separator())
         subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
         subMenuDarkmode.addItem(menuItemToggleDarkModeThresholdSlider)
@@ -179,9 +181,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuPower.addItem(menuItemSleep)
         subMenuPower.addItem(menuItemScreenSaver)
         subMenuPower.addItem(menuItemClamshellCausingSleep)
-        subMenuPower.addItem(NSMenuItem.separator())
-        subMenuPower.addItem(menuItemDeactivateCriticalBatteryCharge)
-        subMenuPower.addItem(menuItemDeactivateCriticalBatteryChargeThresholdSlider)
+        if -1 != _lastBatteryPercentage {
+            subMenuPower.addItem(NSMenuItem.separator())
+            subMenuPower.addItem(menuItemDeactivateCriticalBatteryCharge)
+            subMenuPower.addItem(menuItemDeactivateCriticalBatteryChargeThresholdSlider)
+        }
         subMenuPower.addItem(NSMenuItem.separator())
         subMenuPower.addItem(menuItemPreventSystemSleep)
         subMenuPower.addItem(menuItemPreventSystemSleepFor5Mins)
