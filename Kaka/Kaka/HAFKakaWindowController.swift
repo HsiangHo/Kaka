@@ -102,8 +102,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
-       menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
-       menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
+        menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
+        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
         menuItemDeactivateCriticalBatteryCharge = NSMenuItem.init(title: NSLocalizedString("Deactivate Critical Battery Charge", comment: "") + " (10%)", action: #selector(deactivateCriticalBatteryCharge_click), keyEquivalent: "")
         menuItemDeactivateCriticalBatteryChargeThresholdSlider = NSMenuItem.init(title: "", action: nil, keyEquivalent: "")
@@ -222,7 +222,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         
         self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() ? .on : .off
+        self.toggleDarkModeThresholdSlider.isEnabled = HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness()
         self.menuItemDeactivateCriticalBatteryCharge.state = HAFConfigureManager.sharedManager.isDeactivateCriticalBatteryCharge() ? .on : .off
+        self.deactivateCriticalBatteryChargeThresholdSlider.isEnabled = HAFConfigureManager.sharedManager.isDeactivateCriticalBatteryCharge()
         
         let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
         for (_,value) in desktopObjs!{
@@ -472,9 +474,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func deactivateCriticalBatteryCharge_click(sender: AnyObject?){
         if menuItemDeactivateCriticalBatteryCharge.state == .off {
             menuItemDeactivateCriticalBatteryCharge.state = .on
+            self.deactivateCriticalBatteryChargeThresholdSlider.isEnabled = true
             HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryCharge(bFlag: true)
         }else{
             menuItemDeactivateCriticalBatteryCharge.state = .off
+            self.deactivateCriticalBatteryChargeThresholdSlider.isEnabled = false
             HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryCharge(bFlag: false)
         }
     }
@@ -546,9 +550,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click(sender: AnyObject?){
         if menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
             menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+            self.toggleDarkModeThresholdSlider.isEnabled = true
             HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
         }else{
             menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+            self.toggleDarkModeThresholdSlider.isEnabled = false
             HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
         }
     }
