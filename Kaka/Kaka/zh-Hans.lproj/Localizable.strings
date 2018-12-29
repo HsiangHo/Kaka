@@ -58,3 +58,9 @@
 "Screensaver" = "屏幕保护";
 "Prevent Sleep When Lid Is Closed" = "防止合盖休眠";
 "Deactivate Critical Battery Charge" = "在电池电量不足时停用";
+"Skip this version" = "跳过本次更新";
+"Update" = "更新";
+"Later" = "稍后";
+"Version %@" = "版本 %@";
+"Release Notes:\n\n" = "更新内容:\n\n";
+"Release Notes:\n\nNone." = "更新内容:\n\n无";

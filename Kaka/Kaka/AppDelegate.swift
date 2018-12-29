@@ -67,6 +67,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if !HAFSuperModeManager.isKakaInSuperMode(){
             return;
         }
+        let configure = AppStoreUpdateUIConfigure.init()
+        configure.laterButtonTitle = NSLocalizedString("Later", comment: "")
+        configure.skipButtonTitle = NSLocalizedString("Skip this version", comment: "")
+        configure.updateButtonTitle = NSLocalizedString("Update", comment: "")
+        configure.versionText = NSLocalizedString("Version %@", comment: "")
+        configure.releaseNotesText = NSLocalizedString("Release Notes:\n\n", comment: "")
+        configure.releaseNotesNoneText = NSLocalizedString("Release Notes:\n\nNone.", comment: "")
+        AppStoreUpdateManager.shared().customize(configure)
         AppStoreUpdateManager.shared().checkAppUpdateAsync(appObj) { (rslt, obj) in
             if rslt && obj.isNewVersionAvailable() && !AppStoreUpdateManager.shared().isCurrentNewVersionSkipped(obj){
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
