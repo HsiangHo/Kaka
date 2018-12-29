@@ -54,7 +54,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
-    let appAppearanceWindowController: HAFAppAppearanceWindowController? = HAFAppAppearanceWindowController.init()
+    var appAppearanceWindowController: HAFAppAppearanceWindowController? = nil
     var _updateDesktopCoverTimer: DispatchSourceTimer?
     var _preventSleepTimer: DispatchSourceTimer?
     var _lastBatteryPercentage: Int = SSEnergyManager.shared().batteryPercentage()
@@ -565,6 +565,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func customAppAppearanceMenuItem_click(sender: AnyObject?){
+        if nil == appAppearanceWindowController{
+            appAppearanceWindowController = HAFAppAppearanceWindowController.init()
+        }
         appAppearanceWindowController?.window?.center()
         NSApp.activate(ignoringOtherApps: true)
         appAppearanceWindowController?.showWindow(nil)
@@ -675,25 +678,25 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
-    func __loadFinderPlugin() -> Void {
-        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
-            let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -a '%@'\"", pluginPath)
-            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
-                
-            });
-        }
-    }
-    
-    func __unloadFinderPlugin() -> Void {
-        let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
-        let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -r '%@'\"", pluginPath)
-        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
-                
-            });
-        }
-    }
+//    func __loadFinderPlugin() -> Void {
+//        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+//            let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+//            let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -a '%@'\"", pluginPath)
+//            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
+//
+//            });
+//        }
+//    }
+//
+//    func __unloadFinderPlugin() -> Void {
+//        let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+//        let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -r '%@'\"", pluginPath)
+//        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+//            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
+//
+//            });
+//        }
+//    }
     
     func __startToUpdateDesktopCover(){
         _updateDesktopCoverTimer = DispatchSource.makeTimerSource(queue: .main)
