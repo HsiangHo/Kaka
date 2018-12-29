@@ -64,3 +64,7 @@
 "Version %@" = "Version %@";
 "Release Notes:\n\n" = "Release Notes:\n\n";
 "Release Notes:\n\nNone." = "Release Notes:\n\nNone.";
+"Permission Reqeust" = "Permission Reqeust";
+"This feature need access user-selected folders to edit the configuration file. Click Allow to continue" = "This feature need access user-selected folders to edit the configuration file. Click Allow to continue";
+"Allow" = "Allow";
+"Don’t Allow" = "Don’t Allow";

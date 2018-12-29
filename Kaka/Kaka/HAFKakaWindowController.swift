@@ -704,10 +704,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     func __requestPermission() -> Bool {
         let alert = NSAlert()
         alert.messageText = NSLocalizedString("Permission Reqeust", comment: "")
-        alert.informativeText = NSLocalizedString("This feature need access user-selected folders to edit the configuration file. Click Allow to continue.", comment: "")
+        alert.informativeText = NSLocalizedString("This feature need access user-selected folders to edit the configuration file. Click Allow to continue", comment: "")
         alert.alertStyle = .informational
-        alert.addButton(withTitle: "Allow")
-        alert.addButton(withTitle: "Don’t Allow")
+        alert.addButton(withTitle: NSLocalizedString("Allow", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Don’t Allow", comment: ""))
         let rslt = alert.runModal()
         return rslt == .alertFirstButtonReturn
     }
