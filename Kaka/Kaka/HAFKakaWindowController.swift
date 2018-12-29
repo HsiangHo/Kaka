@@ -288,7 +288,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
 //        }
         
         SSBrightnessManager.shared().setBrightnessValueChangedBlock { (value, type) in
-            if !HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness(){
+            if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) || !HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness(){
                 return;
             }
             if eSSBrightness_Display == type{
@@ -544,16 +544,38 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click(sender: AnyObject?){
-        if menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
-            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
-            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
-        }else{
-            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && !self.__requestPermission() {
+            self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
             HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+            return;
+        }
+        
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                if self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
+                    self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+                    HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+                }else{
+                    self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+                    HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+                }
+            }
+        }else{
+            if self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
+                self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+            }else{
+                self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+            }
         }
     }
     
     @IBAction func turnOnDarkModeMenuItem_click(sender: AnyObject?){
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && !self.__requestPermission() {
+            return;
+        }
+        
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
             if self.menuItemTurnOnDarkMode.state == .off {
                 self.menuItemTurnOnDarkMode.state = .on
@@ -627,10 +649,25 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func onBrightnessValueSliderChanged(_ sender: NSSlider) {
-        HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
-        menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
-        HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: toggleDarkModeThresholdSlider.floatValue)
-        updateActionMenu()
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && !self.__requestPermission() {
+            self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+            return;
+        }
+        
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+                self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: self.toggleDarkModeThresholdSlider.floatValue)
+                self.updateActionMenu()
+            }
+        }else{
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: toggleDarkModeThresholdSlider.floatValue)
+            updateActionMenu()
+        }
     }
     
     @IBAction func onDeactivateCriticalBatteryChargeSliderChanged(_ sender: NSSlider) {
@@ -664,6 +701,17 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     //MARK: Private functions
+    func __requestPermission() -> Bool {
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Permission Reqeust", comment: "")
+        alert.informativeText = NSLocalizedString("This feature need access user-selected folders to edit the configuration file. Click Allow to continue.", comment: "")
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "Allow")
+        alert.addButton(withTitle: "Don’t Allow")
+        let rslt = alert.runModal()
+        return rslt == .alertFirstButtonReturn
+    }
+    
     func __showDesktop() -> Void {
         SSDesktopManager.shared().showDesktop(false)
     }
