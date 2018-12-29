@@ -43,6 +43,6 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>Kaka would like to use &quot;System Event&quot; to automate the operation.</string>
+	<string>Kaka would like to use &quot;System Event&quot; to automate operations.</string>
 </dict>
 </plist>
