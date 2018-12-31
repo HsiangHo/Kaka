@@ -36,10 +36,10 @@
 		98B73F1C2164984D00D128A9 /* HAFUserBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B73F1B2164984D00D128A9 /* HAFUserBehaviorManager.m */; };
 		98BEFFE0215B9B7B007B10FF /* Tamplates in Resources */ = {isa = PBXBuildFile; fileRef = 98BEFFDF215B9B7B007B10FF /* Tamplates */; };
 		98C393F0215777610048D33D /* FinderSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 98C393EF215777610048D33D /* FinderSync.m */; };
-		98C393F5215777610048D33D /* FinderPlugin.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 98C393EC215777600048D33D /* FinderPlugin.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		98C393FB215795770048D33D /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 		98C393FE2157DE560048D33D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 98C394002157DE560048D33D /* Localizable.strings */; };
 		98C394052158B3A10048D33D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98C394042158B3A10048D33D /* Assets.xcassets */; };
+		98EF45BA21CDBED000A30767 /* AppStoreUpdateKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98EF45B221CDBEA400A30767 /* AppStoreUpdateKit.framework */; };
 		98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +79,20 @@
 			remoteGlobalIDString = 98C393EB215777600048D33D;
 			remoteInfo = FinderPlugin;
 		};
+		98EF45B121CDBEA400A30767 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF45AC21CDBEA400A30767 /* AppStoreUpdateKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98DF3DA621C9FD3C008515B7;
+			remoteInfo = AppStoreUpdateKit;
+		};
+		98EF45B321CDBEA400A30767 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98EF45AC21CDBEA400A30767 /* AppStoreUpdateKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 98DF3DB921C9FF1B008515B7;
+			remoteInfo = AppStoreUpdateKitDemo;
+		};
 		98F8F8B1212EF05E00DE612A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */;
@@ -97,17 +111,6 @@
 			files = (
 				988A1792213152CE00A89C25 /* LaunchAtLoginHelper.app in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		98C393FA215777610048D33D /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				98C393F5215777610048D33D /* FinderPlugin.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -160,6 +163,7 @@
 		98C394012157DEF20048D33D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		98C394022157DEF70048D33D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		98C394042158B3A10048D33D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		98EF45AC21CDBEA400A30767 /* AppStoreUpdateKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppStoreUpdateKit.xcodeproj; path = ../AppStoreUpdateKit/AppStoreUpdateKit/AppStoreUpdateKit.xcodeproj; sourceTree = "<group>"; };
 		98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowstarKit.xcodeproj; path = ../ShadowstarKit/ShadowstarKit/ShadowstarKit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98EF45BA21CDBED000A30767 /* AppStoreUpdateKit.framework in Frameworks */,
 				980C11D8218E9CCC00890F27 /* RateKit.framework in Frameworks */,
 				983CFD35217E104500A91B50 /* ShortcutsKit.framework in Frameworks */,
 				98F8F8B4212EF0D500DE612A /* ShadowstarKit.framework in Frameworks */,
@@ -213,6 +218,7 @@
 		9862A1282119DC0000760570 = {
 			isa = PBXGroup;
 			children = (
+				98EF45AC21CDBEA400A30767 /* AppStoreUpdateKit.xcodeproj */,
 				980C11CB218E8BA300890F27 /* RateKit.xcodeproj */,
 				983CFD2B217E0F5200A91B50 /* ShortcutsKit.xcodeproj */,
 				98F8F8AD212EF05E00DE612A /* ShadowstarKit.xcodeproj */,
@@ -283,6 +289,15 @@
 			path = FinderPlugin;
 			sourceTree = "<group>";
 		};
+		98EF45AD21CDBEA400A30767 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98EF45B221CDBEA400A30767 /* AppStoreUpdateKit.framework */,
+				98EF45B421CDBEA400A30767 /* AppStoreUpdateKitDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		98F8F8AE212EF05E00DE612A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,7 +350,6 @@
 				9862A12E2119DC0000760570 /* Frameworks */,
 				9862A12F2119DC0000760570 /* Resources */,
 				988A1791213152C500A89C25 /* CopyFiles */,
-				98C393FA215777610048D33D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -426,6 +440,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 98EF45AD21CDBEA400A30767 /* Products */;
+					ProjectRef = 98EF45AC21CDBEA400A30767 /* AppStoreUpdateKit.xcodeproj */;
+				},
+				{
 					ProductGroup = 980C11CC218E8BA300890F27 /* Products */;
 					ProjectRef = 980C11CB218E8BA300890F27 /* RateKit.xcodeproj */;
 				},
@@ -474,6 +492,20 @@
 			fileType = wrapper.application;
 			path = ShortcutsDemo.app;
 			remoteRef = 983CFD33217E0F5200A91B50 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98EF45B221CDBEA400A30767 /* AppStoreUpdateKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppStoreUpdateKit.framework;
+			remoteRef = 98EF45B121CDBEA400A30767 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		98EF45B421CDBEA400A30767 /* AppStoreUpdateKitDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = AppStoreUpdateKitDemo.app;
+			remoteRef = 98EF45B321CDBEA400A30767 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		98F8F8B2212EF05E00DE612A /* ShadowstarKit.framework */ = {

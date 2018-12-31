@@ -7,3 +7,6 @@
 [submodule "RateKit"]
 	path = RateKit
 	url = https://github.com/HsiangHo/RateKit
+[submodule "AppStoreUpdateKit"]
+	path = AppStoreUpdateKit
+	url = https://HsiangHo@github.com/HsiangHo/AppStoreUpdateKit.git

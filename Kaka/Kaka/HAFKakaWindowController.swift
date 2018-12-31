@@ -20,14 +20,29 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var subMenuCursor: NSMenu!
     var menuItemPower: NSMenuItem!
     var subMenuPower: NSMenu!
+    var menuItemDeactivateCriticalBatteryCharge: NSMenuItem!
+    var menuItemDeactivateCriticalBatteryChargeThresholdSlider: NSMenuItem!
+    var deactivateCriticalBatteryChargeThresholdSlider: NSSlider!
     var menuItemPreventSystemSleep: NSMenuItem!
+    var menuItemPreventSystemSleepFor5Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor10Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor15Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor30Mins: NSMenuItem!
+    var menuItemPreventSystemSleepFor1Hour: NSMenuItem!
+    var menuItemPreventSystemSleepFor2Hours: NSMenuItem!
+    var menuItemPreventSystemSleepFor5Hours: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
 //    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
+//    var menuItemEnableFinderExtension: NSMenuItem!
     var menuItemTurnOffTheDisplay: NSMenuItem!
-    var menuItemEnableFinderExtension: NSMenuItem!
+    var menuItemSleep: NSMenuItem!
+    var menuItemScreenSaver: NSMenuItem!
+    var menuItemClamshellCausingSleep: NSMenuItem!
     var menuItemTurnOnDarkMode: NSMenuItem!
     var menuItemTurnOnDarkModeBaseOnDisplayBrightness: NSMenuItem!
+    var menuItemToggleDarkModeThresholdSlider: NSMenuItem!
+    var toggleDarkModeThresholdSlider: NSSlider!
     var menuItemCustomAppAppearance: NSMenuItem!
     var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemDisplayKaka: NSMenuItem!
@@ -39,8 +54,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
-    let appAppearanceWindowController: HAFAppAppearanceWindowController? = HAFAppAppearanceWindowController.init()
+    var appAppearanceWindowController: HAFAppAppearanceWindowController? = nil
     var _updateDesktopCoverTimer: DispatchSourceTimer?
+    var _preventSleepTimer: DispatchSourceTimer?
+    var _lastBatteryPercentage: Int = SSEnergyManager.shared().batteryPercentage()
     
     init() {
         let offsetX: CGFloat = NSScreen.screens[0].frame.width - 150
@@ -64,8 +81,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemCursor = NSMenuItem.init(title: NSLocalizedString("Cursor", comment: ""), action: nil, keyEquivalent: "")
         menuItemCursor.submenu = subMenuCursor
         
-        subMenuPower = NSMenu.init(title: "Power")
-        menuItemPower = NSMenuItem.init(title: NSLocalizedString("Power", comment: ""), action: nil, keyEquivalent: "")
+        subMenuPower = NSMenu.init(title: "Energy")
+        menuItemPower = NSMenuItem.init(title: NSLocalizedString("Energy", comment: ""), action: nil, keyEquivalent: "")
         menuItemPower.submenu = subMenuPower
         
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
@@ -75,36 +92,76 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
 //        menuItemShowHiddenFilesAndFolders = NSMenuItem.init(title: NSLocalizedString("Show Hidden Files & Folders",comment: ""), action: #selector(showHiddenFilesAndFolders_click), keyEquivalent: "")
         menuItemTurnOffTheDisplay = NSMenuItem.init(title: NSLocalizedString("Turn Off The Display",comment: ""), action: #selector(turnOffTheDisplay_click), keyEquivalent: "")
+        menuItemSleep = NSMenuItem.init(title: NSLocalizedString("Sleep",comment: ""), action: #selector(sleep_click), keyEquivalent: "")
+        menuItemScreenSaver = NSMenuItem.init(title: NSLocalizedString("Screensaver",comment: ""), action: #selector(screensaver_click), keyEquivalent: "")
+        menuItemClamshellCausingSleep = NSMenuItem.init(title: NSLocalizedString("Prevent Sleep When Lid Is Closed",comment: ""), action: #selector(preventClamShellCausingSleep_click), keyEquivalent: "")
         menuItemTurnOnDarkModeBaseOnDisplayBrightness = NSMenuItem.init(title: turnOnDarkModeBaseOnDisplayBrightness, action: #selector(turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click), keyEquivalent: "")
+        menuItemToggleDarkModeThresholdSlider = NSMenuItem.init(title: "", action: nil, keyEquivalent: "")
+        toggleDarkModeThresholdSlider = NSSlider.init(frame: NSMakeRect(0, 0, 200, 23))
+        menuItemToggleDarkModeThresholdSlider.view = toggleDarkModeThresholdSlider
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
-       menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
-       menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
+        menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
+        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
+        menuItemDeactivateCriticalBatteryCharge = NSMenuItem.init(title: NSLocalizedString("Deactivate Critical Battery Charge", comment: "") + " (10%)", action: #selector(deactivateCriticalBatteryCharge_click), keyEquivalent: "")
+        menuItemDeactivateCriticalBatteryChargeThresholdSlider = NSMenuItem.init(title: "", action: nil, keyEquivalent: "")
+        deactivateCriticalBatteryChargeThresholdSlider = NSSlider.init(frame: NSMakeRect(0, 0, 160, 23))
+        menuItemDeactivateCriticalBatteryChargeThresholdSlider.view = deactivateCriticalBatteryChargeThresholdSlider
         menuItemPreventSystemSleep = NSMenuItem.init(title: NSLocalizedString("Prevent System From Falling Asleep", comment: ""), action: #selector(preventSystemSleepMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor5Mins = NSMenuItem.init(title: NSLocalizedString("For 5 Mins", comment: ""), action: #selector(preventSystemSleepFor5MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor10Mins = NSMenuItem.init(title: NSLocalizedString("For 10 Mins", comment: ""), action: #selector(preventSystemSleepFor10MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor15Mins = NSMenuItem.init(title: NSLocalizedString("For 15 Mins", comment: ""), action: #selector(preventSystemSleepFor15MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor30Mins = NSMenuItem.init(title: NSLocalizedString("For 30 Mins", comment: ""), action: #selector(preventSystemSleepFor30MinsMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor1Hour = NSMenuItem.init(title: NSLocalizedString("For 1 Hour", comment: ""), action: #selector(preventSystemSleepFor1HourMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor2Hours = NSMenuItem.init(title: NSLocalizedString("For 2 Hours", comment: ""), action: #selector(preventSystemSleepFor2HoursMenuItem_click), keyEquivalent: "")
+        menuItemPreventSystemSleepFor5Hours = NSMenuItem.init(title: NSLocalizedString("For 5 Hours", comment: ""), action: #selector(preventSystemSleepFor5HoursMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
-        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
+//        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
         super.init(window: wnd)
         
+        toggleDarkModeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()
+        toggleDarkModeThresholdSlider.target = self
+        toggleDarkModeThresholdSlider.action = #selector(onBrightnessValueSliderChanged)
+        toggleDarkModeThresholdSlider.autoresizingMask = .width
+        
+        deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
+        deactivateCriticalBatteryChargeThresholdSlider.target = self
+        deactivateCriticalBatteryChargeThresholdSlider.action = #selector(onDeactivateCriticalBatteryChargeSliderChanged)
+        deactivateCriticalBatteryChargeThresholdSlider.autoresizingMask = .width
+        
         menuItemAbout.target = self
         menuItemPreferences.target = self
+        menuItemDeactivateCriticalBatteryCharge.target = self
+        menuItemDeactivateCriticalBatteryChargeThresholdSlider.target = self
         menuItemPreventSystemSleep.target = self
+        menuItemPreventSystemSleepFor5Mins.target = self
+        menuItemPreventSystemSleepFor10Mins.target = self
+        menuItemPreventSystemSleepFor15Mins.target = self
+        menuItemPreventSystemSleepFor30Mins.target = self
+        menuItemPreventSystemSleepFor1Hour.target = self
+        menuItemPreventSystemSleepFor2Hours.target = self
+        menuItemPreventSystemSleepFor5Hours.target = self
         menuItemShowDesktop.target = self
         menuItemShowDesktopIcon.target = self
 //        menuItemShowHiddenFilesAndFolders.target = self
         menuItemTurnOffTheDisplay.target = self
+        menuItemSleep.target = self
+        menuItemScreenSaver.target = self
+        menuItemClamshellCausingSleep.target = self
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.target = self
         menuItemCustomAppAppearance.target = self
+        menuItemToggleDarkModeThresholdSlider.target = self
         menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
         menuItemAutoHideDesktopIcons.target = self
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
-        menuItemEnableFinderExtension.target = self
+//        menuItemEnableFinderExtension.target = self
         menuItemHelp.target = self
         menuItemQuit.target = self
         
@@ -114,15 +171,35 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         subMenuDarkmode.addItem(menuItemTurnOnDarkMode)
         subMenuDarkmode.addItem(menuItemCustomAppAppearance)
+        subMenuDarkmode.addItem(NSMenuItem.separator())
         subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
+        subMenuDarkmode.addItem(menuItemToggleDarkModeThresholdSlider)
         
         subMenuPower.addItem(menuItemTurnOffTheDisplay)
+        subMenuPower.addItem(menuItemSleep)
+        subMenuPower.addItem(menuItemScreenSaver)
+        subMenuPower.addItem(menuItemClamshellCausingSleep)
+        if -1 != _lastBatteryPercentage {
+            subMenuPower.addItem(NSMenuItem.separator())
+            subMenuPower.addItem(menuItemDeactivateCriticalBatteryCharge)
+            subMenuPower.addItem(menuItemDeactivateCriticalBatteryChargeThresholdSlider)
+        }
+        subMenuPower.addItem(NSMenuItem.separator())
         subMenuPower.addItem(menuItemPreventSystemSleep)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor5Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor10Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor15Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor30Mins)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor1Hour)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor2Hours)
+        subMenuPower.addItem(menuItemPreventSystemSleepFor5Hours)
         
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
         
         actionMenu.addItem(menuItemDesktop)
-        actionMenu.addItem(menuItemDarkmode)
+        if HAFSuperModeManager.isKakaInSuperMode(){
+            actionMenu.addItem(menuItemDarkmode)
+        }
         actionMenu.addItem(menuItemPower)
         actionMenu.addItem(menuItemCursor)
         actionMenu.addItem(NSMenuItem.separator())
@@ -144,14 +221,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             SSCursorManager.shared().setAutoHideTimeout(UInt(nTimeOut))
         }
         
-        if HAFConfigureManager.sharedManager.isPreventSystemFromFallingAsleep() {
-            menuItemPreventSystemSleep.state = .on
-            SSDesktopManager.shared().preventSleep(true)
-        }
+        self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness() ? .on : .off
+        self.menuItemDeactivateCriticalBatteryCharge.state = HAFConfigureManager.sharedManager.isDeactivateCriticalBatteryCharge() ? .on : .off
         
         let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
         for (_,value) in desktopObjs!{
-            value.setMouseActionCallback({ (windowType, eventType, event,context)  in
+            value.setMouseActionCallback({ (windowType, event, context)  in
                 if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
                     DispatchQueue.main.async {
                         value.uncoverDesktop()
@@ -183,7 +258,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
                 })
                 
                 for (_,value) in desktopObjsDict!{
-                    value.setMouseActionCallback({ (windowType, eventType, event,context)  in
+                    value.setMouseActionCallback({ (windowType, event, context)  in
                         if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
                             DispatchQueue.main.async {
                                 value.uncoverDesktop()
@@ -213,7 +288,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
 //        }
         
         SSBrightnessManager.shared().setBrightnessValueChangedBlock { (value, type) in
-            if !HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness(){
+            if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) || !HAFConfigureManager.sharedManager.isAutoToggleDarkModeBaseOnDisplayBrightness(){
                 return;
             }
             if eSSBrightness_Display == type{
@@ -229,10 +304,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             }
         }
         
-        if HAFConfigureManager.sharedManager.isEnableFinderExtension(){
-            menuItemEnableFinderExtension.state = .on
-            __loadFinderPlugin()
-        }
+//        if HAFConfigureManager.sharedManager.isEnableFinderExtension(){
+//            menuItemEnableFinderExtension.state = .on
+//            __loadFinderPlugin()
+//        }
+        
+        menuItemClamshellCausingSleep.state = !SSEnergyManager.shared().isClamshellCausingSleep() ? .on : .off
         
         if HAFConfigureManager.sharedManager.isEnableKaka(){
             menuItemDisplayKaka.state = .on
@@ -243,6 +320,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             wnd.orderOut(nil)
             _view.isVisible = false
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(__monitorBatteryPercentage), name: NSNotification.Name.SSEnergyBatteryPercentageDidChanged, object: nil)
         
         __startToUpdateDesktopCover()
         
@@ -364,7 +443,21 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
 //        }
 //    }
     @IBAction func turnOffTheDisplay_click(sender: AnyObject?){
-        SSDesktopManager.shared().turnOffTheDisplay()
+        SSEnergyManager.shared().displaySleep()
+    }
+    
+    @IBAction func sleep_click(sender: AnyObject?){
+        SSEnergyManager.shared().sleep()
+    }
+    
+    @IBAction func screensaver_click(sender: AnyObject?){
+        SSEnergyManager.shared().screenSaver()
+    }
+    
+    @IBAction func preventClamShellCausingSleep_click(sender: AnyObject?){
+        let isClamshellCausingSleep = SSEnergyManager.shared().isClamshellCausingSleep()
+        SSEnergyManager.shared().setClamshellCausingSleep(!isClamshellCausingSleep)
+        menuItemClamshellCausingSleep.state = isClamshellCausingSleep ? .on : .off
     }
     
     @IBAction func showDesktopIconMenuItem_click(sender: AnyObject?){
@@ -376,14 +469,67 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         __showDesktopIcons()
     }
     
+    @IBAction func deactivateCriticalBatteryCharge_click(sender: AnyObject?){
+        if menuItemDeactivateCriticalBatteryCharge.state == .off {
+            menuItemDeactivateCriticalBatteryCharge.state = .on
+            HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryCharge(bFlag: true)
+        }else{
+            menuItemDeactivateCriticalBatteryCharge.state = .off
+            HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryCharge(bFlag: false)
+        }
+    }
+    
     @IBAction func preventSystemSleepMenuItem_click(sender: AnyObject?){
+        __cancelPreventSleepTimeout()
         if menuItemPreventSystemSleep.state == .off {
             menuItemPreventSystemSleep.state = .on
-            SSDesktopManager.shared().preventSleep(true)
+            SSEnergyManager.shared().preventSleep(true)
         }else{
             menuItemPreventSystemSleep.state = .off
-            SSDesktopManager.shared().preventSleep(false)
+            SSEnergyManager.shared().preventSleep(false)
         }
+    }
+    
+    @IBAction func preventSystemSleepFor5MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSEnergyManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 300)
+    }
+    
+    @IBAction func preventSystemSleepFor10MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSEnergyManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 600)
+    }
+    
+    @IBAction func preventSystemSleepFor15MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSEnergyManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 900)
+    }
+    
+    @IBAction func preventSystemSleepFor30MinsMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSEnergyManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 1800)
+    }
+    
+    @IBAction func preventSystemSleepFor1HourMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSEnergyManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 3600)
+    }
+    
+    @IBAction func preventSystemSleepFor2HoursMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSEnergyManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 7200)
+    }
+    
+    @IBAction func preventSystemSleepFor5HoursMenuItem_click(sender: AnyObject?){
+        menuItemPreventSystemSleep.state = .on
+        SSEnergyManager.shared().preventSleep(true)
+        __setPreventSleepTimeout(nTimeout: 18000)
     }
     
     @IBAction func autoHideMouseCursorMenuItem_click(sender: AnyObject?){
@@ -398,16 +544,38 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func turnOnDarkModeBaseOnDisplayBrightnessMenuItem_click(sender: AnyObject?){
-        if menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
-            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
-            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
-        }else{
-            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && !self.__requestPermission() {
+            self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
             HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+            return;
+        }
+        
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                if self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
+                    self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+                    HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+                }else{
+                    self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+                    HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+                }
+            }
+        }else{
+            if self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state == .off {
+                self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+            }else{
+                self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+            }
         }
     }
     
     @IBAction func turnOnDarkModeMenuItem_click(sender: AnyObject?){
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && !self.__requestPermission() {
+            return;
+        }
+        
         SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
             if self.menuItemTurnOnDarkMode.state == .off {
                 self.menuItemTurnOnDarkMode.state = .on
@@ -419,6 +587,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func customAppAppearanceMenuItem_click(sender: AnyObject?){
+        if nil == appAppearanceWindowController{
+            appAppearanceWindowController = HAFAppAppearanceWindowController.init()
+        }
         appAppearanceWindowController?.window?.center()
         NSApp.activate(ignoringOtherApps: true)
         appAppearanceWindowController?.showWindow(nil)
@@ -437,16 +608,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         HAFConfigureManager.sharedManager.setAutoHideDesktopIcons(bFlag: menuItemAutoHideDesktopIcons.state == .on)
     }
     
-    @IBAction func enableFinderExtension_click(sender: AnyObject?){
-        if menuItemEnableFinderExtension.state == .off {
-            menuItemEnableFinderExtension.state = .on
-            __loadFinderPlugin()
-        }else{
-            menuItemEnableFinderExtension.state = .off
-            __unloadFinderPlugin()
-        }
-        HAFConfigureManager.sharedManager.setEnableFinderExtension(bFlag: menuItemEnableFinderExtension.state == .on)
-    }
+//    @IBAction func enableFinderExtension_click(sender: AnyObject?){
+//        if menuItemEnableFinderExtension.state == .off {
+//            menuItemEnableFinderExtension.state = .on
+//            __loadFinderPlugin()
+//        }else{
+//            menuItemEnableFinderExtension.state = .off
+//            __unloadFinderPlugin()
+//        }
+//        HAFConfigureManager.sharedManager.setEnableFinderExtension(bFlag: menuItemEnableFinderExtension.state == .on)
+//    }
     
     @IBAction func rateOnMacAppStore_click(sender: AnyObject?){
         NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id1434172933?action=write-review")!)
@@ -477,6 +648,38 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
+    @IBAction func onBrightnessValueSliderChanged(_ sender: NSSlider) {
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")) && !self.__requestPermission() {
+            self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .off
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: false)
+            return;
+        }
+        
+        if !SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
+            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+                self.menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+                HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: self.toggleDarkModeThresholdSlider.floatValue)
+                self.updateActionMenu()
+            }
+        }else{
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightness(bFlag: true)
+            menuItemTurnOnDarkModeBaseOnDisplayBrightness.state = .on
+            HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: toggleDarkModeThresholdSlider.floatValue)
+            updateActionMenu()
+        }
+    }
+    
+    @IBAction func onDeactivateCriticalBatteryChargeSliderChanged(_ sender: NSSlider) {
+        if deactivateCriticalBatteryChargeThresholdSlider.floatValue > 0.99 {
+            deactivateCriticalBatteryChargeThresholdSlider.floatValue = 0.99
+        }
+        HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryCharge(bFlag: true)
+        menuItemDeactivateCriticalBatteryCharge.state = .on
+        HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryChargeThreshold(nValue: deactivateCriticalBatteryChargeThresholdSlider.floatValue)
+        updateActionMenu()
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -484,6 +687,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         var turnOnDarkModeBaseOnDisplayBrightness = NSLocalizedString("Toggle Dark Mode Base On Display Brightness", comment: "")
         turnOnDarkModeBaseOnDisplayBrightness = turnOnDarkModeBaseOnDisplayBrightness.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
         menuItemTurnOnDarkModeBaseOnDisplayBrightness.title = turnOnDarkModeBaseOnDisplayBrightness
+        menuItemClamshellCausingSleep.state = !SSEnergyManager.shared().isClamshellCausingSleep() ? .on : .off
+        toggleDarkModeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()
+        var deactivateCriticalBatteryCharge = NSLocalizedString("Deactivate Critical Battery Charge", comment: "")
+        deactivateCriticalBatteryCharge = deactivateCriticalBatteryCharge.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()*100)]))
+        menuItemDeactivateCriticalBatteryCharge.title = deactivateCriticalBatteryCharge
+        deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
 //        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
 //            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
 //                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
@@ -492,6 +701,17 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     //MARK: Private functions
+    func __requestPermission() -> Bool {
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Permission Reqeust", comment: "")
+        alert.informativeText = NSLocalizedString("This feature need access user-selected folders to edit the configuration file. Click Allow to continue", comment: "")
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: NSLocalizedString("Allow", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Don’t Allow", comment: ""))
+        let rslt = alert.runModal()
+        return rslt == .alertFirstButtonReturn
+    }
+    
     func __showDesktop() -> Void {
         SSDesktopManager.shared().showDesktop(false)
     }
@@ -506,25 +726,25 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
-    func __loadFinderPlugin() -> Void {
-        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
-            let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -a '%@'\"", pluginPath)
-            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
-                
-            });
-        }
-    }
-    
-    func __unloadFinderPlugin() -> Void {
-        let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
-        let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -r '%@'\"", pluginPath)
-        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
-                
-            });
-        }
-    }
+//    func __loadFinderPlugin() -> Void {
+//        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+//            let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+//            let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -a '%@'\"", pluginPath)
+//            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
+//
+//            });
+//        }
+//    }
+//
+//    func __unloadFinderPlugin() -> Void {
+//        let pluginPath: String = Bundle.main.bundlePath + "/Contents/PlugIns/FinderPlugin.appex"
+//        let cmd: String = String.init(format: "do shell script \"/usr/bin/pluginkit -r '%@'\"", pluginPath)
+//        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+//            SSUtility.execAppleScript(cmd, withCompletionHandler: { (_, _) in
+//
+//            });
+//        }
+//    }
     
     func __startToUpdateDesktopCover(){
         _updateDesktopCoverTimer = DispatchSource.makeTimerSource(queue: .main)
@@ -537,9 +757,40 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         _updateDesktopCoverTimer?.resume()
     }
     
-    public func __stopToUpdateDesktopCover(){
+    func __stopToUpdateDesktopCover(){
         _updateDesktopCoverTimer?.cancel()
         _updateDesktopCoverTimer = nil
+    }
+    
+    @objc func __monitorBatteryPercentage(){
+        let currentValue = SSEnergyManager.shared().batteryPercentage()
+        let threshold = Int(HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()*100)
+        if _lastBatteryPercentage > threshold && currentValue <= threshold && HAFConfigureManager.sharedManager.isDeactivateCriticalBatteryCharge(){
+            self.menuItemPreventSystemSleep.state = .off
+            SSEnergyManager.shared().preventSleep(false)
+        }
+        _lastBatteryPercentage = currentValue
+    }
+    
+    func __setPreventSleepTimeout(nTimeout: Int) -> Void {
+        if nil != _preventSleepTimer {
+            _preventSleepTimer?.cancel()
+            _preventSleepTimer = nil
+        }
+        _preventSleepTimer = DispatchSource.makeTimerSource(queue: .main)
+        _preventSleepTimer?.schedule(wallDeadline: .now() + .seconds(nTimeout), repeating: .never, leeway: .milliseconds(1))
+        _preventSleepTimer?.setEventHandler {
+            self.menuItemPreventSystemSleep.state = .off
+            SSEnergyManager.shared().preventSleep(false)
+        }
+        _preventSleepTimer?.resume()
+    }
+    
+    func __cancelPreventSleepTimeout() -> Void {
+        if nil != _preventSleepTimer {
+            _preventSleepTimer?.cancel()
+            _preventSleepTimer = nil
+        }
     }
 }
 

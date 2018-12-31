@@ -80,7 +80,7 @@ class HAFHotkeyManager: NSObject {
         }
         if nil != keyCombo {
             turnOffDisplayHotkey = SCHotkey.init(keyCombo: keyCombo!, identifier: "turnOffDisplay", handler: { (_) in
-                SSDesktopManager.shared().turnOffTheDisplay()
+                SSEnergyManager.shared().displaySleep()
             });
             turnOffDisplayHotkey!.register()
         }

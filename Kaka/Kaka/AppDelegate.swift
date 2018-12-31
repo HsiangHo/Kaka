@@ -17,6 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var rateWindowController: RateWindowController?;
     var rateConfigure: RateConfigure?
     var nActionCount: Int = 0
+    var appObj: AppStoreUpdateAppObject = AppStoreUpdateAppObject.init(appName: "Kaka", withAppIcon: NSImage(named: NSImage.Name(rawValue: "AppIcon")), withCurrentVersion: Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String, withProductID: "1434172933")
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -36,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             rateConfigure = RateConfigure.init()
             rateConfigure?.name = NSLocalizedString("Love Kaka?", comment: "")
             rateConfigure?.icon = NSImage(named: NSImage.Name(rawValue: "AppIcon"))
-            rateConfigure?.detailText = NSLocalizedString("We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n", comment: "") + "⭐️⭐️⭐️⭐️⭐️"
+            rateConfigure?.detailText = NSLocalizedString("We look forward to your 5-star ratings and reviews to make Kaka better and better : )\n", comment: "") + "⭐️⭐️⭐️⭐️🌟"
             rateConfigure?.likeButtonTitle = NSLocalizedString("Rate Now!", comment: "")
             rateConfigure?.ignoreButtonTitle = NSLocalizedString("Later", comment: "")
             rateConfigure?.rateURL = URL.init(string: "macappstore://itunes.apple.com/app/id1434172933?action=write-review")
@@ -62,6 +63,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    func requestUpdating() -> Void {
+        if !HAFSuperModeManager.isKakaInSuperMode(){
+            return;
+        }
+        let configure = AppStoreUpdateUIConfigure.init()
+        configure.laterButtonTitle = NSLocalizedString("Later", comment: "")
+        configure.skipButtonTitle = NSLocalizedString("Skip this version", comment: "")
+        configure.updateButtonTitle = NSLocalizedString("Update", comment: "")
+        configure.versionText = NSLocalizedString("Version %@", comment: "")
+        configure.releaseNotesText = NSLocalizedString("Release Notes:\n\n", comment: "")
+        configure.releaseNotesNoneText = NSLocalizedString("Release Notes:\n\nNone.", comment: "")
+        AppStoreUpdateManager.shared().customize(configure)
+        AppStoreUpdateManager.shared().checkAppUpdateAsync(appObj) { (rslt, obj) in
+            if rslt && obj.isNewVersionAvailable() && !AppStoreUpdateManager.shared().isCurrentNewVersionSkipped(obj){
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    AppStoreUpdateManager.shared().requestAppUpdateWindow(obj, withCompletionCallback: { (result, _obj) in
+                        switch result {
+                        case AppUpdateWindowResultUpdate:
+                            NSWorkspace.shared.open(URL.init(string: "macappstore://itunes.apple.com/app/id" + _obj.productID)!)
+                            break
+                            
+                        case AppUpdateWindowResultLater:
+                            break
+                            
+                        case AppUpdateWindowResultSkip:
+                            AppStoreUpdateManager.shared().skipCurrentNewVersion(_obj)
+                            break
+                            
+                        default:
+                            break
+                        }
+                    })
+                })
+            }
+        }
+    }
+    
     @IBAction func statusItem_click(sender: AnyObject?){
         if NSApp.currentEvent?.type == .rightMouseUp{
             preferencesMenuItem_click(sender: sender)
@@ -69,6 +107,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             kakaWindowController.updateActionMenu()
             statusItem!.popUpMenu(kakaWindowController.actionMenu)
         }
+        requestUpdating()
         requestRating()
     }
     
