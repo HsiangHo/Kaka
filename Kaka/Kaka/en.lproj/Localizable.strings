@@ -26,7 +26,6 @@
 "Turn On Dark Mode" = "Turn On Dark Mode";
 "Toggle Dark Mode Base On Display Brightness" = "Toggle Dark Mode Base On Display Brightness";
 "General" = "General";
-"Display & Brightness" = "Display & Brightness";
 "Actions" = "Actions";
 "Toggle dark mode base on display brightness threshold" = "Toggle dark mode base on display brightness threshold";
 "Enable Finder Extension" = "Enable Finder Extension";
@@ -68,3 +67,4 @@
 "This feature need access user-selected folders to edit the configuration file. Click Allow to continue" = "This feature need access user-selected folders to edit the configuration file. Click Allow to continue";
 "Allow" = "Allow";
 "Don’t Allow" = "Don’t Allow";
+"Backup Configuration" = "Backup Configuration";

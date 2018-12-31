@@ -26,7 +26,6 @@
 "Turn On Dark Mode" = "啟動黑暗模式";
 "Toggle Dark Mode Base On Display Brightness" = "根據屏幕亮度切換黑暗模式";
 "General" = "一般";
-"Display & Brightness" = "屏幕和亮度";
 "Actions" = "動作";
 "Toggle dark mode base on display brightness threshold" = "根據屏幕亮度切換黑暗模式的臨界值";
 "Enable Finder Extension" = "啟用Finder擴展";
@@ -68,3 +67,4 @@
 "This feature need access user-selected folders to edit the configuration file. Click Allow to continue" = "此功能需要授權用戶選擇文件夾的讀寫權限，點擊允許繼續。";
 "Allow" = "允許";
 "Don’t Allow" = "不允許";
+"Backup Configuration" = "備份配置";
