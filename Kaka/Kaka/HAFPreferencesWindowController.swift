@@ -278,8 +278,8 @@ class HAFPreferencesWindowController: NSWindowController {
             _kcvHideDesktopIcons.isHidden = false
             _lbTurnOffDisplay.isHidden = false
             _kcvTurnOffDisplay.isHidden = false
-            _lbTurnOnDarkMode.isHidden = false
-            _kcvTurnOnDarkMode.isHidden = false
+            _lbTurnOnDarkMode.isHidden = !HAFSuperModeManager.isKakaInSuperMode()
+            _kcvTurnOnDarkMode.isHidden = !HAFSuperModeManager.isKakaInSuperMode()
             break;
         case 3:
             _lbAutoHideDesktopIconTimeout.isHidden = false
