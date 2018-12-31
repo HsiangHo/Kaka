@@ -170,9 +170,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuDesktop.addItem(menuItemAutoHideDesktopIcons)
         
         subMenuDarkmode.addItem(menuItemTurnOnDarkMode)
-        if(HAFSuperModeManager.isKakaInSuperMode()){
-            subMenuDarkmode.addItem(menuItemCustomAppAppearance)
-        }
+        subMenuDarkmode.addItem(menuItemCustomAppAppearance)
         subMenuDarkmode.addItem(NSMenuItem.separator())
         subMenuDarkmode.addItem(menuItemTurnOnDarkModeBaseOnDisplayBrightness)
         subMenuDarkmode.addItem(menuItemToggleDarkModeThresholdSlider)
@@ -199,7 +197,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
         
         actionMenu.addItem(menuItemDesktop)
-        actionMenu.addItem(menuItemDarkmode)
+        if HAFSuperModeManager.isKakaInSuperMode(){
+            actionMenu.addItem(menuItemDarkmode)
+        }
         actionMenu.addItem(menuItemPower)
         actionMenu.addItem(menuItemCursor)
         actionMenu.addItem(NSMenuItem.separator())
