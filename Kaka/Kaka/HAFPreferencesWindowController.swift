@@ -11,9 +11,8 @@ import ShortcutsKit
 
 class HAFPreferencesWindowController: NSWindowController {
     var _scTabs: NSSegmentedControl!
-    var _lbToggleDarkModeThreshold: NSTextField!
-    var _lbToggleDarkModeThresholdSlider: NSSlider!
     var _btnLaunchAtLogin: NSButton!
+    var _btnBackupBackupConfiguration: NSButton!
     var _btnOneClickToHideDesktopIcon: NSButton!
     var _btnDoubleClickToShowDesktop: NSButton!
     var _btnDoubleClickDesktopToShowIcons: NSButton!
@@ -44,24 +43,21 @@ class HAFPreferencesWindowController: NSWindowController {
         let visualEffectView: NSVisualEffectView = NSVisualEffectView.init(frame: frame)
         wnd.contentView = visualEffectView
         
-        let tabFrame = NSMakeRect((NSWidth(frame) - 470) / 2, NSHeight(frame) - 55, 470, 23)
+        let tabFrame = NSMakeRect((NSWidth(frame) - 330) / 2, NSHeight(frame) - 55, 330, 23)
         _scTabs = NSSegmentedControl.init(frame: tabFrame)
-        _scTabs.segmentCount = 5
+        _scTabs.segmentCount = 4
         _scTabs.setLabel(NSLocalizedString("General", comment: ""), forSegment: 0)
         _scTabs.setWidth(80, forSegment: 0)
-        _scTabs.setLabel(NSLocalizedString("Display & Brightness", comment: ""), forSegment: 1)
-        _scTabs.setWidth(140, forSegment: 1)
-        _scTabs.setLabel(NSLocalizedString("Actions", comment: ""), forSegment: 2)
+        _scTabs.setLabel(NSLocalizedString("Actions", comment: ""), forSegment: 1)
+        _scTabs.setWidth(80, forSegment: 1)
+        _scTabs.setLabel(NSLocalizedString("Shortcuts", comment: ""), forSegment: 2)
         _scTabs.setWidth(80, forSegment: 2)
-        _scTabs.setLabel(NSLocalizedString("Shortcuts", comment: ""), forSegment: 3)
+        _scTabs.setLabel(NSLocalizedString("Timer", comment: ""), forSegment: 3)
         _scTabs.setWidth(80, forSegment: 3)
-        _scTabs.setLabel(NSLocalizedString("Timer", comment: ""), forSegment: 4)
-        _scTabs.setWidth(80, forSegment: 4)
         _scTabs.setSelected(true, forSegment: 0)
         _scTabs.setSelected(false, forSegment: 1)
         _scTabs.setSelected(false, forSegment: 2)
         _scTabs.setSelected(false, forSegment: 3)
-        _scTabs.setSelected(false, forSegment: 4)
         _scTabs.target = self
         _scTabs.action = #selector(tabs_click)
         wnd.contentView?.addSubview(_scTabs)
@@ -85,22 +81,14 @@ class HAFPreferencesWindowController: NSWindowController {
         _btnEnableAnimationAudio.isHidden = true
         wnd.contentView?.addSubview(_btnEnableAnimationAudio)
         
-        //MARK: Brightness
-        _lbToggleDarkModeThreshold = NSTextField.init(frame: NSMakeRect(20, NSMinY(tabFrame) - 40, NSWidth(frame), 23))
-        _lbToggleDarkModeThreshold.isEditable = false
-        _lbToggleDarkModeThreshold.isSelectable = false
-        _lbToggleDarkModeThreshold.isBordered = false
-        _lbToggleDarkModeThreshold.isHidden = true
-        _lbToggleDarkModeThreshold.backgroundColor = NSColor.clear
-        _lbToggleDarkModeThreshold.font = NSFont.init(name: "Helvetica Neue", size: 13)
-        wnd.contentView?.addSubview(_lbToggleDarkModeThreshold)
-        
-        _lbToggleDarkModeThresholdSlider = NSSlider.init(frame: NSMakeRect(50, NSMinY(_lbToggleDarkModeThreshold.frame) - 30, 400, 23))
-        _lbToggleDarkModeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()
-        _lbToggleDarkModeThresholdSlider.target = self
-        _lbToggleDarkModeThresholdSlider.action = #selector(onBrightnessValueSliderChanged)
-        _lbToggleDarkModeThresholdSlider.isHidden = true
-        wnd.contentView?.addSubview(_lbToggleDarkModeThresholdSlider)
+        _btnBackupBackupConfiguration = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnEnableAnimationAudio.frame) - 35, 200, 23))
+        _btnBackupBackupConfiguration.title = NSLocalizedString("Backup Configuration", comment: "")
+        _btnBackupBackupConfiguration.setButtonType(.momentaryChange)
+        _btnBackupBackupConfiguration.bezelStyle = .inline
+        _btnBackupBackupConfiguration.target = self
+        _btnBackupBackupConfiguration.action = #selector(backupConfiguration_click)
+        _btnBackupBackupConfiguration.isHidden = true
+        wnd.contentView?.addSubview(_btnBackupBackupConfiguration)
         
         //MARK: Actions
         _btnOneClickToHideDesktopIcon = NSButton.init(frame: NSMakeRect(20, NSMinY(tabFrame) - 40, NSWidth(frame), 23))
@@ -231,7 +219,6 @@ class HAFPreferencesWindowController: NSWindowController {
         _tfAutoHideCursorTimeoutValue.stringValue = "\(timeOut)"
         _tfAutoHideCursorTimeoutValue.delegate = self
         
-        updateThresholdValue()
         updateTabs()
         
         wnd.center()
@@ -253,20 +240,12 @@ class HAFPreferencesWindowController: NSWindowController {
         _tfAutoHideCursorTimeoutValue.stringValue = "\(timeOut)"
     }
     
-    func updateThresholdValue() -> Void {
-        var thresholdString = NSLocalizedString("Toggle dark mode base on display brightness threshold", comment: "")
-        thresholdString = thresholdString.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.autoToggleDarkModeBaseOnDisplayBrightnessValue()*100)]))
-        _lbToggleDarkModeThreshold.stringValue = thresholdString
-    }
-    
     func updateTabs() -> Void {
         _btnLaunchAtLogin.isHidden = true
         _btnEnableAnimationAudio.isHidden = true
         _btnOneClickToHideDesktopIcon.isHidden = true
         _btnDoubleClickToShowDesktop.isHidden = true
         _btnDoubleClickDesktopToShowIcons.isHidden = true
-        _lbToggleDarkModeThreshold.isHidden = true
-        _lbToggleDarkModeThresholdSlider.isHidden = true
         _lbDisplayDesktop.isHidden = true
         _kcvDisplayDesktop.isHidden = true
         _lbHideDesktopIcons.isHidden = true
@@ -279,22 +258,20 @@ class HAFPreferencesWindowController: NSWindowController {
         _tfAutoHideDesktopIconTimeoutValue.isHidden = true
         _lbAutoHideCursorTimeout.isHidden = true
         _tfAutoHideCursorTimeoutValue.isHidden = true
+        _btnBackupBackupConfiguration.isHidden = true
         
         switch _scTabs.selectedSegment {
         case 0:
             _btnLaunchAtLogin.isHidden = false
             _btnEnableAnimationAudio.isHidden = false
+            _btnBackupBackupConfiguration.isHidden = HAFSuperModeManager.isKakaInSuperMode()
             break;
         case 1:
-            _lbToggleDarkModeThreshold.isHidden = false
-            _lbToggleDarkModeThresholdSlider.isHidden = false
-            break;
-        case 2:
             _btnOneClickToHideDesktopIcon.isHidden = false
             _btnDoubleClickToShowDesktop.isHidden = false
             _btnDoubleClickDesktopToShowIcons.isHidden = false
             break;
-        case 3:
+        case 2:
             _lbDisplayDesktop.isHidden = false
             _kcvDisplayDesktop.isHidden = false
             _lbHideDesktopIcons.isHidden = false
@@ -304,7 +281,7 @@ class HAFPreferencesWindowController: NSWindowController {
             _lbTurnOnDarkMode.isHidden = false
             _kcvTurnOnDarkMode.isHidden = false
             break;
-        case 4:
+        case 3:
             _lbAutoHideDesktopIconTimeout.isHidden = false
             _tfAutoHideDesktopIconTimeoutValue.isHidden = false
             _lbAutoHideCursorTimeout.isHidden = false
@@ -335,13 +312,25 @@ class HAFPreferencesWindowController: NSWindowController {
         HAFConfigureManager.sharedManager.setEnableAnimationAudio(bFlag: _btnEnableAnimationAudio.state == .on)
     }
     
-    @IBAction func onBrightnessValueSliderChanged(_ sender: NSSlider) {
-        HAFConfigureManager.sharedManager.setAutoToggleDarkModeBaseOnDisplayBrightnessValue(value: _lbToggleDarkModeThresholdSlider.floatValue)
-        updateThresholdValue()
-    }
-    
     @IBAction func tabs_click(sender: AnyObject?){
         updateTabs()
+    }
+    
+    @IBAction func backupConfiguration_click(sender: AnyObject?){
+        let savePanel = NSSavePanel()
+        savePanel.canCreateDirectories = true
+        savePanel.showsTagField = false
+        savePanel.nameFieldStringValue = "bk.kaka"
+        savePanel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.modalPanelWindow)))
+        savePanel.begin { (result) in
+            if result.rawValue == NSApplication.ModalResponse.OK.rawValue {
+                let bk = "6Z2e5rOV56C06Kej77yM6Kej5a+G5peg5pWI44CCS2FrYeaYr+WFjei0ueeahOS9oOadpeegtOino+W5suWTiO+8n+ebtOaOpeaJvuaIkeimgeS7o+eggeWRl+OAguW4jOacm+S9oOiDveaJvuWIsOaIkeeahEdpdEh1YuWVpuOAgg=="
+                do {
+                    try bk.write(to: savePanel.url!, atomically: false, encoding: .utf8)
+                }
+                catch {/* error handling here */}
+            }
+        }
     }
 }
 
