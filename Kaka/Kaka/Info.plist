@@ -17,19 +17,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.1.2</string>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>25</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2018 HyperartFlow. All rights reserved.</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSExtension</key>
@@ -42,5 +36,13 @@
 			<string>$(PRODUCT_MODULE_NAME).FinderSync</string>
 		</dict>
 	</dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2019 HyperartFlow. All rights reserved.</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Kaka would like to use &quot;System Event&quot; to automate operations.</string>
 </dict>
 </plist>

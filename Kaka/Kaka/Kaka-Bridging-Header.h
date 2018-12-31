@@ -6,3 +6,4 @@
 #import <ShadowstarKit/ShadowstarKit.h>
 #import <RateKit/RateKit.h>
 #import <ShortcutsKit/ShortcutsKit.h>
+#import <AppStoreUpdateKit/AppStoreUpdateKit.h>

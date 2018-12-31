@@ -17,7 +17,6 @@ class HAFConfigureManager: NSObject {
     let kAutoHideMouseCursor = "AutoHideMouseCursorKey"
     let kOneClickToHideDesktopIcons = "OneClickToHideDesktopIconsKey"
     let kDoubleClickToShowDesktop = "DoubleClickToShowDesktopKey"
-    let kPreventSystemFromFallingAsleep = "PreventSystemFromFallingAsleepKey"
     let kDoubleClickDesktopToShowIcons = "DoubleClickDesktopToShowIconsKey"
     let kAutoHideDesktopIcons = "AutoHideDesktopIconsKey"
     let kEnableAnimationAudio = "EnableAnimationAudioKey"
@@ -32,6 +31,8 @@ class HAFConfigureManager: NSObject {
     let kRequestRating = "RequestRating"
     let kAutoHideDesktopIconTimeOut = "AutoHideDesktopIconTimeOut"
     let kAutoHideCursorTimeOut = "AutoHideCursorTimeOut"
+    let kDeactivateCriticalBatteryCharge = "DeactivateCriticalBatteryCharge"
+    let kDeactivateCriticalBatteryChargeThreshold = "DeactivateCriticalBatteryChargeThreshold"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -67,14 +68,6 @@ class HAFConfigureManager: NSObject {
     
     func isDoubleClickToShowDesktop() -> Bool{
         return !UserDefaults.standard.bool(forKey: kDoubleClickToShowDesktop)
-    }
-    
-    func setPreventSystemFromFallingAsleep(bFlag: Bool) -> Void{
-        UserDefaults.standard.set(bFlag, forKey: kPreventSystemFromFallingAsleep)
-    }
-    
-    func isPreventSystemFromFallingAsleep() -> Bool{
-        return UserDefaults.standard.bool(forKey: kPreventSystemFromFallingAsleep)
     }
     
     func setDoubleClickDesktopToShowIcons(bFlag: Bool) -> Void{
@@ -211,6 +204,27 @@ class HAFConfigureManager: NSObject {
             return 3
         }else{
             return value as! Int
+        }
+    }
+    
+    func setDeactivateCriticalBatteryCharge(bFlag: Bool) -> Void {
+        UserDefaults.standard.set(!bFlag, forKey: kDeactivateCriticalBatteryCharge)
+    }
+    
+    func isDeactivateCriticalBatteryCharge() -> Bool {
+        return !UserDefaults.standard.bool(forKey: kDeactivateCriticalBatteryCharge)
+    }
+    
+    func setDeactivateCriticalBatteryChargeThreshold(nValue: Float) -> Void {
+        UserDefaults.standard.set(nValue, forKey: kDeactivateCriticalBatteryChargeThreshold)
+    }
+    
+    func deactivateCriticalBatteryChargeThreshold() -> Float {
+        let value = UserDefaults.standard.value(forKey: kDeactivateCriticalBatteryChargeThreshold)
+        if nil == value {
+            return 0.1
+        }else{
+            return value as! Float
         }
     }
 }
