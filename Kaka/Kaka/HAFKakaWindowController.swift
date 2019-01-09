@@ -44,12 +44,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemToggleDarkModeThresholdSlider: NSMenuItem!
     var toggleDarkModeThresholdSlider: NSSlider!
     var menuItemCustomAppAppearance: NSMenuItem!
-    var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemDisplayKaka: NSMenuItem!
     var menuItemAbout: NSMenuItem!
     var menuItemPreferences: NSMenuItem!
     var menuItemShowDesktop: NSMenuItem!
     var menuItemShowDesktopIcon: NSMenuItem!
+    var menuItemShortcutsCenter: NSMenuItem!
+    var menuItemFeedbackAndSupport: NSMenuItem!
+    var subMenuFeedbackAndSupport: NSMenu!
+    var menuItemContribute2Kaka: NSMenuItem!
+    var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemHelp: NSMenuItem!
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
@@ -103,7 +107,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
         menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
-        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
+        menuItemRateOnMacAppStore = NSMenuItem.init(title: "⭐️" + NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
         menuItemDeactivateCriticalBatteryCharge = NSMenuItem.init(title: NSLocalizedString("Deactivate Critical Battery Charge", comment: "") + " (10%)", action: #selector(deactivateCriticalBatteryCharge_click), keyEquivalent: "")
         menuItemDeactivateCriticalBatteryChargeThresholdSlider = NSMenuItem.init(title: "", action: nil, keyEquivalent: "")
@@ -119,6 +123,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPreventSystemSleepFor5Hours = NSMenuItem.init(title: NSLocalizedString("For 5 Hours", comment: ""), action: #selector(preventSystemSleepFor5HoursMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
 //        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
+        menuItemShortcutsCenter = NSMenuItem.init(title: NSLocalizedString("Shortcuts Center", comment: ""), action: #selector(shortcutsCenter_click), keyEquivalent: "")
+        menuItemFeedbackAndSupport = NSMenuItem.init(title: NSLocalizedString("Feedback & Support", comment: ""), action: nil, keyEquivalent: "")
+        subMenuFeedbackAndSupport = NSMenu.init(title: "feedbackAndSupport-menu")
+        menuItemContribute2Kaka = NSMenuItem.init(title: NSLocalizedString("Contribute to Kaka's development", comment: ""), action: #selector(contribute2Kaka_click), keyEquivalent: "")
+        menuItemFeedbackAndSupport.submenu = subMenuFeedbackAndSupport
+        
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
@@ -161,6 +171,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemAutoHideDesktopIcons.target = self
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
+        menuItemShortcutsCenter.target = self
+        menuItemContribute2Kaka.target = self
 //        menuItemEnableFinderExtension.target = self
         menuItemHelp.target = self
         menuItemQuit.target = self
@@ -202,13 +214,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         actionMenu.addItem(menuItemPower)
         actionMenu.addItem(menuItemCursor)
+        actionMenu.addItem(menuItemShortcutsCenter)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemDisplayKaka)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemAbout)
         actionMenu.addItem(menuItemPreferences)
-        actionMenu.addItem(menuItemRateOnMacAppStore)
-        actionMenu.addItem(menuItemHelp)
+        subMenuFeedbackAndSupport.addItem(menuItemRateOnMacAppStore)
+        subMenuFeedbackAndSupport.addItem(menuItemHelp)
+        subMenuFeedbackAndSupport.addItem(menuItemContribute2Kaka)
+        actionMenu.addItem(menuItemFeedbackAndSupport)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemQuit)
         _view.delegate = self
@@ -678,6 +693,14 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemDeactivateCriticalBatteryCharge.state = .on
         HAFConfigureManager.sharedManager.setDeactivateCriticalBatteryChargeThreshold(nValue: deactivateCriticalBatteryChargeThresholdSlider.floatValue)
         updateActionMenu()
+    }
+    
+    @IBAction func shortcutsCenter_click(sender: AnyObject?){
+        
+    }
+    
+    @IBAction func contribute2Kaka_click(sender: AnyObject?){
+        NSWorkspace.shared.open(URL.init(string: "https://github.com/HsiangHo/Kaka/issues")!)
     }
     
     //MARK: Public functions
