@@ -10,10 +10,17 @@ import Cocoa
 import ShortcutsKit
 import ShadowstarKit
 
+struct HotkeyIdentifiers {
+    static let displayDesktop = "displayDesktop"
+    static let hideDesktopIcons = "hideDesktopIcons"
+    static let turnOffDisplay = "turnOffDisplay"
+    static let turnOnDarkMode = "turnOnDarkMode"
+}
+
 class HAFHotkeyManager: NSObject {
     static let sharedManager = HAFHotkeyManager()
     
-    var predefinedHotkeysDict: Dictionary<String, SCHotkey> = Dictionary.init()
+    var predefinedHotkeys: Array<(String, SCHotkey)> = Array.init()
     private var displayDesktopHotkey: SCHotkey?
     private var hideDesktopIconsHotkey: SCHotkey?
     private var turnOffDisplayHotkey: SCHotkey?
@@ -25,29 +32,29 @@ class HAFHotkeyManager: NSObject {
     }
     
     func __initializePredefinedHotkeys() -> Void {
-        displayDesktopHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.displayDesktopKeyCombo(), identifier: "displayDesktop", handler: { (_) in
+        displayDesktopHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.displayDesktop), identifier: HotkeyIdentifiers.displayDesktop, handler: { (_) in
             SSDesktopManager.shared().showDesktop(false)
-        });
-        predefinedHotkeysDict.updateValue(displayDesktopHotkey!, forKey: NSLocalizedString("Display Desktop", comment: ""))
+        })
+        predefinedHotkeys.append((NSLocalizedString("Display Desktop", comment: ""), displayDesktopHotkey!))
         
-        hideDesktopIconsHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.hideDesktopIconsKeyCombo(), identifier: "hideDesktopIcons", handler: { (_) in
+        hideDesktopIconsHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.hideDesktopIcons), identifier: HotkeyIdentifiers.hideDesktopIcons, handler: { (_) in
             if SSDesktopManager.shared().isAllDesktopCovered(){
                 SSDesktopManager.shared().uncoverAllDesktop()
             }else{
                 SSDesktopManager.shared().setupAllDesktopWithDesktopBackgroundImage()
                 SSDesktopManager.shared().coverAllDesktop()
             }
-        });
-        predefinedHotkeysDict.updateValue(hideDesktopIconsHotkey!, forKey: NSLocalizedString("Hide Desktop Icons", comment: ""))
+        })
+        predefinedHotkeys.append((NSLocalizedString("Hide Desktop Icons", comment: ""), hideDesktopIconsHotkey!))
         
-        turnOffDisplayHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.turnOffDisplayKeyCombo(), identifier: "turnOffDisplay", handler: { (_) in
+        turnOffDisplayHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.turnOffDisplay), identifier: HotkeyIdentifiers.turnOffDisplay, handler: { (_) in
             SSEnergyManager.shared().displaySleep()
-        });
-        predefinedHotkeysDict.updateValue(turnOffDisplayHotkey!, forKey: NSLocalizedString("Turn Off The Display", comment: ""))
+        })
+        predefinedHotkeys.append((NSLocalizedString("Turn Off The Display", comment: ""), turnOffDisplayHotkey!))
         
-        turnOnDarkModeHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.turnOnDarkModeKeyCombo(), identifier: "turnOnDarkMode", handler: { (_) in
+        turnOnDarkModeHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.turnOnDarkMode), identifier: HotkeyIdentifiers.turnOnDarkMode, handler: { (_) in
             SSAppearanceManager.shared().toggle()
-        });
-        predefinedHotkeysDict.updateValue(turnOnDarkModeHotkey!, forKey: NSLocalizedString("Turn On Dark Mode", comment: ""))
+        })
+        predefinedHotkeys.append((NSLocalizedString("Turn On Dark Mode", comment: ""), turnOnDarkModeHotkey!))
     }
 }
