@@ -59,6 +59,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
     var appAppearanceWindowController: HAFAppAppearanceWindowController? = nil
+    var shortcutsCenterWindowController: SCShortcutsCenterWindowController = SCShortcutsCenterWindowController.init()
     var _updateDesktopCoverTimer: DispatchSourceTimer?
     var _preventSleepTimer: DispatchSourceTimer?
     var _lastBatteryPercentage: Int = SSEnergyManager.shared().batteryPercentage()
@@ -123,7 +124,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPreventSystemSleepFor5Hours = NSMenuItem.init(title: NSLocalizedString("For 5 Hours", comment: ""), action: #selector(preventSystemSleepFor5HoursMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
 //        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
-        menuItemShortcutsCenter = NSMenuItem.init(title: NSLocalizedString("Shortcuts Center", comment: ""), action: #selector(shortcutsCenter_click), keyEquivalent: "")
+        menuItemShortcutsCenter = NSMenuItem.init(title: NSLocalizedString("Shortcuts Center", comment: ""), action: #selector(shortcutsCenter_click), keyEquivalent: "s")
         menuItemFeedbackAndSupport = NSMenuItem.init(title: NSLocalizedString("Feedback & Support", comment: ""), action: nil, keyEquivalent: "")
         subMenuFeedbackAndSupport = NSMenu.init(title: "feedbackAndSupport-menu")
         menuItemContribute2Kaka = NSMenuItem.init(title: NSLocalizedString("Contribute to Kaka's development", comment: ""), action: #selector(contribute2Kaka_click), keyEquivalent: "")
@@ -207,21 +208,21 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuPower.addItem(menuItemPreventSystemSleepFor5Hours)
         
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
-        
         actionMenu.addItem(menuItemDesktop)
         if HAFSuperModeManager.isKakaInSuperMode(){
             actionMenu.addItem(menuItemDarkmode)
         }
         actionMenu.addItem(menuItemPower)
         actionMenu.addItem(menuItemCursor)
-        actionMenu.addItem(menuItemShortcutsCenter)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemDisplayKaka)
         actionMenu.addItem(NSMenuItem.separator())
+        actionMenu.addItem(menuItemShortcutsCenter)
+        actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemAbout)
         actionMenu.addItem(menuItemPreferences)
-        subMenuFeedbackAndSupport.addItem(menuItemRateOnMacAppStore)
         subMenuFeedbackAndSupport.addItem(menuItemHelp)
+        subMenuFeedbackAndSupport.addItem(menuItemRateOnMacAppStore)
         subMenuFeedbackAndSupport.addItem(menuItemContribute2Kaka)
         actionMenu.addItem(menuItemFeedbackAndSupport)
         actionMenu.addItem(NSMenuItem.separator())
@@ -340,7 +341,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         __startToUpdateDesktopCover()
         
-        HAFHotkeyManager.sharedManager.registerAll()
+        shortcutsCenterWindowController.delegate = self
+        for (descr,hotkey) in HAFHotkeyManager.sharedManager.predefinedHotkeys{
+            shortcutsCenterWindowController.add(hotkey, withDescription: "" + descr)
+        }  
     }
     
     required init?(coder: NSCoder) {
@@ -696,7 +700,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func shortcutsCenter_click(sender: AnyObject?){
-        
+        NSApp.activate(ignoringOtherApps: true)
+        shortcutsCenterWindowController.showWindow(sender);
     }
     
     @IBAction func contribute2Kaka_click(sender: AnyObject?){
@@ -877,3 +882,26 @@ extension HAFKakaWindowController: NSTouchBarDelegate {
     }
 }
 
+    //MARK: SCShortcutsCenterWindowControllerDelegate
+
+extension HAFKakaWindowController:SCShortcutsCenterWindowControllerDelegate{
+    func addButton_click(_ obj: SCHotkey!, with controller: SCShortcutsCenterWindowController!) {
+        
+    }
+    
+    func removeButton_click(_ obj: SCHotkey!, with controller: SCShortcutsCenterWindowController!) {
+        
+    }
+    
+    func shortcutsCenterWindowTitle() -> String! {
+        return NSLocalizedString("Shortcuts Center", comment: "")
+    }
+    
+    func shortcutsCenterWindowSubtitle() -> String! {
+        return NSLocalizedString("Customize your own shortcuts", comment: "") + ":"
+    }
+    
+    func shortcutsKeyComboDidChanged(_ obj: SCHotkey!) {
+        HAFConfigureManager.sharedManager.setKeyComboWithIdentifier(keyCombo: obj.keyCombo, identifier: obj.identifier)
+    }
+}
