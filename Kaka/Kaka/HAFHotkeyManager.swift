@@ -15,16 +15,22 @@ struct HotkeyIdentifiers {
     static let hideDesktopIcons = "hideDesktopIcons"
     static let turnOffDisplay = "turnOffDisplay"
     static let turnOnDarkMode = "turnOnDarkMode"
+    static let sleepMac = "sleepMac"
+    static let enterScreensaver = "enterScreensaver"
+    static let preventSleep = "enterScreensaver"
 }
 
 class HAFHotkeyManager: NSObject {
     static let sharedManager = HAFHotkeyManager()
     
-    var predefinedHotkeys: Array<(String, SCHotkey)> = Array.init()
+    var preDefinedHotkeys: Array<(String, SCHotkey)> = Array.init()
     private var displayDesktopHotkey: SCHotkey?
     private var hideDesktopIconsHotkey: SCHotkey?
     private var turnOffDisplayHotkey: SCHotkey?
     private var turnOnDarkModeHotkey: SCHotkey?
+    private var sleepMacHotkey: SCHotkey?
+    private var enterScreensaverHotkey: SCHotkey?
+    private var preventSleepHotkey: SCHotkey?
     
     override init() {
         super.init()
@@ -35,7 +41,7 @@ class HAFHotkeyManager: NSObject {
         displayDesktopHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.displayDesktop), identifier: HotkeyIdentifiers.displayDesktop, handler: { (_) in
             SSDesktopManager.shared().showDesktop(false)
         })
-        predefinedHotkeys.append((NSLocalizedString("Display Desktop", comment: ""), displayDesktopHotkey!))
+        preDefinedHotkeys.append((NSLocalizedString("Display Desktop", comment: ""), displayDesktopHotkey!))
         
         hideDesktopIconsHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.hideDesktopIcons), identifier: HotkeyIdentifiers.hideDesktopIcons, handler: { (_) in
             if SSDesktopManager.shared().isAllDesktopCovered(){
@@ -45,16 +51,31 @@ class HAFHotkeyManager: NSObject {
                 SSDesktopManager.shared().coverAllDesktop()
             }
         })
-        predefinedHotkeys.append((NSLocalizedString("Hide Desktop Icons", comment: ""), hideDesktopIconsHotkey!))
+        preDefinedHotkeys.append((NSLocalizedString("Hide Desktop Icons", comment: ""), hideDesktopIconsHotkey!))
         
         turnOffDisplayHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.turnOffDisplay), identifier: HotkeyIdentifiers.turnOffDisplay, handler: { (_) in
             SSEnergyManager.shared().displaySleep()
         })
-        predefinedHotkeys.append((NSLocalizedString("Turn Off The Display", comment: ""), turnOffDisplayHotkey!))
+        preDefinedHotkeys.append((NSLocalizedString("Turn Off The Display", comment: ""), turnOffDisplayHotkey!))
         
         turnOnDarkModeHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.turnOnDarkMode), identifier: HotkeyIdentifiers.turnOnDarkMode, handler: { (_) in
             SSAppearanceManager.shared().toggle()
         })
-        predefinedHotkeys.append((NSLocalizedString("Turn On Dark Mode", comment: ""), turnOnDarkModeHotkey!))
+        preDefinedHotkeys.append((NSLocalizedString("Turn On Dark Mode", comment: ""), turnOnDarkModeHotkey!))
+        
+        sleepMacHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.sleepMac), identifier: HotkeyIdentifiers.sleepMac, handler: { (_) in
+            SSEnergyManager.shared().sleep()
+        })
+        preDefinedHotkeys.append((NSLocalizedString("Sleep Mac", comment: ""), sleepMacHotkey!))
+        
+        enterScreensaverHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.enterScreensaver), identifier: HotkeyIdentifiers.enterScreensaver, handler: { (_) in
+            SSEnergyManager.shared().screenSaver()
+        })
+        preDefinedHotkeys.append((NSLocalizedString("Enter Screensaver", comment: ""), enterScreensaverHotkey!))
+        
+        preventSleepHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.preventSleep), identifier: HotkeyIdentifiers.preventSleep, handler: { (_) in
+            SSEnergyManager.shared().preventSleep(!SSEnergyManager.shared().isPreventSleepRunning())
+        })
+        preDefinedHotkeys.append((NSLocalizedString("Prevent sleep", comment: ""), preventSleepHotkey!))
     }
 }
