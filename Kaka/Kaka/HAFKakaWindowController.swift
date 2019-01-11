@@ -357,8 +357,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         shortcutsCenterWindowController.delegate = self
         for (descr,hotkey) in HAFHotkeyManager.sharedManager.preDefinedHotkeys{
-            shortcutsCenterWindowController.add(hotkey, withDescription: "" + descr)
-        }  
+            shortcutsCenterWindowController.add(hotkey, withDescription: descr)
+        }
+        
+        for (path,hotkey) in HAFHotkeyManager.sharedManager.userDefinedHotkeys{
+            let name = path.components(separatedBy: "/").last
+            shortcutsCenterWindowController.add(hotkey, withDescription: name ?? path)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -932,11 +937,34 @@ extension HAFKakaWindowController: NSTouchBarDelegate {
 
 extension HAFKakaWindowController:SCShortcutsCenterWindowControllerDelegate{
     func addButton_click(_ obj: SCHotkey!, with controller: SCShortcutsCenterWindowController!) {
+        let openPanel = NSOpenPanel()
+        openPanel.canChooseFiles = true
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.title = NSLocalizedString("Select a path", comment: "")
         
+        openPanel.beginSheetModal(for:shortcutsCenterWindowController.window!) { (response) in
+            if response.rawValue == NSFileHandlingPanelOKButton {
+                let path = openPanel.url!.path
+                let hotkey = HAFHotkeyManager.sharedManager.addHotkeyForPath(path: path)
+                let name = path.components(separatedBy: "/").last
+                self.shortcutsCenterWindowController.add(hotkey!, withDescription: name ?? path)
+                self.shortcutsCenterWindowController.updateUI()
+            }
+            openPanel.close()
+        }
     }
     
     func removeButton_click(_ obj: SCHotkey!, with controller: SCShortcutsCenterWindowController!) {
-        
+        if HAFHotkeyManager.sharedManager.preDefinedHotkeys.contains(where: { (str, k) -> Bool in
+            return k == obj
+        }){
+            return
+        }
+        shortcutsCenterWindowController.remove(obj)
+        shortcutsCenterWindowController.updateUI()
+        HAFHotkeyManager.sharedManager.removeHotkeyForPath(path: obj.identifier)
     }
     
     func shortcutsCenterWindowTitle() -> String! {
