@@ -30,6 +30,7 @@ class HAFConfigureManager: NSObject {
     let kDeactivateCriticalBatteryCharge = "DeactivateCriticalBatteryCharge"
     let kDeactivateCriticalBatteryChargeThreshold = "DeactivateCriticalBatteryChargeThreshold"
     let kInifiteLoopStatus = "InifiteLoopStatus"
+    let kUserdDefinedHotkeyPaths = "UserdDefinedHotkeyPaths"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -200,5 +201,13 @@ class HAFConfigureManager: NSObject {
     
     func inifiteLoopStatus() -> Bool {
         return UserDefaults.standard.bool(forKey: kInifiteLoopStatus)
+    }
+    
+    func userDefinedHotkeyPaths() -> Array<String>? {
+        return UserDefaults.standard.stringArray(forKey: kUserdDefinedHotkeyPaths)
+    }
+    
+    func setUserDefinedHotkeyPaths(array: Array<String>) -> Void {
+        UserDefaults.standard.set(array, forKey: kUserdDefinedHotkeyPaths)
     }
 }
