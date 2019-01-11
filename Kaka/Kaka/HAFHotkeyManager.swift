@@ -18,6 +18,7 @@ struct HotkeyIdentifiers {
     static let sleepMac = "sleepMac"
     static let enterScreensaver = "enterScreensaver"
     static let preventSleep = "enterScreensaver"
+    static let disableMouseCursor = "disableMouseCursor"
 }
 
 class HAFHotkeyManager: NSObject {
@@ -31,6 +32,7 @@ class HAFHotkeyManager: NSObject {
     private var sleepMacHotkey: SCHotkey?
     private var enterScreensaverHotkey: SCHotkey?
     private var preventSleepHotkey: SCHotkey?
+    private var disableMouseCursorHotkey: SCHotkey?
     
     override init() {
         super.init()
@@ -76,6 +78,15 @@ class HAFHotkeyManager: NSObject {
         preventSleepHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.preventSleep), identifier: HotkeyIdentifiers.preventSleep, handler: { (_) in
             SSEnergyManager.shared().preventSleep(!SSEnergyManager.shared().isPreventSleepRunning())
         })
-        preDefinedHotkeys.append((NSLocalizedString("Prevent sleep", comment: ""), preventSleepHotkey!))
+        preDefinedHotkeys.append((NSLocalizedString("Prevent Sleep", comment: ""), preventSleepHotkey!))
+        
+        disableMouseCursorHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.disableMouseCursor), identifier: HotkeyIdentifiers.disableMouseCursor, handler: { (_) in
+            if SSCursorManager.shared().isCursorEnable(){
+                SSCursorManager.shared().disableCursor()
+            }else{
+                SSCursorManager.shared().enableCursor()
+            }
+        })
+        preDefinedHotkeys.append((NSLocalizedString("Disable Mouse Cursor", comment: ""), disableMouseCursorHotkey!))
     }
 }
