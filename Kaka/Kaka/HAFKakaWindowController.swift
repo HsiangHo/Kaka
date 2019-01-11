@@ -32,6 +32,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPreventSystemSleepFor2Hours: NSMenuItem!
     var menuItemPreventSystemSleepFor5Hours: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
+    var menuItemDisableMouseCursor: NSMenuItem!
+    var menuItemInfiniteLoop: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
 //    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
 //    var menuItemEnableFinderExtension: NSMenuItem!
@@ -106,6 +108,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemToggleDarkModeThresholdSlider.view = toggleDarkModeThresholdSlider
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
+        menuItemInfiniteLoop = NSMenuItem.init(title: NSLocalizedString("Infinite Loop", comment: ""), action: #selector(infiniteLoopMenuItem_click), keyEquivalent: "")
+        menuItemDisableMouseCursor = NSMenuItem.init(title: NSLocalizedString("Disable Mouse Cursor", comment: ""), action: #selector(disableMouseCursorMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
         menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
         menuItemRateOnMacAppStore = NSMenuItem.init(title: "⭐️" + NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
@@ -169,6 +173,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemToggleDarkModeThresholdSlider.target = self
         menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
+        menuItemInfiniteLoop.target = self
+        menuItemDisableMouseCursor.target = self
         menuItemAutoHideDesktopIcons.target = self
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
@@ -207,7 +213,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuPower.addItem(menuItemPreventSystemSleepFor2Hours)
         subMenuPower.addItem(menuItemPreventSystemSleepFor5Hours)
         
+        subMenuCursor.addItem(menuItemInfiniteLoop)
+        subMenuCursor.addItem(menuItemDisableMouseCursor)
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
+
         actionMenu.addItem(menuItemDesktop)
         if HAFSuperModeManager.isKakaInSuperMode(){
             actionMenu.addItem(menuItemDarkmode)
@@ -341,8 +350,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         __startToUpdateDesktopCover()
         
+        if HAFConfigureManager.sharedManager.inifiteLoopStatus(){
+            SSCursorManager.shared()?.enableInfiniteLoop(true)
+            menuItemInfiniteLoop.state = .on
+        }
+        
         shortcutsCenterWindowController.delegate = self
-        for (descr,hotkey) in HAFHotkeyManager.sharedManager.predefinedHotkeys{
+        for (descr,hotkey) in HAFHotkeyManager.sharedManager.preDefinedHotkeys{
             shortcutsCenterWindowController.add(hotkey, withDescription: "" + descr)
         }  
     }
@@ -706,6 +720,38 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     
     @IBAction func contribute2Kaka_click(sender: AnyObject?){
         NSWorkspace.shared.open(URL.init(string: "https://github.com/HsiangHo/Kaka/issues")!)
+    }
+    
+    @IBAction func infiniteLoopMenuItem_click(sender: AnyObject?){
+        if menuItemInfiniteLoop.state == .on{
+            SSCursorManager.shared().enableInfiniteLoop(false)
+            menuItemInfiniteLoop.state = .off
+            HAFConfigureManager.sharedManager.setInifiteLoopStatus(bFlag: false)
+        }else{
+            SSCursorManager.shared().enableInfiniteLoop(true)
+            menuItemInfiniteLoop.state = .on
+            HAFConfigureManager.sharedManager.setInifiteLoopStatus(bFlag: true)
+        }
+    }
+    
+    @IBAction func disableMouseCursorMenuItem_click(sender: AnyObject?){
+        guard let keyComboObj = HAFHotkeyManager.sharedManager.hotkeyForIdentifier(identifier: HotkeyIdentifiers.disableMouseCursor)?.keyCombo else {
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Set the shortcut first", comment: "")
+            alert.informativeText = NSLocalizedString("To disable mouse cursor, please set the shortcut first and try again.", comment: "")
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
+            shortcutsCenter_click(sender: sender)
+            return
+        }
+        let keyComboString = keyComboObj.stringForKeyCombo
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Use the shortcut to enable & disable the mouse cursor", comment: "")
+        alert.informativeText = NSLocalizedString("The shortcut is", comment: "") + ": " + keyComboString
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
     }
     
     //MARK: Public functions
