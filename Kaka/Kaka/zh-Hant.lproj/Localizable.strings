@@ -71,3 +71,13 @@
 "Shortcuts Center" = "捷徑中心";
 "Feedback & Support" = "反饋和幫助";
 "Contribute to Kaka's development" = "為Kaka的開發做貢獻";
+"Infinite Loop" = "無限滑鼠";
+"Disable Mouse Cursor" = "禁用滑鼠";
+"Set the shortcut first" = "請先設定快捷鍵";
+"To disable mouse cursor, please set the shortcut first and try again." = "想要禁用滑鼠，請先設定快捷鍵后重試。";
+"Use the shortcut to enable & disable the mouse cursor" = "請使用快捷鍵來禁用和啟用滑鼠";
+"The shortcut is" = "快捷鍵是";
+"Customize your own shortcuts" = "自定義你的捷徑";
+"Sleep Mac" = "休眠Mac";
+"Prevent Sleep" = "阻止休眠";
+"OK" = "好";
