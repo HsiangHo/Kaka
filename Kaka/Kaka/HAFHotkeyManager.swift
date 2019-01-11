@@ -25,6 +25,7 @@ class HAFHotkeyManager: NSObject {
     static let sharedManager = HAFHotkeyManager()
     
     var preDefinedHotkeys: Array<(String, SCHotkey)> = Array.init()
+    var userDefinedHotkeys: Array<(String, SCHotkey)> = Array.init()
     private var displayDesktopHotkey: SCHotkey?
     private var hideDesktopIconsHotkey: SCHotkey?
     private var turnOffDisplayHotkey: SCHotkey?
@@ -37,6 +38,7 @@ class HAFHotkeyManager: NSObject {
     override init() {
         super.init()
         __initializePredefinedHotkeys()
+        __initializeUserDefinedHotkeys()
     }
     
     func hotkeyForIdentifier(identifier: String!) -> SCHotkey? {
@@ -48,6 +50,66 @@ class HAFHotkeyManager: NSObject {
             }
         }
         return hotkey
+    }
+    
+    func addHotkeyForPath(path: String!) -> SCHotkey? {
+        var array = HAFConfigureManager.sharedManager.userDefinedHotkeyPaths()
+        if nil == array {
+            array = Array<String>.init()
+        }
+        if !array!.contains(path){
+            array!.append(path)
+        }
+        HAFConfigureManager.sharedManager.setUserDefinedHotkeyPaths(array: array!)
+        var hotkey = userDefinedHotkeys.first { (str, k) -> Bool in
+            return str == path
+        }?.1
+        if nil ==  hotkey{
+            hotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: path), identifier: path, handler: { (k) in
+                let p: String! = k?.identifier
+                if p.lowercased().hasSuffix(".app"){
+                    NSWorkspace.shared.launchApplication(p)
+                }else{
+                    NSWorkspace.shared.openFile(p)
+                }
+            })
+            userDefinedHotkeys.append((path, hotkey!))
+        }
+        return hotkey
+    }
+    
+    func removeHotkeyForPath(path: String!) -> Void {
+        var array = HAFConfigureManager.sharedManager.userDefinedHotkeyPaths()
+        if nil == array {
+            return
+        }
+        if !array!.contains(path){
+            return
+        }
+        if let index = array!.index(of: path) {
+            array!.remove(at: index)
+        }
+        HAFConfigureManager.sharedManager.setUserDefinedHotkeyPaths(array: array!)
+        userDefinedHotkeys.removeAll { (str, k) -> Bool in
+            return str == path
+        }
+    }
+    
+    func __initializeUserDefinedHotkeys() -> Void {
+        guard let userDefinedPaths = HAFConfigureManager.sharedManager.userDefinedHotkeyPaths()  else {
+            return
+        }
+        userDefinedHotkeys = userDefinedPaths.map { path in
+            let hotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: path), identifier: path, handler: { (k) in
+                    let p: String! = k?.identifier
+                    if p.lowercased().hasSuffix(".app"){
+                        NSWorkspace.shared.launchApplication(p)
+                    }else{
+                        NSWorkspace.shared.openFile(p)
+                    }
+                })
+            return (path, hotkey!)
+        }
     }
     
     func __initializePredefinedHotkeys() -> Void {
