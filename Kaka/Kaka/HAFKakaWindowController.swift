@@ -251,7 +251,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         let desktopObjs = SSDesktopManager.shared().desktopObjectsDictionary()
         for (_,value) in desktopObjs!{
-            value.setMouseActionCallback({ (windowType, event, context)  in
+            value.setMouseActionCallback({ (windowType, event, context) in
                 if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
                     DispatchQueue.main.async {
                         value.uncoverDesktop()
@@ -283,7 +283,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
                 })
                 
                 for (_,value) in desktopObjsDict!{
-                    value.setMouseActionCallback({ (windowType, event, context)  in
+                    value.setMouseActionCallback({ (windowType, event, context) in
                         if HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() && DO_DESKTOP_COVER_WINDOW == windowType && 2 == event?.clickCount{
                             DispatchQueue.main.async {
                                 value.uncoverDesktop()
@@ -745,7 +745,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
             alert.messageText = NSLocalizedString("Set the shortcut first", comment: "")
             alert.informativeText = NSLocalizedString("To disable mouse cursor, please set the shortcut first and try again.", comment: "")
             alert.alertStyle = .informational
-            alert.addButton(withTitle: "OK")
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
             alert.runModal()
             shortcutsCenter_click(sender: sender)
             return
@@ -755,7 +755,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         alert.messageText = NSLocalizedString("Use the shortcut to enable & disable the mouse cursor", comment: "")
         alert.informativeText = NSLocalizedString("The shortcut is", comment: "") + ": " + keyComboString
         alert.alertStyle = .informational
-        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         alert.runModal()
     }
     
@@ -942,7 +942,6 @@ extension HAFKakaWindowController:SCShortcutsCenterWindowControllerDelegate{
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = true
-        openPanel.title = NSLocalizedString("Select a path", comment: "")
         
         openPanel.beginSheetModal(for:shortcutsCenterWindowController.window!) { (response) in
             if response.rawValue == NSFileHandlingPanelOKButton {
