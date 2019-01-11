@@ -29,6 +29,7 @@ class HAFConfigureManager: NSObject {
     let kAutoHideCursorTimeOut = "AutoHideCursorTimeOut"
     let kDeactivateCriticalBatteryCharge = "DeactivateCriticalBatteryCharge"
     let kDeactivateCriticalBatteryChargeThreshold = "DeactivateCriticalBatteryChargeThreshold"
+    let kInifiteLoopStatus = "InifiteLoopStatus"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -191,5 +192,13 @@ class HAFConfigureManager: NSObject {
         }else{
             return value as! Float
         }
+    }
+    
+    func setInifiteLoopStatus(bFlag: Bool) -> Void {
+        UserDefaults.standard.set(bFlag, forKey: kInifiteLoopStatus)
+    }
+    
+    func inifiteLoopStatus() -> Bool {
+        return UserDefaults.standard.bool(forKey: kInifiteLoopStatus)
     }
 }
