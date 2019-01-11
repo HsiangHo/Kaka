@@ -39,6 +39,17 @@ class HAFHotkeyManager: NSObject {
         __initializePredefinedHotkeys()
     }
     
+    func hotkeyForIdentifier(identifier: String!) -> SCHotkey? {
+        var hotkey: SCHotkey? = nil
+        for k in preDefinedHotkeys {
+            if k.1.identifier == identifier{
+                hotkey = k.1
+                break
+            }
+        }
+        return hotkey
+    }
+    
     func __initializePredefinedHotkeys() -> Void {
         displayDesktopHotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: HotkeyIdentifiers.displayDesktop), identifier: HotkeyIdentifiers.displayDesktop, handler: { (_) in
             SSDesktopManager.shared().showDesktop(false)
