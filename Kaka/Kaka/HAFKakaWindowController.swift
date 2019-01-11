@@ -958,7 +958,7 @@ extension HAFKakaWindowController:SCShortcutsCenterWindowControllerDelegate{
     
     func removeButton_click(_ obj: SCHotkey!, with controller: SCShortcutsCenterWindowController!) {
         if HAFHotkeyManager.sharedManager.preDefinedHotkeys.contains(where: { (str, k) -> Bool in
-            return k == obj
+            return k.identifier == obj.identifier
         }){
             return
         }
