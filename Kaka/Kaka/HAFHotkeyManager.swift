@@ -105,7 +105,9 @@ class HAFHotkeyManager: NSObject {
                     if p.lowercased().hasSuffix(".app"){
                         NSWorkspace.shared.launchApplication(p)
                     }else{
-                        NSWorkspace.shared.openFile(p)
+                        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                            NSWorkspace.shared.openFile(p)
+                        }
                     }
                 })
             return (path, hotkey!)
