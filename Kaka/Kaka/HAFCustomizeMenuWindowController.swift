@@ -94,8 +94,8 @@ class HAFCustomizeMenuWindowController: NSWindowController {
         btnDarkModeMenuItem?.setButtonType(.switch)
         btnDarkModeMenuItem?.bezelStyle = .roundRect
         btnDarkModeMenuItem?.title = NSLocalizedString("Dark Mode", comment: "")
-        btnEnergyMenuItem?.target = self
-        btnEnergyMenuItem?.action = #selector(customizeMenu_click)
+        btnDarkModeMenuItem?.target = self
+        btnDarkModeMenuItem?.action = #selector(customizeMenu_click)
         wnd.contentView?.addSubview(btnDarkModeMenuItem!)
         
         btnDesktopMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnDarkModeMenuItem!.frame), NSMaxY(btnDarkModeMenuItem!.frame) + 10, 300, 24))
