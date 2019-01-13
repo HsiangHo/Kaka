@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import ShortcutsKit
 
 class HAFPreferencesWindowController: NSWindowController {
     var _scTabs: NSSegmentedControl!
