@@ -945,13 +945,24 @@ extension HAFKakaWindowController:SCShortcutsCenterWindowControllerDelegate{
         
         openPanel.beginSheetModal(for:shortcutsCenterWindowController.window!) { (response) in
             if response.rawValue == NSFileHandlingPanelOKButton {
-                let path = openPanel.url!.path
+                var path = openPanel.url!.path
+                openPanel.close()
+                if path.hasSuffix(".scpt") || path.hasSuffix(".sh"){
+                    let alert = NSAlert()
+                    alert.messageText = NSLocalizedString("Open or Execute?", comment: "")
+                    alert.informativeText = NSLocalizedString("The selected path is detected as a script file. Should this script be opened or executed?", comment: "")
+                    alert.alertStyle = .informational
+                    alert.addButton(withTitle: NSLocalizedString("Execute", comment: ""))
+                    alert.addButton(withTitle: NSLocalizedString("Open", comment: ""))
+                    if .alertFirstButtonReturn == alert.runModal(){
+                        path = "-exec" + path
+                    }
+                }
                 let hotkey = HAFHotkeyManager.sharedManager.addHotkeyForPath(path: path)
                 let name = path.components(separatedBy: "/").last
                 self.shortcutsCenterWindowController.add(hotkey!, withDescription: name ?? path)
                 self.shortcutsCenterWindowController.updateUI()
             }
-            openPanel.close()
         }
     }
     

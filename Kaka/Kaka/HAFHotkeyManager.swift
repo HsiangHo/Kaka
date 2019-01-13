@@ -66,12 +66,7 @@ class HAFHotkeyManager: NSObject {
         }?.1
         if nil ==  hotkey{
             hotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: path), identifier: path, handler: { (k) in
-                let p: String! = k?.identifier
-                if p.lowercased().hasSuffix(".app"){
-                    NSWorkspace.shared.launchApplication(p)
-                }else{
-                    NSWorkspace.shared.openFile(p)
-                }
+                self.__invokeAction(hotkey: k!)
             })
             userDefinedHotkeys.append((path, hotkey!))
         }
@@ -95,20 +90,42 @@ class HAFHotkeyManager: NSObject {
         }
     }
     
+    func __invokeAction(hotkey: SCHotkey) -> Void {
+        let p: String! = hotkey.identifier
+        if p.lowercased().hasPrefix("-exec"){
+            let starIndex = p.index(p.startIndex, offsetBy: 5)
+            let path = String(p[starIndex..<p.endIndex])
+            if path.hasSuffix(".scpt"){
+                SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                    SSUtility.execAppleScript(withPathSync: path, error: nil)
+                }
+            }else if path.hasSuffix(".sh"){
+                SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                    SSUtility.execBashCommand(inCompatibleMode: "'\(path)'", withFlag: false)
+                }
+            }else{
+                SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                    NSWorkspace.shared.openFile(p)
+                }
+            }
+        }else{
+            if p.lowercased().hasSuffix(".app"){
+                NSWorkspace.shared.launchApplication(p)
+            }else{
+                SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
+                    NSWorkspace.shared.openFile(p)
+                }
+            }
+        }
+    }
+    
     func __initializeUserDefinedHotkeys() -> Void {
         guard let userDefinedPaths = HAFConfigureManager.sharedManager.userDefinedHotkeyPaths()  else {
             return
         }
         userDefinedHotkeys = userDefinedPaths.map { path in
             let hotkey = SCHotkey.init(keyCombo: HAFConfigureManager.sharedManager.keyComboWithIdentifier(identifier: path), identifier: path, handler: { (k) in
-                    let p: String! = k?.identifier
-                    if p.lowercased().hasSuffix(".app"){
-                        NSWorkspace.shared.launchApplication(p)
-                    }else{
-                        SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
-                            NSWorkspace.shared.openFile(p)
-                        }
-                    }
+                    self.__invokeAction(hotkey: k!)
                 })
             return (path, hotkey!)
         }
