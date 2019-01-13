@@ -52,6 +52,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemShowDesktop: NSMenuItem!
     var menuItemShowDesktopIcon: NSMenuItem!
     var menuItemShortcutsCenter: NSMenuItem!
+    var menuItemCustomizeMenu: NSMenuItem!
     var menuItemFeedbackAndSupport: NSMenuItem!
     var subMenuFeedbackAndSupport: NSMenu!
     var menuItemContribute2Kaka: NSMenuItem!
@@ -62,6 +63,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
     var appAppearanceWindowController: HAFAppAppearanceWindowController? = nil
     var shortcutsCenterWindowController: SCShortcutsCenterWindowController = SCShortcutsCenterWindowController.init()
+    var customizeMenuWindowController: HAFCustomizeMenuWindowController = HAFCustomizeMenuWindowController.init()
     var _updateDesktopCoverTimer: DispatchSourceTimer?
     var _preventSleepTimer: DispatchSourceTimer?
     var _lastBatteryPercentage: Int = SSEnergyManager.shared().batteryPercentage()
@@ -129,6 +131,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
 //        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
         menuItemShortcutsCenter = NSMenuItem.init(title: NSLocalizedString("Shortcuts Center", comment: ""), action: #selector(shortcutsCenter_click), keyEquivalent: "s")
+        menuItemCustomizeMenu = NSMenuItem.init(title: "🌀" + NSLocalizedString("Customize Menu", comment: ""), action: #selector(customizeMenu_click), keyEquivalent: "")
         menuItemFeedbackAndSupport = NSMenuItem.init(title: NSLocalizedString("Feedback & Support", comment: ""), action: nil, keyEquivalent: "")
         subMenuFeedbackAndSupport = NSMenu.init(title: "feedbackAndSupport-menu")
         menuItemContribute2Kaka = NSMenuItem.init(title: NSLocalizedString("Contribute to Kaka's development", comment: ""), action: #selector(contribute2Kaka_click), keyEquivalent: "")
@@ -179,6 +182,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
         menuItemShortcutsCenter.target = self
+        menuItemCustomizeMenu.target = self
         menuItemContribute2Kaka.target = self
 //        menuItemEnableFinderExtension.target = self
         menuItemHelp.target = self
@@ -217,25 +221,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuCursor.addItem(menuItemDisableMouseCursor)
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
 
-        actionMenu.addItem(menuItemDesktop)
-        if HAFSuperModeManager.isKakaInSuperMode(){
-            actionMenu.addItem(menuItemDarkmode)
-        }
-        actionMenu.addItem(menuItemPower)
-        actionMenu.addItem(menuItemCursor)
-        actionMenu.addItem(NSMenuItem.separator())
-        actionMenu.addItem(menuItemDisplayKaka)
-        actionMenu.addItem(NSMenuItem.separator())
-        actionMenu.addItem(menuItemShortcutsCenter)
-        actionMenu.addItem(NSMenuItem.separator())
-        actionMenu.addItem(menuItemAbout)
-        actionMenu.addItem(menuItemPreferences)
         subMenuFeedbackAndSupport.addItem(menuItemHelp)
         subMenuFeedbackAndSupport.addItem(menuItemRateOnMacAppStore)
         subMenuFeedbackAndSupport.addItem(menuItemContribute2Kaka)
-        actionMenu.addItem(menuItemFeedbackAndSupport)
-        actionMenu.addItem(NSMenuItem.separator())
-        actionMenu.addItem(menuItemQuit)
+        
+        updateActionMenu()
+        
         _view.delegate = self
         
         wnd.setDraggingCallback(areaFunc: draggingArea, completedFunc: draggingCompleted)
@@ -759,6 +750,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         alert.runModal()
     }
     
+    @IBAction func customizeMenu_click(sender: AnyObject?){
+        customizeMenuWindowController.showWindow(sender)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -772,6 +768,44 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         deactivateCriticalBatteryCharge = deactivateCriticalBatteryCharge.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()*100)]))
         menuItemDeactivateCriticalBatteryCharge.title = deactivateCriticalBatteryCharge
         deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
+        
+        actionMenu.removeAllItems()
+        if HAFConfigureManager.sharedManager.menuItemDesktopVisibility(){
+            actionMenu.addItem(menuItemDesktop)
+        }
+        if HAFSuperModeManager.isKakaInSuperMode() && HAFConfigureManager.sharedManager.menuItemDarkModeVisibility(){
+            actionMenu.addItem(menuItemDarkmode)
+        }
+        if HAFConfigureManager.sharedManager.menuItemEnergyVisibility(){
+            actionMenu.addItem(menuItemPower)
+        }
+        if HAFConfigureManager.sharedManager.menuItemCursorVisibility(){
+            actionMenu.addItem(menuItemCursor)
+        }
+        actionMenu.addItem(menuItemCustomizeMenu)
+        actionMenu.addItem(NSMenuItem.separator())
+        if HAFConfigureManager.sharedManager.menuItemDisplayKakaVisibility(){
+            actionMenu.addItem(menuItemDisplayKaka)
+            actionMenu.addItem(NSMenuItem.separator())
+        }
+        if HAFConfigureManager.sharedManager.menuItemShortcutsCenterVisibility(){
+            actionMenu.addItem(menuItemShortcutsCenter)
+            actionMenu.addItem(NSMenuItem.separator())
+        }
+        if HAFConfigureManager.sharedManager.menuItemAboutVisibility(){
+            actionMenu.addItem(menuItemAbout)
+        }
+        if HAFConfigureManager.sharedManager.menuItemPreferencesVisibility(){
+            actionMenu.addItem(menuItemPreferences)
+        }
+        if HAFConfigureManager.sharedManager.menuItemFeedbackAndSpportVisibility(){
+            actionMenu.addItem(menuItemFeedbackAndSupport)
+        }
+        if HAFConfigureManager.sharedManager.menuItemAboutVisibility() || HAFConfigureManager.sharedManager.menuItemPreferencesVisibility() || HAFConfigureManager.sharedManager.menuItemFeedbackAndSpportVisibility() {
+            actionMenu.addItem(NSMenuItem.separator())
+        }
+        actionMenu.addItem(menuItemQuit)
+        
 //        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
 //            SSUtility.accessFilePath(URL.init(fileURLWithPath: "/"), persistPermission: true, withParentWindow: nil) {
 //                self.menuItemShowHiddenFilesAndFolders.state = SSAppearanceManager.shared().isShowAllFiles() ? .on : .off
