@@ -81,3 +81,8 @@
 "Sleep Mac" = "休眠Mac";
 "Prevent Sleep" = "阻止休眠";
 "OK" = "好";
+"Customize Menu" = "自定义菜单";
+"Open or Execute?" = "打开或者运行?";
+"The selected path is detected as a script file. Should this script be opened or executed?" = "检测到此路径为可执行的脚本文件，应该打开还是运行这个脚本?";
+"Execute" = "运行";
+"Open" = "打开";

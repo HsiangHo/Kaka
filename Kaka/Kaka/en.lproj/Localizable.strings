@@ -81,3 +81,8 @@
 "Sleep Mac" = "Sleep Mac";
 "Prevent Sleep" = "Prevent Sleep";
 "OK" = "OK";
+"Customize Menu" = "Customize Menu";
+"Open or Execute?" = "Open or Execute?";
+"The selected path is detected as a script file. Should this script be opened or executed?" = "The selected path is detected as a script file. Should this script be opened or executed?";
+"Execute" = "Execute";
+"Open" = "Open";
