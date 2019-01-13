@@ -31,6 +31,15 @@ class HAFConfigureManager: NSObject {
     let kDeactivateCriticalBatteryChargeThreshold = "DeactivateCriticalBatteryChargeThreshold"
     let kInifiteLoopStatus = "InifiteLoopStatus"
     let kUserdDefinedHotkeyPaths = "UserdDefinedHotkeyPaths"
+    let kMenuItemDesktop = "MenuItemDesktop"
+    let kMenuItemDarkMode = "MenuItemDarkMode"
+    let kMenuItemEnergy = "MenuItemEnergy"
+    let kMenuItemCursor = "MenuItemCursor"
+    let kMenuItemDisplayKaka = "MenuItemDisplayKaka"
+    let kMenuItemShortcutsCenter = "MenuItemShortcutsCenter"
+    let kMenuItemAbout = "MenuItemAbout"
+    let kMenuItemPreferences = "MenuItemPreferences"
+    let kMenuItemFeedbackAndSpport = "MenuItemFeedbackAndSpport"
     
     func setLaunchAtLogin(bFlag: Bool) -> Void {
         SMLoginItemSetEnabled(helperBundleIdentifier as CFString, bFlag)
@@ -209,5 +218,77 @@ class HAFConfigureManager: NSObject {
     
     func setUserDefinedHotkeyPaths(array: Array<String>) -> Void {
         UserDefaults.standard.set(array, forKey: kUserdDefinedHotkeyPaths)
+    }
+    
+    func setMenuItemDesktopVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemDesktop)
+    }
+    
+    func menuItemDesktopVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemDesktop)
+    }
+    
+    func setMenuItemDarkModeVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemDarkMode)
+    }
+    
+    func menuItemDarkModeVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemDarkMode)
+    }
+    
+    func setMenuItemEnergyVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemEnergy)
+    }
+    
+    func menuItemEnergyVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemEnergy)
+    }
+    
+    func menuItemCursorVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemCursor)
+    }
+    
+    func setMenuItemCursorVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemCursor)
+    }
+    
+    func setMenuItemDisplayKakaVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemDisplayKaka)
+    }
+    
+    func menuItemDisplayKakaVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemDisplayKaka)
+    }
+    
+    func setMenuItemShortcutsCenterVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemShortcutsCenter)
+    }
+    
+    func menuItemShortcutsCenterVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemShortcutsCenter)
+    }
+    
+    func setMenuItemAboutVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemAbout)
+    }
+    
+    func menuItemAboutVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemAbout)
+    }
+    
+    func setMenuItemPreferencesVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemPreferences)
+    }
+    
+    func menuItemPreferencesVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemPreferences)
+    }
+    
+    func setMenuItemFeedbackAndSpportVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemFeedbackAndSpport)
+    }
+    
+    func menuItemFeedbackAndSpportVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemFeedbackAndSpport)
     }
 }
