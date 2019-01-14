@@ -32,6 +32,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPreventSystemSleepFor2Hours: NSMenuItem!
     var menuItemPreventSystemSleepFor5Hours: NSMenuItem!
     var menuItemAutoHideMouseCursor: NSMenuItem!
+    var menuItemDisableMouseCursor: NSMenuItem!
+    var menuItemInfiniteLoop: NSMenuItem!
     var menuItemAutoHideDesktopIcons: NSMenuItem!
 //    var menuItemShowHiddenFilesAndFolders: NSMenuItem!
 //    var menuItemEnableFinderExtension: NSMenuItem!
@@ -44,17 +46,22 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemToggleDarkModeThresholdSlider: NSMenuItem!
     var toggleDarkModeThresholdSlider: NSSlider!
     var menuItemCustomAppAppearance: NSMenuItem!
-    var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemDisplayKaka: NSMenuItem!
     var menuItemAbout: NSMenuItem!
     var menuItemPreferences: NSMenuItem!
     var menuItemShowDesktop: NSMenuItem!
     var menuItemShowDesktopIcon: NSMenuItem!
+    var menuItemShortcutsCenter: NSMenuItem!
+    var menuItemFeedbackAndSupport: NSMenuItem!
+    var subMenuFeedbackAndSupport: NSMenu!
+    var menuItemContribute2Kaka: NSMenuItem!
+    var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemHelp: NSMenuItem!
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
     var appAppearanceWindowController: HAFAppAppearanceWindowController? = nil
+    var shortcutsCenterWindowController: SCShortcutsCenterWindowController = SCShortcutsCenterWindowController.init()
     var _updateDesktopCoverTimer: DispatchSourceTimer?
     var _preventSleepTimer: DispatchSourceTimer?
     var _lastBatteryPercentage: Int = SSEnergyManager.shared().batteryPercentage()
@@ -101,9 +108,11 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemToggleDarkModeThresholdSlider.view = toggleDarkModeThresholdSlider
         menuItemTurnOnDarkMode = NSMenuItem.init(title: NSLocalizedString("Turn On Dark Mode", comment: ""), action: #selector(turnOnDarkModeMenuItem_click), keyEquivalent: "")
         menuItemCustomAppAppearance = NSMenuItem.init(title: NSLocalizedString("Custom Application Appearance", comment: ""), action: #selector(customAppAppearanceMenuItem_click), keyEquivalent: "")
+        menuItemInfiniteLoop = NSMenuItem.init(title: NSLocalizedString("Infinite Loop", comment: ""), action: #selector(infiniteLoopMenuItem_click), keyEquivalent: "")
+        menuItemDisableMouseCursor = NSMenuItem.init(title: NSLocalizedString("Disable Mouse Cursor", comment: ""), action: #selector(disableMouseCursorMenuItem_click), keyEquivalent: "")
         menuItemAutoHideMouseCursor = NSMenuItem.init(title: NSLocalizedString("Hide The Mouse Cursor Automatically", comment: ""), action: #selector(autoHideMouseCursorMenuItem_click), keyEquivalent: "")
         menuItemAutoHideDesktopIcons = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons Automatically", comment: ""), action: #selector(autoHideDesktopIcons_click), keyEquivalent: "")
-        menuItemRateOnMacAppStore = NSMenuItem.init(title: NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
+        menuItemRateOnMacAppStore = NSMenuItem.init(title: "⭐️" + NSLocalizedString("Rate On Mac App Store", comment: ""), action: #selector(rateOnMacAppStore_click), keyEquivalent: "")
         menuItemDisplayKaka = NSMenuItem.init(title: NSLocalizedString("Display Kaka", comment: ""), action: #selector(displayKakaMenuItem_click), keyEquivalent: "")
         menuItemDeactivateCriticalBatteryCharge = NSMenuItem.init(title: NSLocalizedString("Deactivate Critical Battery Charge", comment: "") + " (10%)", action: #selector(deactivateCriticalBatteryCharge_click), keyEquivalent: "")
         menuItemDeactivateCriticalBatteryChargeThresholdSlider = NSMenuItem.init(title: "", action: nil, keyEquivalent: "")
@@ -119,6 +128,12 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPreventSystemSleepFor5Hours = NSMenuItem.init(title: NSLocalizedString("For 5 Hours", comment: ""), action: #selector(preventSystemSleepFor5HoursMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
 //        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
+        menuItemShortcutsCenter = NSMenuItem.init(title: NSLocalizedString("Shortcuts Center", comment: ""), action: #selector(shortcutsCenter_click), keyEquivalent: "s")
+        menuItemFeedbackAndSupport = NSMenuItem.init(title: NSLocalizedString("Feedback & Support", comment: ""), action: nil, keyEquivalent: "")
+        subMenuFeedbackAndSupport = NSMenu.init(title: "feedbackAndSupport-menu")
+        menuItemContribute2Kaka = NSMenuItem.init(title: NSLocalizedString("Contribute to Kaka's development", comment: ""), action: #selector(contribute2Kaka_click), keyEquivalent: "")
+        menuItemFeedbackAndSupport.submenu = subMenuFeedbackAndSupport
+        
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
@@ -158,9 +173,13 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemToggleDarkModeThresholdSlider.target = self
         menuItemTurnOnDarkMode.target = self
         menuItemAutoHideMouseCursor.target = self
+        menuItemInfiniteLoop.target = self
+        menuItemDisableMouseCursor.target = self
         menuItemAutoHideDesktopIcons.target = self
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
+        menuItemShortcutsCenter.target = self
+        menuItemContribute2Kaka.target = self
 //        menuItemEnableFinderExtension.target = self
         menuItemHelp.target = self
         menuItemQuit.target = self
@@ -194,8 +213,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuPower.addItem(menuItemPreventSystemSleepFor2Hours)
         subMenuPower.addItem(menuItemPreventSystemSleepFor5Hours)
         
+        subMenuCursor.addItem(menuItemInfiniteLoop)
+        subMenuCursor.addItem(menuItemDisableMouseCursor)
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
-        
+
         actionMenu.addItem(menuItemDesktop)
         if HAFSuperModeManager.isKakaInSuperMode(){
             actionMenu.addItem(menuItemDarkmode)
@@ -205,10 +226,14 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemDisplayKaka)
         actionMenu.addItem(NSMenuItem.separator())
+        actionMenu.addItem(menuItemShortcutsCenter)
+        actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemAbout)
         actionMenu.addItem(menuItemPreferences)
-        actionMenu.addItem(menuItemRateOnMacAppStore)
-        actionMenu.addItem(menuItemHelp)
+        subMenuFeedbackAndSupport.addItem(menuItemHelp)
+        subMenuFeedbackAndSupport.addItem(menuItemRateOnMacAppStore)
+        subMenuFeedbackAndSupport.addItem(menuItemContribute2Kaka)
+        actionMenu.addItem(menuItemFeedbackAndSupport)
         actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemQuit)
         _view.delegate = self
@@ -325,7 +350,20 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         __startToUpdateDesktopCover()
         
-        HAFHotkeyManager.sharedManager.registerAll()
+        if HAFConfigureManager.sharedManager.inifiteLoopStatus(){
+            SSCursorManager.shared()?.enableInfiniteLoop(true)
+            menuItemInfiniteLoop.state = .on
+        }
+        
+        shortcutsCenterWindowController.delegate = self
+        for (descr,hotkey) in HAFHotkeyManager.sharedManager.preDefinedHotkeys{
+            shortcutsCenterWindowController.add(hotkey, withDescription: descr)
+        }
+        
+        for (path,hotkey) in HAFHotkeyManager.sharedManager.userDefinedHotkeys{
+            let name = path.components(separatedBy: "/").last
+            shortcutsCenterWindowController.add(hotkey, withDescription: name ?? path)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -680,6 +718,47 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         updateActionMenu()
     }
     
+    @IBAction func shortcutsCenter_click(sender: AnyObject?){
+        NSApp.activate(ignoringOtherApps: true)
+        shortcutsCenterWindowController.showWindow(sender);
+    }
+    
+    @IBAction func contribute2Kaka_click(sender: AnyObject?){
+        NSWorkspace.shared.open(URL.init(string: "https://github.com/HsiangHo/Kaka/issues")!)
+    }
+    
+    @IBAction func infiniteLoopMenuItem_click(sender: AnyObject?){
+        if menuItemInfiniteLoop.state == .on{
+            SSCursorManager.shared().enableInfiniteLoop(false)
+            menuItemInfiniteLoop.state = .off
+            HAFConfigureManager.sharedManager.setInifiteLoopStatus(bFlag: false)
+        }else{
+            SSCursorManager.shared().enableInfiniteLoop(true)
+            menuItemInfiniteLoop.state = .on
+            HAFConfigureManager.sharedManager.setInifiteLoopStatus(bFlag: true)
+        }
+    }
+    
+    @IBAction func disableMouseCursorMenuItem_click(sender: AnyObject?){
+        guard let keyComboObj = HAFHotkeyManager.sharedManager.hotkeyForIdentifier(identifier: HotkeyIdentifiers.disableMouseCursor)?.keyCombo else {
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Set the shortcut first", comment: "")
+            alert.informativeText = NSLocalizedString("To disable mouse cursor, please set the shortcut first and try again.", comment: "")
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
+            shortcutsCenter_click(sender: sender)
+            return
+        }
+        let keyComboString = keyComboObj.stringForKeyCombo
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Use the shortcut to enable & disable the mouse cursor", comment: "")
+        alert.informativeText = NSLocalizedString("The shortcut is", comment: "") + ": " + keyComboString
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -854,3 +933,49 @@ extension HAFKakaWindowController: NSTouchBarDelegate {
     }
 }
 
+    //MARK: SCShortcutsCenterWindowControllerDelegate
+
+extension HAFKakaWindowController:SCShortcutsCenterWindowControllerDelegate{
+    func addButton_click(_ obj: SCHotkey!, with controller: SCShortcutsCenterWindowController!) {
+        let openPanel = NSOpenPanel()
+        openPanel.canChooseFiles = true
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.title = NSLocalizedString("Select a path", comment: "")
+        
+        openPanel.beginSheetModal(for:shortcutsCenterWindowController.window!) { (response) in
+            if response.rawValue == NSFileHandlingPanelOKButton {
+                let path = openPanel.url!.path
+                let hotkey = HAFHotkeyManager.sharedManager.addHotkeyForPath(path: path)
+                let name = path.components(separatedBy: "/").last
+                self.shortcutsCenterWindowController.add(hotkey!, withDescription: name ?? path)
+                self.shortcutsCenterWindowController.updateUI()
+            }
+            openPanel.close()
+        }
+    }
+    
+    func removeButton_click(_ obj: SCHotkey!, with controller: SCShortcutsCenterWindowController!) {
+        if HAFHotkeyManager.sharedManager.preDefinedHotkeys.contains(where: { (str, k) -> Bool in
+            return k == obj
+        }){
+            return
+        }
+        shortcutsCenterWindowController.remove(obj)
+        shortcutsCenterWindowController.updateUI()
+        HAFHotkeyManager.sharedManager.removeHotkeyForPath(path: obj.identifier)
+    }
+    
+    func shortcutsCenterWindowTitle() -> String! {
+        return NSLocalizedString("Shortcuts Center", comment: "")
+    }
+    
+    func shortcutsCenterWindowSubtitle() -> String! {
+        return NSLocalizedString("Customize your own shortcuts", comment: "") + ":"
+    }
+    
+    func shortcutsKeyComboDidChanged(_ obj: SCHotkey!) {
+        HAFConfigureManager.sharedManager.setKeyComboWithIdentifier(keyCombo: obj.keyCombo, identifier: obj.identifier)
+    }
+}
