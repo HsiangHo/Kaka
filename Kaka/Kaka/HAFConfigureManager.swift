@@ -35,6 +35,7 @@ class HAFConfigureManager: NSObject {
     let kMenuItemDarkMode = "MenuItemDarkMode"
     let kMenuItemEnergy = "MenuItemEnergy"
     let kMenuItemCursor = "MenuItemCursor"
+    let kMenuItemKeyboard = "MenuItemKeyboard"
     let kMenuItemDisplayKaka = "MenuItemDisplayKaka"
     let kMenuItemShortcutsCenter = "MenuItemShortcutsCenter"
     let kMenuItemAbout = "MenuItemAbout"
@@ -250,6 +251,14 @@ class HAFConfigureManager: NSObject {
     
     func setMenuItemCursorVisibility(bFlag: Bool) -> Void{
         UserDefaults.standard.set(!bFlag, forKey: kMenuItemCursor)
+    }
+    
+    func menuItemKeyboardVisibility() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemKeyboard)
+    }
+    
+    func setMenuItemKeyboardVisibility(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemKeyboard)
     }
     
     func setMenuItemDisplayKakaVisibility(bFlag: Bool) -> Void{
