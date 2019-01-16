@@ -772,7 +772,20 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func displayCapsLockStatus_click(sender: AnyObject?){
-
+        let delegate = NSApp.delegate as? AppDelegate
+        if HAFConfigureManager.sharedManager.displayCapsLockStatus() {
+            menuItemDisplayCapsLockStatus.state = .off
+            HAFConfigureManager.sharedManager.setDisplayCapsLockStatus(bFlag: false)
+            delegate?.statusItem?.image = NSImage(named: NSImage.Name(rawValue: "status_icon"))
+            SSKeyboardManager.shared()?.setCapsLockStatusChangedCallback(nil)
+        }else{
+            menuItemDisplayCapsLockStatus.state = .on
+            HAFConfigureManager.sharedManager.setDisplayCapsLockStatus(bFlag: true)
+            delegate?.statusItem?.image = SSKeyboardManager.shared()!.isCapsLockOn() ? NSImage(named: NSImage.Name(rawValue: "status_iconA")):NSImage(named: NSImage.Name(rawValue: "status_icon"))
+            SSKeyboardManager.shared()?.setCapsLockStatusChangedCallback({ (bFlag) in
+                delegate?.statusItem?.image = bFlag ? NSImage(named: NSImage.Name(rawValue: "status_iconA")):NSImage(named: NSImage.Name(rawValue: "status_icon"))
+            })
+        }
     }
     
     @IBAction func disableKeyboard(sender: AnyObject?){
@@ -822,6 +835,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemDeactivateCriticalBatteryCharge.title = deactivateCriticalBatteryCharge
         deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
         menuItemDisableKeyboard.state = SSKeyboardManager.shared()!.isKeyboardFilterRunning() ? .on : .off
+        menuItemDisplayCapsLockStatus.state = HAFConfigureManager.sharedManager.displayCapsLockStatus() ? .on : .off
         
         actionMenu.removeAllItems()
         if HAFConfigureManager.sharedManager.menuItemDesktopVisibility(){
