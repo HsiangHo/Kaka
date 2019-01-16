@@ -36,6 +36,7 @@ class HAFConfigureManager: NSObject {
     let kMenuItemEnergy = "MenuItemEnergy"
     let kMenuItemCursor = "MenuItemCursor"
     let kMenuItemKeyboard = "MenuItemKeyboard"
+    let kMenuItemDisplayCapsLockStatus = "MenuItemDisplayCapsLockStatus"
     let kMenuItemDisplayKaka = "MenuItemDisplayKaka"
     let kMenuItemShortcutsCenter = "MenuItemShortcutsCenter"
     let kMenuItemAbout = "MenuItemAbout"
@@ -203,6 +204,14 @@ class HAFConfigureManager: NSObject {
         }else{
             return value as! Float
         }
+    }
+    
+    func displayCapsLockStatus() -> Bool{
+        return !UserDefaults.standard.bool(forKey: kMenuItemDisplayCapsLockStatus)
+    }
+    
+    func setDisplayCapsLockStatus(bFlag: Bool) -> Void{
+        UserDefaults.standard.set(!bFlag, forKey: kMenuItemDisplayCapsLockStatus)
     }
     
     func setInifiteLoopStatus(bFlag: Bool) -> Void {
