@@ -51,6 +51,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemPreferences: NSMenuItem!
     var menuItemShowDesktop: NSMenuItem!
     var menuItemShowDesktopIcon: NSMenuItem!
+    var menuItemKeyboard: NSMenuItem!
+    var subMenuKeyboard: NSMenu!
+    var menuItemDisplayCapsLockStatus: NSMenuItem!
+    var menuItemDisableKeyboard: NSMenuItem!
     var menuItemShortcutsCenter: NSMenuItem!
     var menuItemCustomizeMenu: NSMenuItem!
     var menuItemFeedbackAndSupport: NSMenuItem!
@@ -94,6 +98,10 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPower = NSMenuItem.init(title: NSLocalizedString("Energy", comment: ""), action: nil, keyEquivalent: "")
         menuItemPower.submenu = subMenuPower
         
+        subMenuKeyboard = NSMenu.init(title: "Keyboard")
+        menuItemKeyboard = NSMenuItem.init(title: NSLocalizedString("Keyboard", comment: ""), action: nil, keyEquivalent: "")
+        menuItemKeyboard.submenu = subMenuKeyboard
+        
         menuItemAbout = NSMenuItem.init(title: NSLocalizedString("About", comment: ""), action: #selector(aboutMenuItem_click), keyEquivalent: "")
         menuItemPreferences = NSMenuItem.init(title: NSLocalizedString("Preferences", comment: ""), action: #selector(preferencesMenuItem_click), keyEquivalent: ",")
         menuItemShowDesktop = NSMenuItem.init(title: NSLocalizedString("Display Desktop", comment: ""), action: #selector(showDesktopMenuItem_click), keyEquivalent: "")
@@ -129,6 +137,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemPreventSystemSleepFor2Hours = NSMenuItem.init(title: NSLocalizedString("For 2 Hours", comment: ""), action: #selector(preventSystemSleepFor2HoursMenuItem_click), keyEquivalent: "")
         menuItemPreventSystemSleepFor5Hours = NSMenuItem.init(title: NSLocalizedString("For 5 Hours", comment: ""), action: #selector(preventSystemSleepFor5HoursMenuItem_click), keyEquivalent: "")
         menuItemShowDesktopIcon = NSMenuItem.init(title: NSLocalizedString("Hide Desktop Icons", comment: ""), action: #selector(showDesktopIconMenuItem_click), keyEquivalent: "")
+        menuItemDisplayCapsLockStatus = NSMenuItem.init(title: NSLocalizedString("Display Caps Lock Status", comment: ""), action: #selector(displayCapsLockStatus_click), keyEquivalent: "")
+        menuItemDisableKeyboard = NSMenuItem.init(title: NSLocalizedString("Disable Keyboard", comment: ""), action: #selector(disableKeyboard), keyEquivalent: "")
 //        menuItemEnableFinderExtension = NSMenuItem.init(title: NSLocalizedString("Enable Finder Extension", comment: ""), action: #selector(enableFinderExtension_click), keyEquivalent: "")
         menuItemShortcutsCenter = NSMenuItem.init(title: NSLocalizedString("Shortcuts Center", comment: ""), action: #selector(shortcutsCenter_click), keyEquivalent: "s")
         menuItemCustomizeMenu = NSMenuItem.init(title: "🌀" + NSLocalizedString("Customize Menu", comment: ""), action: #selector(customizeMenu_click), keyEquivalent: "")
@@ -179,6 +189,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemInfiniteLoop.target = self
         menuItemDisableMouseCursor.target = self
         menuItemAutoHideDesktopIcons.target = self
+        menuItemDisplayCapsLockStatus.target = self
+        menuItemDisableKeyboard.target = self
         menuItemRateOnMacAppStore.target = self
         menuItemDisplayKaka.target = self
         menuItemShortcutsCenter.target = self
@@ -220,6 +232,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         subMenuCursor.addItem(menuItemInfiniteLoop)
         subMenuCursor.addItem(menuItemDisableMouseCursor)
         subMenuCursor.addItem(menuItemAutoHideMouseCursor)
+        
+        subMenuKeyboard.addItem(menuItemDisableKeyboard)
+        subMenuKeyboard.addItem(menuItemDisplayCapsLockStatus)
 
         subMenuFeedbackAndSupport.addItem(menuItemHelp)
         subMenuFeedbackAndSupport.addItem(menuItemRateOnMacAppStore)
@@ -755,6 +770,14 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         NSApp.activate(ignoringOtherApps: true)
     }
     
+    @IBAction func displayCapsLockStatus_click(sender: AnyObject?){
+        
+    }
+    
+    @IBAction func disableKeyboard(sender: AnyObject?){
+        
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -781,6 +804,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         if HAFConfigureManager.sharedManager.menuItemCursorVisibility(){
             actionMenu.addItem(menuItemCursor)
+        }
+        if HAFConfigureManager.sharedManager.menuItemKeyboardVisibility(){
+            actionMenu.addItem(menuItemKeyboard)
         }
         actionMenu.addItem(menuItemCustomizeMenu)
         actionMenu.addItem(NSMenuItem.separator())
