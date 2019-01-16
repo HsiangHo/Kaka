@@ -71,6 +71,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var _updateDesktopCoverTimer: DispatchSourceTimer?
     var _preventSleepTimer: DispatchSourceTimer?
     var _lastBatteryPercentage: Int = SSEnergyManager.shared().batteryPercentage()
+    var _lastPressOptionButtonTime = Date().timeIntervalSince1970
     
     init() {
         let offsetX: CGFloat = NSScreen.screens[0].frame.width - 150
@@ -771,11 +772,40 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func displayCapsLockStatus_click(sender: AnyObject?){
-        
+
     }
     
     @IBAction func disableKeyboard(sender: AnyObject?){
-        
+        SSAxapiInvoker.sharedInstance()?.invokeAXAPI({ (bFlag) in
+            if !bFlag{
+                SSAxapiInvoker.sharedInstance()?.request4AXPermissions()
+            }else{
+                if SSKeyboardManager.shared()!.isKeyboardFilterRunning(){
+                    SSKeyboardManager.shared()?.disableKeyboardFilter()
+                    self.menuItemDisableKeyboard.state = .off
+                }else{
+                    let alert = NSAlert()
+                    alert.messageText = NSLocalizedString("How to enable the keyboard", comment: "")
+                    alert.informativeText = NSLocalizedString("Press the Option⌥ key for 2 times and the keyboard will be enabled.", comment: "")
+                    alert.alertStyle = .informational
+                    alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+                    alert.runModal()
+                    SSKeyboardManager.shared()?.setKeyboardFilter({ (keyCode) -> Bool in
+                        let rslt = keyCode == kVK_Option
+                        if rslt{
+                            let timeNow = Date().timeIntervalSince1970
+                            if timeNow - self._lastPressOptionButtonTime < 2{
+                                SSKeyboardManager.shared()?.disableKeyboardFilter()
+                            }
+                            self._lastPressOptionButtonTime = timeNow
+                        }
+                        return rslt;
+                    })
+                    SSKeyboardManager.shared()?.enableKeyboardFilter()
+                    self.menuItemDisableKeyboard.state = .on
+                }
+            }
+        })
     }
     
     //MARK: Public functions
@@ -791,6 +821,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         deactivateCriticalBatteryCharge = deactivateCriticalBatteryCharge.appending(String(format:" (%d%%)", arguments:[Int(HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()*100)]))
         menuItemDeactivateCriticalBatteryCharge.title = deactivateCriticalBatteryCharge
         deactivateCriticalBatteryChargeThresholdSlider.floatValue = HAFConfigureManager.sharedManager.deactivateCriticalBatteryChargeThreshold()
+        menuItemDisableKeyboard.state = SSKeyboardManager.shared()!.isKeyboardFilterRunning() ? .on : .off
         
         actionMenu.removeAllItems()
         if HAFConfigureManager.sharedManager.menuItemDesktopVisibility(){
