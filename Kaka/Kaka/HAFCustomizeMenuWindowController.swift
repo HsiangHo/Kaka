@@ -13,6 +13,7 @@ class HAFCustomizeMenuWindowController: NSWindowController {
     var btnDarkModeMenuItem: NSButton?
     var btnEnergyMenuItem: NSButton?
     var btnCursorMenuItem: NSButton?
+    var btnKeyboardMenuItem: NSButton?
     var btnDisplayKakaMenuItem: NSButton?
     var btnShortcutsCenterMenuItem: NSButton?
     var btnAboutMenuItem: NSButton?
@@ -21,7 +22,7 @@ class HAFCustomizeMenuWindowController: NSWindowController {
     var lbTitle: NSTextField?
     
     init() {
-        let frame = NSMakeRect(0, 0, 340, 420)
+        let frame = NSMakeRect(0, 0, 340, 455)
         let wnd = NSWindow.init(contentRect: frame, styleMask: [.titled, .closable, .fullSizeContentView], backing: .buffered, defer: false)
         wnd.backgroundColor = NSColor.white
         wnd.titlebarAppearsTransparent = true
@@ -74,7 +75,15 @@ class HAFCustomizeMenuWindowController: NSWindowController {
         btnDisplayKakaMenuItem?.action = #selector(customizeMenu_click)
         wnd.contentView?.addSubview(btnDisplayKakaMenuItem!)
         
-        btnCursorMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnDisplayKakaMenuItem!.frame), NSMaxY(btnDisplayKakaMenuItem!.frame) + 10, 300, 24))
+        btnKeyboardMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnDisplayKakaMenuItem!.frame), NSMaxY(btnDisplayKakaMenuItem!.frame) + 10, 300, 24))
+        btnKeyboardMenuItem?.setButtonType(.switch)
+        btnKeyboardMenuItem?.bezelStyle = .roundRect
+        btnKeyboardMenuItem?.title = NSLocalizedString("Keyboard", comment: "")
+        btnKeyboardMenuItem?.target = self
+        btnKeyboardMenuItem?.action = #selector(customizeMenu_click)
+        wnd.contentView?.addSubview(btnKeyboardMenuItem!)
+        
+        btnCursorMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnKeyboardMenuItem!.frame), NSMaxY(btnKeyboardMenuItem!.frame) + 10, 300, 24))
         btnCursorMenuItem?.setButtonType(.switch)
         btnCursorMenuItem?.bezelStyle = .roundRect
         btnCursorMenuItem?.title = NSLocalizedString("Cursor", comment: "")
@@ -142,6 +151,8 @@ class HAFCustomizeMenuWindowController: NSWindowController {
             HAFConfigureManager.sharedManager.setMenuItemEnergyVisibility(bFlag: btnEnergyMenuItem?.state == .on)
         case btnCursorMenuItem:
             HAFConfigureManager.sharedManager.setMenuItemCursorVisibility(bFlag: btnCursorMenuItem?.state == .on)
+        case btnKeyboardMenuItem:
+            HAFConfigureManager.sharedManager.setMenuItemKeyboardVisibility(bFlag: btnKeyboardMenuItem?.state == .on)
         case btnDisplayKakaMenuItem:
             HAFConfigureManager.sharedManager.setMenuItemDisplayKakaVisibility(bFlag: btnDisplayKakaMenuItem?.state == .on)
         case btnShortcutsCenterMenuItem:
@@ -162,6 +173,7 @@ class HAFCustomizeMenuWindowController: NSWindowController {
         btnDarkModeMenuItem?.state = HAFConfigureManager.sharedManager.menuItemDarkModeVisibility() ? .on : .off
         btnEnergyMenuItem?.state = HAFConfigureManager.sharedManager.menuItemEnergyVisibility() ? .on : .off
         btnCursorMenuItem?.state = HAFConfigureManager.sharedManager.menuItemCursorVisibility() ? .on : .off
+        btnKeyboardMenuItem?.state = HAFConfigureManager.sharedManager.menuItemKeyboardVisibility() ? .on : .off
         btnDisplayKakaMenuItem?.state = HAFConfigureManager.sharedManager.menuItemDisplayKakaVisibility() ? .on : .off
         btnShortcutsCenterMenuItem?.state = HAFConfigureManager.sharedManager.menuItemShortcutsCenterVisibility() ? .on : .off
         btnAboutMenuItem?.state = HAFConfigureManager.sharedManager.menuItemAboutVisibility() ? .on : .off
