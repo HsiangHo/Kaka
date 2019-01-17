@@ -62,6 +62,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var menuItemContribute2Kaka: NSMenuItem!
     var menuItemRateOnMacAppStore: NSMenuItem!
     var menuItemHelp: NSMenuItem!
+    var menuItemContactDeveloper: NSMenuItem!
     var menuItemQuit: NSMenuItem!
     let aboutWindowController: HAFAboutWindowController? = HAFAboutWindowController.init()
     let preferencesWindowController: HAFPreferencesWindowController? = HAFPreferencesWindowController.init()
@@ -149,6 +150,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemFeedbackAndSupport.submenu = subMenuFeedbackAndSupport
         
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
+        menuItemContactDeveloper = NSMenuItem.init(title: "👉" + NSLocalizedString("Tell me what you expect!", comment: ""), action: #selector(contactDeveloper_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
         super.init(window: wnd)
@@ -199,6 +201,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemContribute2Kaka.target = self
 //        menuItemEnableFinderExtension.target = self
         menuItemHelp.target = self
+        menuItemContactDeveloper.target = self
         menuItemQuit.target = self
         
         subMenuDesktop.addItem(menuItemShowDesktop)
@@ -821,6 +824,21 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         })
     }
     
+    @IBAction func contactDeveloper_click(sender: AnyObject?){
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Thank you for your support!", comment: "")
+        alert.informativeText = NSLocalizedString("I’ve been looking for your suggestions or ideas to make Kaka better and better. Please feel free to tell me what you are expecting.", comment: "")
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: NSLocalizedString("via App Store", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("via E-mail", comment: ""))
+        let rslt = alert.runModal()
+        if rslt == .alertFirstButtonReturn {
+            rateOnMacAppStore_click(sender: sender)
+        }else if rslt == .alertSecondButtonReturn{
+            NSWorkspace.shared.open(URL.init(string: "mailto:hsiangho@foxmail.com?Subject=Kaka%20Support&body=")!)
+        }
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -875,6 +893,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         if HAFConfigureManager.sharedManager.menuItemAboutVisibility() || HAFConfigureManager.sharedManager.menuItemPreferencesVisibility() || HAFConfigureManager.sharedManager.menuItemFeedbackAndSpportVisibility() {
             actionMenu.addItem(NSMenuItem.separator())
         }
+        actionMenu.addItem(menuItemContactDeveloper)
+        actionMenu.addItem(NSMenuItem.separator())
         actionMenu.addItem(menuItemQuit)
         
 //        if SSUtility.isFilePathAccessible(URL.init(fileURLWithPath: "/")){
