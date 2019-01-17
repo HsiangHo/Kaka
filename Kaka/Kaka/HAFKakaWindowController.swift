@@ -150,7 +150,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemFeedbackAndSupport.submenu = subMenuFeedbackAndSupport
         
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
-        menuItemContactDeveloper = NSMenuItem.init(title: "👉" + NSLocalizedString("Tell me what you expect!", comment: ""), action: #selector(contactDeveloper_click), keyEquivalent: "")
+        menuItemContactDeveloper = NSMenuItem.init(title: "👉" + NSLocalizedString("Tell Me What You Expect!" , comment: ""), action: #selector(contactDeveloper_click), keyEquivalent: "")
         menuItemQuit = NSMenuItem.init(title: NSLocalizedString("Quit", comment: ""), action: #selector(quit_click), keyEquivalent: "q")
         
         super.init(window: wnd)
