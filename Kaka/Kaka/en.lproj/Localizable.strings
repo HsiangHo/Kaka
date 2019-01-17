@@ -86,3 +86,8 @@
 "The selected path is detected as a script file. Should this script be opened or executed?" = "The selected path is detected as a script file. Should this script be opened or executed?";
 "Execute" = "Execute";
 "Open" = "Open";
+"Keyboard" = "Keyboard";
+"Disable Keyboard" = "Disable Keyboard";
+"Display Caps Lock Status" = "Display Caps Lock Status";
+"How to enable the keyboard" = "How to enable the keyboard";
+"Press the Option⌥ key for 2 times and the keyboard will be enabled." = "Press the Option⌥ key for 2 times and the keyboard will be enabled.";

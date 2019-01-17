@@ -86,3 +86,8 @@
 "The selected path is detected as a script file. Should this script be opened or executed?" = "檢測到選擇的路徑為可執行的腳本文件，應該打開還是運行這個腳本？";
 "Execute" = "運行";
 "Open" = "打開";
+"Keyboard" = "鍵盤";
+"Disable Keyboard" = "禁用鍵盤";
+"Display Caps Lock Status" = "顯示大寫鎖定狀態";
+"How to enable the keyboard" = "如何啟用鍵盤";
+"Press the Option⌥ key for 2 times and the keyboard will be enabled." = "按2次 Option⌥ 鍵后鍵盤自動啟用.";
