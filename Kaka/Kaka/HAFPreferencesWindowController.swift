@@ -12,10 +12,6 @@ class HAFPreferencesWindowController: NSWindowController {
     var _scTabs: NSSegmentedControl!
     var _btnLaunchAtLogin: NSButton!
     var _btnBackupBackupConfiguration: NSButton!
-//    var _btnOneClickToHideDesktopIcon: NSButton!
-//    var _btnDoubleClickToShowDesktop: NSButton!
-//    var _btnDoubleClickDesktopToShowIcons: NSButton!
-//    var _btnEnableAnimationAudio: NSButton!
     var _lbAutoHideDesktopIconTimeout: NSTextField!
     var _tfAutoHideDesktopIconTimeoutValue: NSTextField!
     var _lbAutoHideCursorTimeout: NSTextField!
@@ -39,12 +35,9 @@ class HAFPreferencesWindowController: NSWindowController {
         _scTabs.segmentCount = 2
         _scTabs.setLabel(NSLocalizedString("General", comment: ""), forSegment: 0)
         _scTabs.setWidth(80, forSegment: 0)
-//        _scTabs.setLabel(NSLocalizedString("Actions", comment: ""), forSegment: 1)
-//        _scTabs.setWidth(80, forSegment: 1)
         _scTabs.setLabel(NSLocalizedString("Timer", comment: ""), forSegment: 1)
         _scTabs.setWidth(80, forSegment: 1)
         _scTabs.setSelected(true, forSegment: 0)
-//        _scTabs.setSelected(false, forSegment: 1)
         _scTabs.setSelected(false, forSegment: 1)
         _scTabs.target = self
         _scTabs.action = #selector(tabs_click)
@@ -60,15 +53,6 @@ class HAFPreferencesWindowController: NSWindowController {
         _btnLaunchAtLogin.isHidden = true
         wnd.contentView?.addSubview(_btnLaunchAtLogin)
         
-//        _btnEnableAnimationAudio = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnLaunchAtLogin.frame) - 30, NSWidth(frame), 23))
-//        _btnEnableAnimationAudio.title = NSLocalizedString("Enable animation audios", comment: "")
-//        _btnEnableAnimationAudio.setButtonType(.switch)
-//        _btnEnableAnimationAudio.target = self
-//        _btnEnableAnimationAudio.action = #selector(enableAnimationAudios_click)
-//        _btnEnableAnimationAudio.state = HAFConfigureManager.sharedManager.isEnableAnimationAudio() ? .on : .off
-//        _btnEnableAnimationAudio.isHidden = true
-//        wnd.contentView?.addSubview(_btnEnableAnimationAudio)
-        
         _btnBackupBackupConfiguration = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnLaunchAtLogin.frame) - 35, 200, 23))
         _btnBackupBackupConfiguration.title = NSLocalizedString("Backup Configuration", comment: "")
         _btnBackupBackupConfiguration.setButtonType(.momentaryChange)
@@ -78,33 +62,7 @@ class HAFPreferencesWindowController: NSWindowController {
         _btnBackupBackupConfiguration.isHidden = true
         wnd.contentView?.addSubview(_btnBackupBackupConfiguration)
         
-        //MARK: Actions
-//        _btnOneClickToHideDesktopIcon = NSButton.init(frame: NSMakeRect(20, NSMinY(tabFrame) - 40, NSWidth(frame), 23))
-//        _btnOneClickToHideDesktopIcon.title = NSLocalizedString("One-click 'Kaka' to show/hide desktop icons", comment: "")
-//        _btnOneClickToHideDesktopIcon.setButtonType(.switch)
-//        _btnOneClickToHideDesktopIcon.target = self
-//        _btnOneClickToHideDesktopIcon.action = #selector(oneClickToHideDesktopIcons_click)
-//        _btnOneClickToHideDesktopIcon.state = HAFConfigureManager.sharedManager.isOneClickToHideDesktopIcons() ? .on : .off
-//        _btnOneClickToHideDesktopIcon.isHidden = true
-//        wnd.contentView?.addSubview(_btnOneClickToHideDesktopIcon)
-//
-//        _btnDoubleClickToShowDesktop = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnOneClickToHideDesktopIcon.frame) - 30, NSWidth(frame), 23))
-//        _btnDoubleClickToShowDesktop.title = NSLocalizedString("Double-click 'Kaka' to show desktop", comment: "")
-//        _btnDoubleClickToShowDesktop.setButtonType(.switch)
-//        _btnDoubleClickToShowDesktop.target = self
-//        _btnDoubleClickToShowDesktop.action = #selector(doubleClickToShowDesktop_click)
-//        _btnDoubleClickToShowDesktop.state = HAFConfigureManager.sharedManager.isDoubleClickToShowDesktop() ? .on : .off
-//        _btnDoubleClickToShowDesktop.isHidden = true
-//        wnd.contentView?.addSubview(_btnDoubleClickToShowDesktop)
-//
-//        _btnDoubleClickDesktopToShowIcons = NSButton.init(frame: NSMakeRect(20, NSMinY(_btnDoubleClickToShowDesktop.frame) - 30, NSWidth(frame), 23))
-//        _btnDoubleClickDesktopToShowIcons.title = NSLocalizedString("Double-click desktop to show icons", comment: "")
-//        _btnDoubleClickDesktopToShowIcons.setButtonType(.switch)
-//        _btnDoubleClickDesktopToShowIcons.target = self
-//        _btnDoubleClickDesktopToShowIcons.action = #selector(doubleClickDesktopToShowIcons_click)
-//        _btnDoubleClickDesktopToShowIcons.state = HAFConfigureManager.sharedManager.isDoubleClickDesktopToShowIcons() ? .on : .off
-//        _btnDoubleClickDesktopToShowIcons.isHidden = true
-//        wnd.contentView?.addSubview(_btnDoubleClickDesktopToShowIcons)
+        //MARK: Timer
         
         _lbAutoHideDesktopIconTimeout = NSTextField.init(frame: NSMakeRect(0, NSMinY(tabFrame) - 40, 250, 23))
         _lbAutoHideDesktopIconTimeout.alignment = .right
@@ -165,27 +123,17 @@ class HAFPreferencesWindowController: NSWindowController {
     
     func updateTabs() -> Void {
         _btnLaunchAtLogin.isHidden = true
-//        _btnEnableAnimationAudio.isHidden = true
-//        _btnOneClickToHideDesktopIcon.isHidden = true
-//        _btnDoubleClickToShowDesktop.isHidden = true
         _lbAutoHideDesktopIconTimeout.isHidden = true
         _tfAutoHideDesktopIconTimeoutValue.isHidden = true
         _lbAutoHideCursorTimeout.isHidden = true
         _tfAutoHideCursorTimeoutValue.isHidden = true
-//        _btnDoubleClickDesktopToShowIcons.isHidden = true
         _btnBackupBackupConfiguration.isHidden = true
         
         switch _scTabs.selectedSegment {
         case 0:
             _btnLaunchAtLogin.isHidden = false
-//            _btnEnableAnimationAudio.isHidden = false
             _btnBackupBackupConfiguration.isHidden = HAFSuperModeManager.isKakaInSuperMode()
             break;
-//        case 1:
-//            _btnOneClickToHideDesktopIcon.isHidden = false
-//            _btnDoubleClickToShowDesktop.isHidden = false
-//            _btnDoubleClickDesktopToShowIcons.isHidden = false
-//            break;
         case 1:
             _lbAutoHideDesktopIconTimeout.isHidden = false
             _tfAutoHideDesktopIconTimeoutValue.isHidden = false
@@ -200,23 +148,7 @@ class HAFPreferencesWindowController: NSWindowController {
     @IBAction func launchAtLogin_click(sender: AnyObject?){
         HAFConfigureManager.sharedManager.setLaunchAtLogin(bFlag: _btnLaunchAtLogin.state == .on)
     }
-    
-//    @IBAction func oneClickToHideDesktopIcons_click(sender: AnyObject?){
-//        HAFConfigureManager.sharedManager.setOneClickToHideDesktopIcons(bFlag: _btnOneClickToHideDesktopIcon.state == .on)
-//    }
-//
-//    @IBAction func doubleClickToShowDesktop_click(sender: AnyObject?){
-//        HAFConfigureManager.sharedManager.setDoubleClickToShowDesktop(bFlag: _btnDoubleClickToShowDesktop.state == .on)
-//    }
-//
-//    @IBAction func doubleClickDesktopToShowIcons_click(sender: AnyObject?){
-//        HAFConfigureManager.sharedManager.setDoubleClickDesktopToShowIcons(bFlag: _btnDoubleClickDesktopToShowIcons.state == .on)
-//    }
-//
-//    @IBAction func enableAnimationAudios_click(sender: AnyObject?){
-//        HAFConfigureManager.sharedManager.setEnableAnimationAudio(bFlag: _btnEnableAnimationAudio.state == .on)
-//    }
-    
+
     @IBAction func tabs_click(sender: AnyObject?){
         updateTabs()
     }
