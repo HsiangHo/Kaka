@@ -23,7 +23,7 @@ class HAFConfigureManager: NSObject {
     let kAutoToggleDarkModeBaseOnDisplayBrightness = "AutoToggleDarkModeBaseOnDisplayBrightnessKey"
     let kAutoToggleDarkModeBaseOnDisplayBrightnessValue = "AutoToggleDarkModeBaseOnDisplayBrightnessValueKey"
     let kEnableFinderExtension = "EnableFinderExtensionKey"
-    let kEnableKaka = "EnableKakaKey"
+    let kEnableKaka = "EnableKakaKey8"
     let kRequestRating = "RequestRating"
     let kAutoHideDesktopIconTimeOut = "AutoHideDesktopIconTimeOut"
     let kAutoHideCursorTimeOut = "AutoHideCursorTimeOut"
@@ -131,11 +131,11 @@ class HAFConfigureManager: NSObject {
     }
     
     func setEnableKaka(bFlag: Bool) -> Void{
-        UserDefaults.standard.set(!bFlag, forKey: kEnableKaka)
+        UserDefaults.standard.set(bFlag, forKey: kEnableKaka)
     }
     
     func isEnableKaka() -> Bool{
-        return !UserDefaults.standard.bool(forKey: kEnableKaka)
+        return UserDefaults.standard.bool(forKey: kEnableKaka)
     }
     
     func setKeyComboWithIdentifier(keyCombo: SCKeyCombo?, identifier: String) -> Void{
