@@ -22,7 +22,7 @@ class HAFCustomizeMenuWindowController: NSWindowController {
     var lbTitle: NSTextField?
     
     init() {
-        let frame = NSMakeRect(0, 0, 340, 455)
+        let frame = NSMakeRect(0, 0, 340, 415)
         let wnd = NSWindow.init(contentRect: frame, styleMask: [.titled, .closable, .fullSizeContentView], backing: .buffered, defer: false)
         wnd.backgroundColor = NSColor.white
         wnd.titlebarAppearsTransparent = true
@@ -67,15 +67,15 @@ class HAFCustomizeMenuWindowController: NSWindowController {
         btnShortcutsCenterMenuItem?.action = #selector(customizeMenu_click)
         wnd.contentView?.addSubview(btnShortcutsCenterMenuItem!)
         
-        btnDisplayKakaMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnShortcutsCenterMenuItem!.frame), NSMaxY(btnShortcutsCenterMenuItem!.frame) + 10, 300, 24))
-        btnDisplayKakaMenuItem?.setButtonType(.switch)
-        btnDisplayKakaMenuItem?.bezelStyle = .roundRect
-        btnDisplayKakaMenuItem?.title = NSLocalizedString("Display Kaka", comment: "")
-        btnDisplayKakaMenuItem?.target = self
-        btnDisplayKakaMenuItem?.action = #selector(customizeMenu_click)
-        wnd.contentView?.addSubview(btnDisplayKakaMenuItem!)
+//        btnDisplayKakaMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnShortcutsCenterMenuItem!.frame), NSMaxY(btnShortcutsCenterMenuItem!.frame) + 10, 300, 24))
+//        btnDisplayKakaMenuItem?.setButtonType(.switch)
+//        btnDisplayKakaMenuItem?.bezelStyle = .roundRect
+//        btnDisplayKakaMenuItem?.title = NSLocalizedString("Display Kaka", comment: "")
+//        btnDisplayKakaMenuItem?.target = self
+//        btnDisplayKakaMenuItem?.action = #selector(customizeMenu_click)
+//        wnd.contentView?.addSubview(btnDisplayKakaMenuItem!)
         
-        btnKeyboardMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnDisplayKakaMenuItem!.frame), NSMaxY(btnDisplayKakaMenuItem!.frame) + 10, 300, 24))
+        btnKeyboardMenuItem = NSButton.init(frame: NSMakeRect(NSMinX(btnShortcutsCenterMenuItem!.frame), NSMaxY(btnShortcutsCenterMenuItem!.frame) + 10, 300, 24))
         btnKeyboardMenuItem?.setButtonType(.switch)
         btnKeyboardMenuItem?.bezelStyle = .roundRect
         btnKeyboardMenuItem?.title = NSLocalizedString("Keyboard", comment: "")
@@ -153,8 +153,8 @@ class HAFCustomizeMenuWindowController: NSWindowController {
             HAFConfigureManager.sharedManager.setMenuItemCursorVisibility(bFlag: btnCursorMenuItem?.state == .on)
         case btnKeyboardMenuItem:
             HAFConfigureManager.sharedManager.setMenuItemKeyboardVisibility(bFlag: btnKeyboardMenuItem?.state == .on)
-        case btnDisplayKakaMenuItem:
-            HAFConfigureManager.sharedManager.setMenuItemDisplayKakaVisibility(bFlag: btnDisplayKakaMenuItem?.state == .on)
+//        case btnDisplayKakaMenuItem:
+//            HAFConfigureManager.sharedManager.setMenuItemDisplayKakaVisibility(bFlag: btnDisplayKakaMenuItem?.state == .on)
         case btnShortcutsCenterMenuItem:
             HAFConfigureManager.sharedManager.setMenuItemShortcutsCenterVisibility(bFlag: btnShortcutsCenterMenuItem?.state == .on)
         case btnAboutMenuItem:
@@ -174,7 +174,7 @@ class HAFCustomizeMenuWindowController: NSWindowController {
         btnEnergyMenuItem?.state = HAFConfigureManager.sharedManager.menuItemEnergyVisibility() ? .on : .off
         btnCursorMenuItem?.state = HAFConfigureManager.sharedManager.menuItemCursorVisibility() ? .on : .off
         btnKeyboardMenuItem?.state = HAFConfigureManager.sharedManager.menuItemKeyboardVisibility() ? .on : .off
-        btnDisplayKakaMenuItem?.state = HAFConfigureManager.sharedManager.menuItemDisplayKakaVisibility() ? .on : .off
+//        btnDisplayKakaMenuItem?.state = HAFConfigureManager.sharedManager.menuItemDisplayKakaVisibility() ? .on : .off
         btnShortcutsCenterMenuItem?.state = HAFConfigureManager.sharedManager.menuItemShortcutsCenterVisibility() ? .on : .off
         btnAboutMenuItem?.state = HAFConfigureManager.sharedManager.menuItemAboutVisibility() ? .on : .off
         btnPreferencesMenuItem?.state = HAFConfigureManager.sharedManager.menuItemPreferencesVisibility() ? .on : .off
