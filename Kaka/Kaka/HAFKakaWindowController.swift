@@ -12,6 +12,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     var _view: HAFAnimationView!
     var _kakaObj: HAFKakaObject? = nil
     var actionMenu: NSMenu!
+    var kakaMenu: NSMenu!
+    var menuItemKakaAudio: NSMenuItem!
     var menuItemDarkmode: NSMenuItem!
     var subMenuDarkmode: NSMenu!
     var menuItemDesktop: NSMenuItem!
@@ -82,6 +84,9 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         wnd.contentView = HAFTransparentView.init(frame: frame)
         _view = HAFAnimationView.init(frame: frame)
         wnd.contentView?.addSubview(_view)
+        kakaMenu = NSMenu.init(title: "kakaMenu")
+        menuItemKakaAudio = NSMenuItem.init(title: NSLocalizedString("Enable animation audios", comment: ""), action: #selector(enableAnimationAudios_click), keyEquivalent: "")
+        
         actionMenu = NSMenu.init(title: "actionMenu")
         
         subMenuDarkmode = NSMenu.init(title: "darkModeMenu")
@@ -165,6 +170,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         deactivateCriticalBatteryChargeThresholdSlider.action = #selector(onDeactivateCriticalBatteryChargeSliderChanged)
         deactivateCriticalBatteryChargeThresholdSlider.autoresizingMask = .width
         
+        menuItemKakaAudio.target = self
         menuItemAbout.target = self
         menuItemPreferences.target = self
         menuItemDeactivateCriticalBatteryCharge.target = self
@@ -203,6 +209,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemHelp.target = self
         menuItemContactDeveloper.target = self
         menuItemQuit.target = self
+        
+        kakaMenu.addItem(menuItemKakaAudio)
         
         subMenuDesktop.addItem(menuItemShowDesktop)
         subMenuDesktop.addItem(menuItemShowDesktopIcon)
@@ -346,7 +354,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         menuItemClamshellCausingSleep.state = !SSEnergyManager.shared().isClamshellCausingSleep() ? .on : .off
         
-        if HAFSuperModeManager.isKakaInSuperMode() && HAFConfigureManager.sharedManager.isEnableKaka(){
+        if HAFConfigureManager.sharedManager.isEnableKaka(){
             menuItemDisplayKaka.state = .on
             self.window?.makeKeyAndOrderFront(nil)
             _view.isVisible = true
@@ -459,8 +467,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     func rightButtonClick() -> Void{
-        updateActionMenu()
-        NSMenu.popUpContextMenu(actionMenu, with: NSApp.currentEvent!, for: _view)
+        menuItemKakaAudio.state = HAFConfigureManager.sharedManager.isEnableAnimationAudio() ? .on : .off
+        NSMenu.popUpContextMenu(kakaMenu, with: NSApp.currentEvent!, for: _view)
     }
     
     func doubleClick() -> Void{
@@ -839,6 +847,16 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
     }
     
+    @IBAction func enableAnimationAudios_click(sender: AnyObject?){
+        if HAFConfigureManager.sharedManager.isEnableAnimationAudio() {
+            menuItemKakaAudio.state = .off
+            HAFConfigureManager.sharedManager.setEnableAnimationAudio(bFlag: false)
+        }else{
+            menuItemKakaAudio.state = .on
+            HAFConfigureManager.sharedManager.setEnableAnimationAudio(bFlag: true)
+        }
+    }
+    
     //MARK: Public functions
     func updateActionMenu() -> Void{
         menuItemShowDesktopIcon.state = SSDesktopManager.shared().isAllDesktopCovered() ? .on : .off
@@ -873,7 +891,8 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         actionMenu.addItem(menuItemCustomizeMenu)
         actionMenu.addItem(NSMenuItem.separator())
-        if HAFSuperModeManager.isKakaInSuperMode() && HAFConfigureManager.sharedManager.menuItemDisplayKakaVisibility(){
+        
+        if .option == NSEvent.modifierFlags{
             actionMenu.addItem(menuItemDisplayKaka)
             actionMenu.addItem(NSMenuItem.separator())
         }
