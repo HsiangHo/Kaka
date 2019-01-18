@@ -346,7 +346,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         
         menuItemClamshellCausingSleep.state = !SSEnergyManager.shared().isClamshellCausingSleep() ? .on : .off
         
-        if HAFConfigureManager.sharedManager.isEnableKaka(){
+        if HAFSuperModeManager.isKakaInSuperMode() && HAFConfigureManager.sharedManager.isEnableKaka(){
             menuItemDisplayKaka.state = .on
             self.window?.makeKeyAndOrderFront(nil)
             _view.isVisible = true
@@ -873,7 +873,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         }
         actionMenu.addItem(menuItemCustomizeMenu)
         actionMenu.addItem(NSMenuItem.separator())
-        if HAFConfigureManager.sharedManager.menuItemDisplayKakaVisibility(){
+        if HAFSuperModeManager.isKakaInSuperMode() && HAFConfigureManager.sharedManager.menuItemDisplayKakaVisibility(){
             actionMenu.addItem(menuItemDisplayKaka)
             actionMenu.addItem(NSMenuItem.separator())
         }
