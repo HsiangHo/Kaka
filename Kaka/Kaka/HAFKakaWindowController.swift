@@ -151,7 +151,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
         menuItemCustomizeMenu = NSMenuItem.init(title: "🌀" + NSLocalizedString("Customize Menu", comment: ""), action: #selector(customizeMenu_click), keyEquivalent: "")
         menuItemFeedbackAndSupport = NSMenuItem.init(title: NSLocalizedString("Feedback & Support", comment: ""), action: nil, keyEquivalent: "")
         subMenuFeedbackAndSupport = NSMenu.init(title: "feedbackAndSupport-menu")
-        menuItemContribute2Kaka = NSMenuItem.init(title: NSLocalizedString("Contribute to Kaka's development", comment: ""), action: #selector(contribute2Kaka_click), keyEquivalent: "")
+        menuItemContribute2Kaka = NSMenuItem.init(title: NSLocalizedString("Contribute to Development", comment: ""), action: #selector(contribute2Kaka_click), keyEquivalent: "")
         menuItemFeedbackAndSupport.submenu = subMenuFeedbackAndSupport
         
         menuItemHelp = NSMenuItem.init(title: NSLocalizedString("Help", comment: ""), action: #selector(help_click), keyEquivalent: "")
@@ -742,7 +742,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     }
     
     @IBAction func contribute2Kaka_click(sender: AnyObject?){
-        NSWorkspace.shared.open(URL.init(string: "https://github.com/HsiangHo/Kaka/issues")!)
+        NSWorkspace.shared.open(URL.init(string: "https://github.com/HsiangHo/Feedback/issues")!)
     }
     
     @IBAction func infiniteLoopMenuItem_click(sender: AnyObject?){
@@ -835,7 +835,7 @@ class HAFKakaWindowController: NSWindowController, HAFAnimationViewDelegate {
     @IBAction func contactDeveloper_click(sender: AnyObject?){
         let alert = NSAlert()
         alert.messageText = NSLocalizedString("Thank you for your support!", comment: "")
-        alert.informativeText = NSLocalizedString("I’ve been looking for your suggestions or ideas to make Kaka better and better. Please feel free to tell me what you are expecting.", comment: "")
+        alert.informativeText = NSLocalizedString("I’ve been looking for your suggestions or ideas to make this app better and better. Please feel free to tell me what you are expecting.", comment: "")
         alert.alertStyle = .informational
         alert.addButton(withTitle: NSLocalizedString("via App Store", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("via E-mail", comment: ""))
