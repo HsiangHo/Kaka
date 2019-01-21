@@ -46,6 +46,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 rateWindowController!.setRateTimeout(30)
             }
         }
+        
+        if HAFConfigureManager.sharedManager.displayCapsLockStatus(){
+            statusItem?.image = SSKeyboardManager.shared()!.isCapsLockOn() ? NSImage(named: NSImage.Name(rawValue: "status_iconA")):NSImage(named: NSImage.Name(rawValue: "status_icon"))
+            SSKeyboardManager.shared()?.setCapsLockStatusChangedCallback({ (bFlag) in
+                self.statusItem?.image = bFlag ? NSImage(named: NSImage.Name(rawValue: "status_iconA")):NSImage(named: NSImage.Name(rawValue: "status_icon"))
+            })
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

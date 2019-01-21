@@ -129,7 +129,7 @@ class HAFAppAppearanceButton: NSButton {
         alert.messageText = NSLocalizedString("Not supported", comment: "")
         alert.informativeText = NSLocalizedString("To custom app appearance needs macOS 10.14 and later.", comment: "")
         alert.alertStyle = .informational
-        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
         return alert
     }
     
