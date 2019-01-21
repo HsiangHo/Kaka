@@ -1,7 +1,7 @@
 # Kaka
 
 [![Travis](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/HsiangHo/Kaka)
-[![Packagist](https://img.shields.io/badge/release-1.0.8-blue.svg)](https://itunes.apple.com/app/id1434172933)
+[![Packagist](https://img.shields.io/badge/release-1.1.4-blue.svg)](https://itunes.apple.com/app/id1434172933)
 [![Jenkins](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/HsiangHo/Kaka/blob/master/LICENSE)
 [![Travis](https://img.shields.io/badge/platform-macOS-yellow.svg)]()
 
@@ -12,16 +12,18 @@
 1. 一键显示/隐藏桌面图标。(增加对多屏幕支持)
 2. 一键返回桌面。
 3. 自动(3秒)隐藏鼠标光标。
-4. 防止系统自动休眠。
-5. 自动(10秒)隐藏桌面图标
-6. 自动(根据屏幕亮度)切换黑暗模式
-7. 显示隐藏文件开关。
-8. 增加Finder Sync Extension(显示隐藏文件，快速打开终端，新建文件
-9. 增加部分功能全局快捷键
+4. 防止系统自动休眠（支持合盖）。
+5. 自动(10秒)隐藏桌面图标。
+6. 自动(根据屏幕亮度)切换黑暗模式。
+7. 一键休眠，关屏幕，屏幕保护。
+8. 自定义App的显示模式。
+9. 禁用鼠标。
+10.捷径中心。
 
 ## Installation
 
-Kaka is available on the Mac App Store.
+Kaka is available on the Mac App Store.(Stopped updating due to trademark and the app name)
+因为商标和名字原因已停止更新。
 
 [![download on the Mac App Store](img/MAS_badge.svg)](https://itunes.apple.com/app/id1434172933)
 
