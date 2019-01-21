@@ -17,12 +17,14 @@
 6. 自动(根据屏幕亮度)切换黑暗模式。
 7. 一键休眠，关屏幕，屏幕保护。
 8. 自定义App的显示模式。
-9. 禁用鼠标。
+9. 禁用鼠标。  
+  
 10.捷径中心。
+
 
 ## Installation
 
-Kaka is available on the Mac App Store.(Stopped updating due to trademark and the app name)
+Kaka is available on the Mac App Store.(Stopped updating due to trademark and the app name)  
 因为商标和名字原因已停止更新。
 
 [![download on the Mac App Store](img/MAS_badge.svg)](https://itunes.apple.com/app/id1434172933)
