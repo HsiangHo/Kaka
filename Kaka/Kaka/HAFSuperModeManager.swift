@@ -8,7 +8,7 @@
 
 import Cocoa
 
-let SuperModeTime: String = "16-11-2018"  //dd-mm-yyyy
+let SuperModeTime: String = "22-01-2019"  //dd-mm-yyyy
 
 class HAFSuperModeManager: NSObject {
     static func isKakaInSuperMode() -> Bool {
